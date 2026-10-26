@@ -1,0 +1,205 @@
+{
+  "scope": "CPU-only bounded local source extraction; no source changes, remote access, NPU use, downloads or repeated EP-GMM ABI audit",
+  "status": "Reusable synchronization/launch/math components exist; current MegaMoE forward is quantized inference, not an implemented BF16 training fusion pipeline",
+  "items": [
+    {
+      "name": "launch_and_compute_scope",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/mega_moe.cpp",
+      "function": "mega_moe_kernel / mega_moe_kernel_do",
+      "lines": [
+        22,
+        80
+      ],
+      "implemented": "Implemented MIX(1,2), schedmode1 direct launch; concrete forward instantiations use quantized E4M3 dispatch/FP8 or packedFP4 weights and BF16 output. BF16 input/output does not establish a BF16 dense-training implementation.",
+      "needs_new_or_validation": "New BF16 A/B specialization and backward entry are required; reuse launch shell only after preserving actual block/subcore ratios.",
+      "sha256": "648969b5eb82961aa2e73f1a961d106eac6830ec9514080ce29b58fbe72d0709"
+    },
+    {
+      "name": "actual_core_resources",
+      "path": "experiments/megamoe/csrc/forward.cpp",
+      "function": "GetPlatformInfo / MakeTiling",
+      "lines": [
+        224,
+        264
+      ],
+      "implemented": "Queries actual AIC/AIV/UB and CalcTschBlockDim; writes aicNum/blockAivNum and blockNumPerEP=max(1,AIC/EP). No source promise that AIC is always32.",
+      "needs_new_or_validation": "For a32-logical-block MIX1:2 launch, plan32 AIC and64 AIV lanes, not32 total workers. Tiling counts, ready-array strides and launched block count must match; verify on actual platform.",
+      "sha256": "6be98b29ce652623e60fe738028e9e7c401b83dd11f1d296b51baac20e01383b"
+    },
+    {
+      "name": "dispatch_ready",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_token_dispatch.hpp",
+      "function": "DispatchOwnedExpertRows / PublishGmm1TileReady",
+      "lines": [
+        237,
+        258,
+        350,
+        396
+      ],
+      "implemented": "Real source/expert range gather drains route batch and MTE copy rings BEFORE MTE3_S fence and AtomicAdd of exact overlapped row counts per expert/tile cacheline.",
+      "needs_new_or_validation": "BF16 transport needs its own byte/scale-free layouts; retain exact expert-source-row mapping and publish only after full data visibility. Existing dispatch storage is1-byte quantized.",
+      "sha256": "45bb8971ca5e861a197a9d8b8defcdf4c4f7f35c33c68ffee711d8568c36140c"
+    },
+    {
+      "name": "gmm1_wait_and_activation_ready",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_gmm1_activation.hpp",
+      "function": "WaitForGmm1InputReady / NotifyGmm2InputReady / Gmm1Aiv0EpilogueTileGeneric",
+      "lines": [
+        35,
+        73,
+        423,
+        444
+      ],
+      "implemented": "GMM1 waits ready count == min(tileM, remainingRows). Activation publishes per-M-group counter only after its epilogue returns.",
+      "needs_new_or_validation": "Current epilogue is activation+MX quantization. New training epilogue must round/store BF16 GU before FP32 SwiGLU, then BF16 A before notifying; do not reuse quantized activation storage as BF16.",
+      "sha256": "f2d1b02a9b6cafd094901b1b8489d89bc8f551907641855c46a50c9aec69453c"
+    },
+    {
+      "name": "gmm2_ready_and_combine",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_gmm2_combine.hpp",
+      "function": "WaitForGmm2InputReady / NotifyCombineConsumersOfTileCompletion / Gmm2AivTileCombineGeneric",
+      "lines": [
+        473,
+        515,
+        599,
+        638
+      ],
+      "implemented": "GMM2 waits activation counter target N loops. FIX_S completes output before per-group AtomicAdd or per-AIC monotonic tile sequence publication. Paired AIV waits sequence>=expected, then loads BF16 GM tile and sends it.",
+      "needs_new_or_validation": "BF16 training Z can keep this store-before-ready boundary. TopK multiplication needs exact existing training cast order; dP requires UNWEIGHTED rounded BF16 Z, not combined/weighted output.",
+      "sha256": "1a61c641166f6a63807b34368c8ea6b2760e5342a6ed31529f8b8e4894d903f8"
+    },
+    {
+      "name": "combine_transport_completion",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_gmm2_combine.hpp",
+      "function": "SendWaveCombineToken / DrainCombineRowBuffers",
+      "lines": [
+        366,
+        375,
+        396,
+        434
+      ],
+      "implemented": "BF16 COMBINE_NO_QUANT uses MTE2_MTE3 event before row send; row-slot reuse and final drain wait MTE3_MTE2. This is local send-buffer completion, distinct from remote rank consumption.",
+      "needs_new_or_validation": "Do not interpret per-tile ready as permission to free global Z/Xe. New gradient consumers must be included before reuse.",
+      "sha256": "1a61c641166f6a63807b34368c8ea6b2760e5342a6ed31529f8b8e4894d903f8"
+    },
+    {
+      "name": "wave_roles_and_launch_end",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/mega_moe_wave_a8w8.hpp",
+      "function": "ProcessMoeExpertStages / ProcessGmmPipeline / Process",
+      "lines": [
+        818,
+        931,
+        934,
+        992
+      ],
+      "implemented": "AIV1 keeps one-wave dispatch lookahead and skips GMM1 schedule while compensating startBlockIdx; AIC computes and AIV0 executes activation. AIV1 is reused for BF16 combine. EndSync drains final GMM1 lane pipeline, then local AIV barrier; output cross-rank handshake precedes Unpermute.",
+      "needs_new_or_validation": "Not a free extra communication-worker pool:32 AIC share64 AIV lanes and existing UB/event IDs. Backward overlap needs explicit roles/dependencies instead of launching dW and reusing those lanes unsafely.",
+      "sha256": "03a32d94cf352abab4f453de6c1c37fd4f4c0d1648a6b00a6695e1b0aab438ef"
+    },
+    {
+      "name": "epoch_and_cross_rank_order",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/common/mega_moe_utils.hpp",
+      "function": "AdvanceInputEpochLocally / CrossRankHandshakeInWorldSize / CrossRankSyncInWorldSize",
+      "lines": [
+        600,
+        662
+      ],
+      "implemented": "Per-physical-AIV counters advance; peer handshake writes count=prior+1 and waits matching peer count, followed by PipeBarrier/SyncAll. Count arrival tags are checked separately because signal and count data may arrive out of order.",
+      "needs_new_or_validation": "This is ordered launch-level reuse, not a per-chunk ring credit/consumer-ACK allocator for retaining autograd tensors across multiple outstanding forwards.",
+      "sha256": "1848635ff5f6dc46aa9f114a37a4e891622145e56aef08d7960a4e8dad689897"
+    },
+    {
+      "name": "count_epoch_payload",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_send_mask.hpp",
+      "function": "PublishExpertCounts",
+      "lines": [
+        129,
+        167
+      ],
+      "implemented": "Count and arrival epoch share a single write: high8 bits hold (phase&0x7f)|0x80, low24 bits row count. Receiver validates every slot before stripping high bits (token_dispatch.hpp:613-688).",
+      "needs_new_or_validation": "Preserve sender/receiver phase agreement and row<2^24. Additional backward launches or reordered reuse cannot share counters without a deliberate phase/ownership contract.",
+      "sha256": "c01c1b1288cb25670793494a42e9fff46559565b1c6e8cf6c78d1a300f51c8e6"
+    },
+    {
+      "name": "flag_reset",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_workspace_reset.hpp",
+      "function": "ResetSyncStatus",
+      "lines": [
+        25,
+        48
+      ],
+      "implemented": "Per-launch contiguous flag reset uses WorkspaceInfo-recorded element counts; prefetch also resets independent GMM1 tile-status region. Process waits local MIX barrier before consumers start.",
+      "needs_new_or_validation": "Reset must not race a prior chunk/kernel/backward reader. No durable training-context epoch ownership is currently exported.",
+      "sha256": "785cc1867b6dc584ea5a1a53723e829202d84ae90d614a2fbc47c4f6c9143806"
+    },
+    {
+      "name": "save_tensor_storage",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/common/mega_moe_workspace.hpp",
+      "function": "WorkspaceInfo::InitializeWorkspaceLayout",
+      "lines": [
+        72,
+        101,
+        218,
+        236
+      ],
+      "implemented": "Xe and A buffers are quantized 1-byte+scale allocations. MTE-wave GMM2 Z is BF16[maxOutputSize,H], per-row unique for the full kernel, explicitly not a ring; therefore current AIC does not wait consumer ACK to advance.",
+      "needs_new_or_validation": "Xe/GU/A need new BF16 persistent allocations/store paths. Existing Z can preserve per-invocation BF16 values but workspace is reusable after kernel; saving through backward/multiple forwards needs owned storage or retained slots. A bounded Z ring would require NEW ACK/credit protocol.",
+      "sha256": "4113f7f5d094a4c63a83914b84112c6edbca0fd9e9fb8f6cf7df048c1998cada"
+    },
+    {
+      "name": "catlass_quantized_adapter",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/catlass_gmm/mega_moe_mx_matmul.hpp",
+      "function": "MxStageTileCopy / CatlassMxMatmul::operator()",
+      "lines": [
+        13,
+        58,
+        83,
+        123
+      ],
+      "implemented": "Existing stage adapter reconstructs strided tile views; Fixpipe can store GM or AIV0 UB without splitting. Uses MmadMx and MX scale layouts, L1 256x256x256, L0 256x256x128.",
+      "needs_new_or_validation": "Not directly a BF16 matmul adapter. Reuse interface/view/fence ideas with a separately instantiated regular BF16 PackedTileCopyTla/BlockMmadTla; do not reinterpret FP8/MX buffers.",
+      "sha256": "bbec4d189bb10ba38fab0647db7afed2a02a90f76156ce19ab6b377c77a830a5"
+    },
+    {
+      "name": "existing_bf16_catlass_launch",
+      "path": "experiments/megamoe_training/native/gemm.cpp",
+      "function": "Run / Select / megamoe_train_gemm",
+      "lines": [
+        17,
+        40,
+        44,
+        61
+      ],
+      "implemented": "Current P0 has genuine BF16 A/B, selectable FP32/BF16 C, MmadPingpong BlockMmadTla + PackedTileCopyTla + BasicMatmulTla/DeviceGemm; L1 128x256x256, L0 128x256x64; Row/Column layout selects transposes; launch min(tileCount,requestedCores).",
+      "needs_new_or_validation": "Host whole-GEMM entry is not callable as a device tile producer inside the wave. Embedding its BlockMmadTla requires a device adapter and resource/event ownership. M0=128 differs from wave GMM1_TILE_M=256; ready/epilogue/N-loop counts must be reconciled.",
+      "sha256": "a7c4363f9ce555436ef53b340a20f538e29f01e2560c1f5739c1fcd28f13e520"
+    },
+    {
+      "name": "bf16_swiglu_math",
+      "path": "experiments/megamoe/csrc/kernels/mega_moe/epilogue/activation/swiglu_activation.hpp",
+      "function": "Activation::RunSwiGLU",
+      "lines": [
+        23,
+        65
+      ],
+      "implemented": "Existing vector helper uses FP32 registers and BF16 output registers; template supports optional topk fusion and clamp modes.",
+      "needs_new_or_validation": "Candidate for forward math only after confirming gate/up layout, BF16 input/output rounding, no topk preweight and clamp disabled. No gradient formula implementation is established by this helper.",
+      "sha256": "10697e11f8c5d9736b7fbf6acf104525302bc998cad9145bc03ebaa638245fe1"
+    }
+  ],
+  "required_training_saved_contract": "BF16 Xe, BF16 GU before SwiGLU, A=BF16(silu(G.float())*U.float()), unweighted BF16 Z; save actual rounded values or exactly recompute them. Preserve p=0 dP and shared-unweighted semantics. Current inference quantization/gating shortcuts do not establish this contract.",
+  "not_implemented_in_inspected_forward": [
+    "Backward dX/dW/dP chunk publication and reduction",
+    "Training BF16 dispatch/GMM1/activation/GMM2 specialization",
+    "Persistent saved-state ownership across forwards and backward",
+    "Consumer-ACK/credit recycling if full-row buffers become bounded rings",
+    "Runtime schedule/recompute/shared/dtype qualification binding"
+  ],
+  "validation_points": [
+    "Preserve per-rank routing IDs, expert-source prefixes and zero/expert-tail counts while changing payload dtype.",
+    "Compile/verify ordinary BF16 block under MIX resources before interleaving communication; retain FIX/MTE ordering and final drains.",
+    "Reconcile tileM128 versus wave256 and count/sequence expected targets; avoid hanging on an expected producer that was reassigned.",
+    "Check actual32 AIC launch and AIV lanes/UB/events, not a hardcoded hardware assumption.",
+    "Compare all full gradients against the existing independent BF16 oracle before measuring fusion/overlap."
+  ]
+}

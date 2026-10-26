@@ -1,0 +1,14 @@
+--- a/csrc/kernels/dispatch/peer_scale.hpp
++++ b/csrc/kernels/dispatch/peer_scale.hpp
+@@ -20,9 +20,10 @@
+ #include "aux_pipeline.hpp"
+ template <bool Profile>
+ __aicore__ inline void PeerScales(GM_ADDR workspace, GM_ADDR input, GM_ADDR destinations, const DispatchTiling& t,
++                                  uint32_t logical_role, uint32_t aux_owner,
+                                   TBuf<QuePosition::VECCALC>& metadata, TBuf<QuePosition::VECCALC>& staging,
+                                   TBuf<TPosition::VECOUT>& wqe_scratch)
+ {
+     PeerScalePlan plan{destinations, input, reinterpret_cast<GM_ADDR>(t.output_scales_address), t.address_stride};
+-    DispatchScalePipeline::Run<Profile>(workspace, t, plan, staging, metadata, wqe_scratch);
++    DispatchScalePipeline::Run<Profile>(workspace, t, plan, logical_role, aux_owner, staging, metadata, wqe_scratch);
+ }

@@ -1,0 +1,113 @@
+{
+  "date_beijing": "2026-10-26",
+  "decision": "P1 shared0310 observed in-flight foreign16, operator-aborted and all26 own released. Archived176 raw metrics/case-close passed, but real node/supervisor rc and supplemental FD absent: no qualification. P3 CPU preflight authorized; P1 final identity/consumer fix in isolated offline review; P2 device pending new parent disposition.",
+  "status": "consumed_operator_aborted_conflict_all_own_released_not_qualified",
+  "owner": "/root/environment, existing GPT-6.1-sol sole remote operator",
+  "predecessor": "20261026_0153_p1_main_routed_once",
+  "predecessor_required": [
+    "All16 ranks complete balanced full seven routed/leaf metrics at fixed tolerances:112 metric checks, exact BF16/FP32 dtypes and all required shapes.",
+    "Every rank receives65536 rows with counts[16384,16384,16384,16384]; original source/import/native identities match pinned contract and actual FD evidence.",
+    "All-rank case close and PG/host exit succeed; both true node exit codes and independent supervisor codes are0, without watchdog expiry or unexamined error.",
+    "Every recorded own worker/launcher/supervisor PID-start is released; strict audit and original per-rank evidence retained. Preserve transient foreign/unknown PID observations without inventing historical causality."
+  ],
+  "controller_sha256": "e609118a7d84ad8b69e4b18c124563915fedf09300b0e57291c86240b7f9393c",
+  "launcher_sha256": "15674ad88ff9e1a47ea75816f9eebe9a1ba6d99278664d728151f2b822f7d918",
+  "deployment_manifest_sha256": "302c4a103642c61c6d14ba391354d3089d073b55167e1d36e847133f7a8789ee",
+  "scope": {
+    "world": 16,
+    "B": 8192,
+    "H": 6144,
+    "I": 2048,
+    "E": 64,
+    "K": 8,
+    "weight_dtype": "bf16",
+    "shared": true,
+    "cases": [
+      "balanced"
+    ],
+    "seed": 4317,
+    "oracle_chunk": 1024,
+    "max_reference_gib": 12,
+    "timeout_seconds": 600,
+    "kill_after_seconds": 30,
+    "timing": false
+  },
+  "parent_review": [
+    "Read exact minimal launcher/controller diff, both CPU plans and SHA verifications. Changes from reviewed routed-main are only --shared plus isolated path/stage/progress key. All40 original source files and native pins are identical.",
+    "Same frozen P0 shared-main configuration previously recorded oracle reservation8.3564453125GiB below12GiB; the current validator independently recomputes and enforces its cap.",
+    "Shared-main requires all11 metrics per rank,176 checks including shared FP32 internal and BF16 leaf gradients, plus exact routed counts/shapes and lifecycle.",
+    "Keep duplicate markers, port checks, real rc, bounded watchdog, PID-start cleanup boundary, actual mapped native identity and original logs. No timing or automatic successor after this stage."
+  ],
+  "evidence": "outputs/p1_main_shared_preparation/",
+  "if_busy": "Leave this single permission unconsumed; existing30-minute heartbeat retries only ownership gate and executes once when eligible, without duplicate tasks.",
+  "if_error": "Stop this attempt and dependent device launches. Preserve evidence, diagnose and review a new discriminating action; never automatically repeat the same failure.",
+  "authorization_consumed": true,
+  "root_cause_of_1431_proven": false,
+  "review_revision_20261026_0215": {
+    "original_FD_condition_met": false,
+    "predecessor_disposition": "112/112 full-rank fixed-threshold metrics, exact counts/shapes/dtypes, worker actual mapped-path/content hashes, 40 source pins, close/PG and node/supervisor rc0 plus 26 own PID-start releases are sufficient for the next precision-only validation. Complete main-run live FD/fstat proof was missed; this is retained as an evidence gap, not claimed satisfied and not a timing qualification. Do not repeat main solely to fill it.",
+    "predecessor_audit": "outputs/training_results_20261026_0153_p1_main_routed_once/p1-host-v2-main-bf16-balanced/control-completion-audit.json",
+    "predecessor_audit_sha256": "ff4d218a512eaebad01cba061383fe7090a504441548bee94511025ad2fc08af",
+    "busy_observation_beijing": "2026-10-26 02:01:20/25 foreign16 own0",
+    "next_gate_not_before_beijing": "2026-10-26 02:31:25",
+    "observer": "work/capture_p1_shared_identity_fd.py",
+    "observer_sha256": "a22b44ae3965113634f7c2acf8b5f080035fecc013d16d25bc6d9ecdda24c99d",
+    "observer_review": "Read minimal diff and whole script: bounded foreground read of this RUN log, identity_after triggers existing pinned read-only collector, no daemon or model synchronization. Previously pinned remote collector and deployment manifest unchanged. Preserve absent/incomplete FD results honestly."
+  },
+  "latest_gate": {
+    "time_beijing": "2026-10-26 02:32:50/54",
+    "foreign_cards": 16,
+    "own_processes": 0,
+    "NPU_started": false,
+    "authorization_consumed": false,
+    "source_pins_and_ports_passed": true,
+    "next_gate_not_before_beijing": "2026-10-26 03:02:54",
+    "evidence": "outputs/training_round_20261026_0233_p1_shared_once/p1-host-v2-main-shared-bf16-balanced-controller/summary.json"
+  },
+  "current_run": "20261026_0310_p1_shared_once",
+  "launch_observation": {
+    "time_beijing": "2026-10-26 03:11:30/34",
+    "free_cards": 16,
+    "own_processes_before": 0,
+    "pinned_source_files": 40,
+    "controller_sha256": "e609118a7d84ad8b69e4b18c124563915fedf09300b0e57291c86240b7f9393c",
+    "manifest_sha256": "302c4a103642c61c6d14ba391354d3089d073b55167e1d36e847133f7a8789ee",
+    "supervisor_pids": [
+      3890736,
+      4026225
+    ],
+    "source": "/root/environment launch report; raw evidence under current run"
+  },
+  "inflight_conflict": {
+    "time_beijing": "2026-10-26 03:13:51/55",
+    "own_NPU_processes": 16,
+    "foreign_NPU_processes": 16,
+    "evidence": "outputs/training_results_20261026_0310_p1_shared_once/p1-host-v2-main-shared-bf16-balanced/status2-occupancy.json",
+    "root_verified_counts": true,
+    "application_last_phase_reported": "PG_init_before",
+    "historical_1431_causality_proven": false,
+    "qualification": false,
+    "release_audit_pending": false
+  },
+  "final_observation": {
+    "run": "20261026_0310_p1_shared_once",
+    "raw_metric_checks": 176,
+    "all_16_reports_all_passed": true,
+    "qualification": false,
+    "node_rc": [
+      null,
+      null
+    ],
+    "supervisor_rc": [
+      null,
+      null
+    ],
+    "all_own_released": true,
+    "own_ledger_count": 26,
+    "permit_consumed": true,
+    "automatic_retry": false,
+    "abort_release_audit": "outputs/training_results_20261026_0310_p1_shared_once/p1-host-v2-main-shared-bf16-balanced/operator-abort-release-audit.json",
+    "audit_sha256": "e85cb501787a9658c056f4e84becd8a0a020f291ead344ce999cb62da0d32b88",
+    "root_cause_1431_proven": false
+  }
+}

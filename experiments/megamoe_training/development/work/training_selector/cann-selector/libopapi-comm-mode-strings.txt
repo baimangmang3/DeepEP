@@ -1,0 +1,8 @@
+[%s:%d][%s][%s][%lu] errno[%d] %sCurrently, commMode only support 'ccu', 'ai_cpu', but got %s.
+Currently, commMode only support 'ccu', 'ai_cpu', but got %s.
+[%s:%d][%s][%s][%lu] errno[%d] %sCurrently, commMode only support 'ai_cpu', 'aiv', but got %s.
+Currently, commMode only support 'ai_cpu', 'aiv', but got %s.
+[%s:%d][%s][%s][%lu] errno[%d] %sFor A5, commMode only support 'ccu' or 'ai_cpu', but it is '%s'.
+For A5, commMode only support 'ccu' or 'ai_cpu', but it is '%s'.
+[%s:%d][%s][%s][%lu] errno[%d] %sFor A2, commMode only support nullptr or 'ai_cpu', but it is '%s'.
+For A2, commMode only support nullptr or 'ai_cpu', but it is '%s'.

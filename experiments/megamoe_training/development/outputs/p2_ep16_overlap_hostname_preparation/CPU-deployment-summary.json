@@ -1,0 +1,16 @@
+{
+  "177.22.27.1": {
+    "passed": true,
+    "manifest_sha256": "1df3cfb0fe090f211ca611429af7430abe65f7172f20a7b622e48f3fb3c9a97c",
+    "bash_n_rc": 0,
+    "plan_rc": 0,
+    "device_started": false
+  },
+  "177.22.28.1": {
+    "passed": true,
+    "manifest_sha256": "1df3cfb0fe090f211ca611429af7430abe65f7172f20a7b622e48f3fb3c9a97c",
+    "bash_n_rc": 0,
+    "plan_rc": 0,
+    "device_started": false
+  }
+}

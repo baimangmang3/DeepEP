@@ -1,0 +1,12 @@
+{
+  "provenance": "Transcribed from live npu-smi and ps -eo outputs at 2026-10-24 20:12:33/34 Asia/Shanghai; raw npu-smi snapshots are in the evidence bundle",
+  "native_training_device_test_started": false,
+  "gate_result": "NPU_OCCUPIED_STOP",
+  "hosts": [
+    {"host":"177.22.27.1","timestamp":"2026-10-24T20:12:33+08:00","npu_pids":[3870261,3870262,3870263,3870264,3870265,3870266,3870267,3870268],"parent_pid":3870047,"node_rank":6},
+    {"host":"177.22.28.1","timestamp":"2026-10-24T20:12:34+08:00","npu_pids":[3917137,3917138,3917139,3917140,3917141,3917142,3917143,3917144],"parent_pid":3916977,"node_rank":7}
+  ],
+  "foreign_program":"/root/miniconda3/envs/deepep-copy/bin/python tests/elastic/test_dispatch.py",
+  "foreign_arguments":"--ep-size 64 --nproc-per-node 8 --master-addr 177.22.21.1 --master-port 19090 --tokens 4096 --hidden 7168 --topk 6 --experts 384 --dtype fp8 --route random --repeat 2 --profile-op dispatch --profile-warmup 5 --profile-iters 10",
+  "foreign_output_root":"/home/y00889330/perf-part1-ep64-rerun/perf1_dispatch_t4096_h7168_k6_e384"
+}

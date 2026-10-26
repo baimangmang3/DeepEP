@@ -1,0 +1,4 @@
+import pathlib,json,sys
+TAG,STAGE=sys.argv[1:3];root=pathlib.Path('outputs','training_results_'+TAG);a=json.loads((root/'p1-stage-accuracy-audit.json').read_text());assert a['complete']
+for host in (('rack05os7',) if a['world']==2 else ('rack05os7','rack05os8')):assert all(p.get('gone') for p in json.loads((root/STAGE/host/'own-process-check.json').read_text())['processes'])
+p=pathlib.Path('outputs/training_device_progress.json');r=json.loads(p.read_text());r.update(device_tasks_currently_running=False,active_stage=None,next_stage='Fresh dual-host16-card gate before next authorized P1 precision stage');r.setdefault('completed_p1_accuracy_stages',{})[TAG+'/'+STAGE]={k:a[k] for k in ('world','shape','shared','weight_dtype','cases','identity','base_identity','node_rc','complete')};r['completed_p1_accuracy_stages'][TAG+'/'+STAGE].update(result_dir=str(root),own_exited=True);p.write_text(json.dumps(r,indent=2));print('P1 stage recorded',TAG,STAGE)

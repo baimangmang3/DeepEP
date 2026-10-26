@@ -1,0 +1,275 @@
+{
+  "schema": "P4-persistent-wire-LogicalWriter-join-1",
+  "scope": "stdlib cross-rank copied-wire join prototype; source-structured synthetic samples ONLY",
+  "files": {
+    "mapper.py": {
+      "bytes": 8439,
+      "sha256": "ab8711a9b6719679db68e3c62a462039a5eae9c18eb282809fa8ea7aa96db992"
+    },
+    "test_mapper.py": {
+      "bytes": 6095,
+      "sha256": "7a0062a01747a01c26350a27fac785993c0e2d4bbaf65ec117fe21fc21357bcf"
+    }
+  },
+  "decoder_dependency": {
+    "bytes": 4999,
+    "sha256": "5bc85a68fb0edb79ff794d439aeca5cbf76875970db7ded25fcf0e8f49653e9f"
+  },
+  "cpu": {
+    "passed": true,
+    "checks": 13,
+    "items": [
+      "all5 final writer kinds across16rank joined from persistent copied arrays; logical only",
+      "duplicate expert/topk occurrences retain distinct slot/finalrow, never use forwardcol5 as slot",
+      "crosshost primary then local/FM secondary retain originalsource and actualgateway",
+      "exact front-loaded primary split, source*T*K rotated local split and wraparound FM inverse",
+      "missing or duplicate rank rejects",
+      "originalNotify stride3 cannot be replaced by Dispatch stride4",
+      "duplicate source occurrence or source-token-slot/finalrow mismatch rejects",
+      "missing primary plan pair rejects",
+      "duplicate primary plan pair rejects",
+      "gateway primary row/token mismatches reject",
+      "missing secondary forward record rejects",
+      "duplicate secondary target occurrence rejects",
+      "all-empty and unwrittenpadding ignored; actualexpert tail rows only"
+    ],
+    "scope": "source-structured synthetic persistent-wire join only; no realNPUdump, physicaldomain or runtime sequence",
+    "logical_writers": [
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 0,
+        "expert": 0,
+        "expert_local": 0,
+        "expert_row": 0,
+        "final_row": 0,
+        "source": 0,
+        "token": 0,
+        "slot": 0,
+        "native_domain": null,
+        "seq": null,
+        "kind": "local_primary",
+        "writer_rank": 0,
+        "logical_role": 24
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 0,
+        "expert": 0,
+        "expert_local": 0,
+        "expert_row": 1,
+        "final_row": 1,
+        "source": 0,
+        "token": 0,
+        "slot": 1,
+        "native_domain": null,
+        "seq": null,
+        "kind": "local_expand",
+        "writer_rank": 0,
+        "logical_role": 24,
+        "forward_record": 0
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 1,
+        "expert": 2,
+        "expert_local": 0,
+        "expert_row": 0,
+        "final_row": 0,
+        "source": 0,
+        "token": 0,
+        "slot": 2,
+        "native_domain": null,
+        "seq": null,
+        "kind": "FM_secondary",
+        "writer_rank": 0,
+        "logical_role": 0,
+        "logical_qp": 0,
+        "peer": 1,
+        "forward_record": 1
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 1,
+        "expert": 2,
+        "expert_local": 0,
+        "expert_row": 1,
+        "final_row": 1,
+        "source": 0,
+        "token": 1,
+        "slot": 3,
+        "native_domain": null,
+        "seq": null,
+        "kind": "FM_primary",
+        "writer_rank": 0,
+        "logical_role": 0,
+        "logical_qp": 0,
+        "peer": 1,
+        "phase": "direct"
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 8,
+        "expert": 16,
+        "expert_local": 0,
+        "expert_row": 0,
+        "final_row": 0,
+        "source": 0,
+        "token": 0,
+        "slot": 3,
+        "native_domain": null,
+        "seq": null,
+        "kind": "Clos_primary",
+        "writer_rank": 0,
+        "logical_role": 8,
+        "logical_owner": 0,
+        "logical_qp": 0,
+        "peer": 8,
+        "phase": "direct",
+        "cross_qp_index": 0
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 8,
+        "expert": 16,
+        "expert_local": 0,
+        "expert_row": 1,
+        "final_row": 1,
+        "source": 0,
+        "token": 1,
+        "slot": 0,
+        "native_domain": null,
+        "seq": null,
+        "kind": "Clos_primary",
+        "writer_rank": 0,
+        "logical_role": 8,
+        "logical_owner": 0,
+        "logical_qp": 0,
+        "peer": 8,
+        "phase": "relay",
+        "cross_qp_index": 0
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 8,
+        "expert": 17,
+        "expert_local": 1,
+        "expert_row": 0,
+        "final_row": 2,
+        "source": 0,
+        "token": 1,
+        "slot": 2,
+        "native_domain": null,
+        "seq": null,
+        "kind": "local_expand",
+        "writer_rank": 8,
+        "logical_role": 26,
+        "forward_record": 2
+      },
+      {
+        "record_type": "LogicalWriter",
+        "final_rank": 9,
+        "expert": 18,
+        "expert_local": 0,
+        "expert_row": 0,
+        "final_row": 0,
+        "source": 0,
+        "token": 1,
+        "slot": 1,
+        "native_domain": null,
+        "seq": null,
+        "kind": "FM_secondary",
+        "writer_rank": 8,
+        "logical_role": 0,
+        "logical_qp": 0,
+        "peer": 9,
+        "forward_record": 1
+      }
+    ]
+  },
+  "source_inventory": {
+    "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp": {
+      "bytes": 30039,
+      "sha256": "fc03e180401146b9047e512e4b998b7cb9b97b506e3517aeec9a99a0c5d06bb1"
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_order.hpp": {
+      "bytes": 2817,
+      "sha256": "30e66d75b9edbe50fa66622bc7dac0b6eb03c2ac08943dcf9250176f119dc4ff"
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp": {
+      "bytes": 14673,
+      "sha256": "3b9e90de5832dc1238904f2ec6286f62a869f2995debab0de49bf414d54f6684"
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp": {
+      "bytes": 46913,
+      "sha256": "be56a13261dcfdc1c0ba618acc7fb519fbb7495c3a52c86e234fd1a0485e1e07"
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp": {
+      "bytes": 16502,
+      "sha256": "aa621ed77270390f7f66677d60b003871ff2ef7c08bf5348a39b2dc074a7b991"
+    },
+    "work/DeepEP/csrc/kernels/notify/notify.cpp": {
+      "bytes": 119412,
+      "sha256": "bc97dc44ac54d00935153a5030c533fd96087d5f911b965c3f5f364b3d07339b"
+    },
+    "work/DeepEP/csrc/kernels/udma_layout.hpp": {
+      "bytes": 1018,
+      "sha256": "563d5692513ca9f3f095165a558e1171694e17f408cc87769ebe97e75cef45d3"
+    }
+  },
+  "helper_proofs": [
+    {
+      "source": "dispatch/dispatch.cpp",
+      "lines": [
+        194,
+        206,
+        404,
+        405
+      ],
+      "finding": "Selfprimary DispatchSplitRange uses whole=total//workers, extra to FIRST remainder workers. It is not floor(total*worker/workers). Source flattenedroute=token*K+slot; split ignoresvalidfilter until after partition."
+    },
+    {
+      "source": "dispatch/peer_order.hpp",
+      "lines": [
+        21,
+        44
+      ],
+      "finding": "LocalFirst=7 forworld8 else24; local expansion rawforwardrange base=originalsource*T*K, count=forward_counts[source]. rotated=(worker+workers-base%workers)%workers; balancedrange overrotated then filtertarget. Formula implemented exactly."
+    },
+    {
+      "source": "dispatch/fm_forward.hpp",
+      "lines": [
+        141,
+        171
+      ],
+      "finding": "RemoteFMrole=(targetlane-gatewaylane-1)%8 for reviewedworld8/16; onlydifferent same-serverrank yieldsrole0..6. Dynamic source-ready scanning not used to predictseq."
+    },
+    {
+      "source": "dispatch/peer_transport.hpp",
+      "lines": [
+        735,
+        768
+      ],
+      "finding": "Closrole8+destinationlane+8*logicalQP; CrossQP index2*owner+QP is only logicalindex. ActualSQ peer slot/state aliases are a separate runtime fact, not inferreddomain."
+    }
+  ],
+  "join_contract": [
+    "Every rank provides persistent originaldst/stride, topk_idx, localcounts, actualexpanded weight_return_meta, _peer_plan, forward_list/counts; no temporarymeta/bases used.",
+    "weight_return_meta enumerates actualfinalrows and originalsource/token/slot; crosscheck signedsource dst and source topkexpert againstdestination localexpertprefix. Every validroute must match exactly onefinaloccurrence.",
+    "Primaryself maps rangeowner; primarynonself matches exactly one sourceplan(destRank,finalRow,inputToken), reads phase/logicalQP. Unmatched orduplicatepairs rejected.",
+    "Secondary matches exactly one gatewayforward(sourcepartition,targetRank,finalRow,inputToken); validate primarygatewayrow references sameoriginalsource/token primaryoccurrence. Never treat col5 as slot.",
+    "Primary relay/direct phase crosschecked against actualpersistent forward secondaryreferences/directrecords. LogicalWriter only: native_domain andseq alwaysNone."
+  ],
+  "unsupported": [
+    "Only reviewedserverdedup8, uniformT/K, world8or16, equalexpertpartition. Not rankdedup1 or arbitraryworldtopology.",
+    "No realNPUdump yet. Syntheticfixture has16ranks,8validoccurrences including all5writerkinds, duplicateexpert/two slots, expert-tail/emptyranks and originalstride3!=dispatchstride4.",
+    "ActualorderedDomain must be bound separately with nativeSession/epoch, SDKslot andSQstate aliasmap (plus localwriter). Logicalpeer+QP cannot be promoted directly.",
+    "Runtimeissue seq, seal transport/visibility and checkpoints remain absent. No unchangedsourcearrival scheduling inferred from staticjoin.",
+    "Model does not runNotify or extractNPUbytes; explicit future authorized exports still needed. No memory-order/devicequalification."
+  ],
+  "frozen_sources_modified": false,
+  "device_authorized": false,
+  "manifest": {
+    "bytes": 9626,
+    "sha256": "30dc01577394f15714919a6ca310759f0e007f9253d890a2df56efd5cc3ce706"
+  }
+}

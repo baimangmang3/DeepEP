@@ -1,0 +1,46 @@
+--- a/csrc/kernels/dispatch/dispatch.cpp
++++ b/csrc/kernels/dispatch/dispatch.cpp
+@@ -464,7 +464,9 @@
+ __aicore__ inline void Dispatch(GM_ADDR workspace, GM_ADDR destinations, GM_ADDR forward, GM_ADDR counts,
+                                 GM_ADDR weights, GM_ADDR scales, const DispatchTiling& t)
+ {
+-    const uint32_t core = GetBlockIdx(), cores = 64U;
++    const uint32_t physical_role = GetBlockIdx();
++    const uint32_t logical_role = physical_role;  // identity64 only; launch/participants unchanged
++    const uint32_t core = logical_role, cores = 64U;
+     const uint64_t profile = t.profile + uint64_t(core) * 256U;
+     DispatchDetail<Profile> detail;
+     DispatchProfileMark<Profile>(profile, 0U);
+@@ -487,19 +489,20 @@
+     if (core >= 16U && core - 16U < GetDispatchGroupWidth(t.world)) {
+         InitializeTokenScatterPeerSignals(t.rank, core - 16U, t.generation, 2U, sync);
+     }
+-    PublishPeerAddresses(workspace, t, copy, slots);
++    PublishPeerAddresses(workspace, t, logical_role, copy, slots);
+     DispatchProfileMark<Profile>(profile, 3U);
+     if (core >= 32U) {
++        const uint32_t aux_owner = logical_role - 32U;
+         if (weights) {
+             PeerAuxPlan plan{destinations, weights, reinterpret_cast<GM_ADDR>(t.output_weights_address),
+                              t.address_stride};
+-            DispatchAuxPipeline::Run<Profile>(workspace, t, plan, slots, copy, wqe_buffer);
++            DispatchAuxPipeline::Run<Profile>(workspace, t, plan, logical_role, aux_owner, slots, copy, wqe_buffer);
+         }
+         // Independent inboxes, metadata, ready publication and local expansion.
+         // Weight completion drains its UB/events before scale reuses the scratch.
+         DispatchProfileMark<Profile>(profile, 31U);
+         if (t.fp8) {
+-            PeerScales<Profile>(workspace, scales, destinations, t, copy, slots, wqe_buffer);
++            PeerScales<Profile>(workspace, scales, destinations, t, logical_role, aux_owner, copy, slots, wqe_buffer);
+         }
+         // Auxiliary workers remain independent of hidden local expansion.
+         DispatchProfileMark<Profile>(profile, 4U);
+@@ -560,7 +563,7 @@
+     // the stream event can release a consumer. No collective barrier kernel.
+     DispatchProfileMark<Profile>(profile, 6U);
+     DrainDispatchStores<Profile>(t, detail.data());
+-    WaitDispatchIncoming(workspace, t, wqe_buffer);
++    WaitDispatchIncoming(workspace, t, logical_role, wqe_buffer);
+     DispatchProfileMark<Profile>(profile, 7U);
+     if constexpr (Profile) {
+         if (t.detail_profile) {

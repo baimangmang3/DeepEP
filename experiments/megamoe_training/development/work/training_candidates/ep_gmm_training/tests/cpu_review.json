@@ -1,0 +1,97 @@
+{
+  "scope": "Read-only source review and executed NumPy count/permutation test; no Torch runtime installed locally, no NPU claim",
+  "checks": [
+    {
+      "case": "balanced",
+      "count_direction_and_exact_restore": true,
+      "counts": [
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "case": "zero_gate",
+      "count_direction_and_exact_restore": true,
+      "counts": [
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "case": "empty",
+      "count_direction_and_exact_restore": true,
+      "counts": [
+        [
+          3,
+          3,
+          2,
+          0
+        ],
+        [
+          3,
+          2,
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "skew",
+      "count_direction_and_exact_restore": true,
+      "counts": [
+        [
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "pinned_API": {
+    "ops_path": "work\\DeepEP\\experiments\\ep_gmm_fused\\python\\deep_ep_experimental\\ep_gmm_fused\\ops.py",
+    "ops_sha256": "39a6f64909ec4a31dee5de8862a66535026cd178f924698b7dad44990cfcf446",
+    "up": "alltoallv_gmm(x,w,source_local_sc,source-major_local_expert_rc), exported second return expert-major/source rows",
+    "down": "gmm_alltoallv(x,w,sc,rc), same count order as up (not CANN reverse order)",
+    "weight_layout": "forward canonical [E,N,K] transposes contiguous -> [E,K,N]; backward canonical W2/W1 already pinned K,N",
+    "runtime_path": "work\\DeepEP\\experiments\\ep_gmm_fused\\python\\deep_ep_experimental\\ep_gmm_fused\\runtime.py",
+    "lifetime": "Caller must own live UDMA context through backward/close. Adapter holds config identity but does not acquire runtime _leases; replacement/destroy detected by _check_runtime, close synchronizes but does not destroy domain."
+  },
+  "source_review": {
+    "zero_gate_dp": "dp from saved unweighted packed_z before dz weighting; no division",
+    "dx": "gate enters dz once; down dgu not multiplied again",
+    "export": "up validates exact contiguous BF16 Xe/dZe dimensions/device",
+    "wgrad": "counts expert-major; dw2(dZe,A), dw1(dGU,Xe), FP32 saved; leaf cast original dtype",
+    "shared": "exact frozen _SharedExpert, no routing gate; FP32 master uses BF16 compute cast",
+    "findings": "No concrete transpose/count/weighting defect found in source audit; runtime liveness/native ABI still unverified"
+  },
+  "adapter_sha256": "2b3ec26b6d77763b12a45b0891e544b1659c82b4789d0f13e4375b49c0081b6c",
+  "prepared_torch_test": "tests/test_adapter_cpu.py: actual bodies/context, CPU-device-only AST adaptation, two-rank threaded fusion stubs, segmented autograd VJPs, 4 routes x BF16 or shared-FP32. py_compile passed; execution awaits existing CPU Torch runtime.",
+  "all_local_static_checks_passed": true
+}

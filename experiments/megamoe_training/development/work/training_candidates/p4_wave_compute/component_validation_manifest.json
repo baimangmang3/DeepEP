@@ -1,0 +1,74 @@
+{
+  "scope": "Independent additional P4V2 component validation preparation. OriginalV1manifest/sixsources remain frozen; V2sixsourcecompatfix separate.",
+  "entry_files": {
+    "validate_component.py": {
+      "sha256": "8960f58e8a37dda26c775fb06af9eafbde6d7bc96cf4b5516b8ea265537592ce",
+      "bytes": 12534
+    },
+    "component_identity.py": {
+      "sha256": "6b3c43b6543c2e906603b112bd31f409d9d628d2d10def7dcdd7fcf94293cbd6",
+      "bytes": 4679
+    },
+    "mapped_identity.py": {
+      "sha256": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+      "bytes": 5068
+    },
+    "tests/test_component_validator_cpu.py": {
+      "sha256": "618c11475672057315b5ba64d4466679eea6a2cedcca3570a1e5b2470ec06a86",
+      "bytes": 7058
+    }
+  },
+  "assembled_V2_package_source_inventory": {
+    "__init__.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute_v2\\__init__.py",
+      "sha256": "c14946881b02b3e7a7d35c25e2c8fc00237e1f584b118685df4080bb825237bb",
+      "bytes": 144
+    },
+    "contract.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute_v2\\contract.py",
+      "sha256": "51fd3dc1c8d1a6b25cd71baf3b86b1847726fdeaba241941a34a9233ae4148ee",
+      "bytes": 2698
+    },
+    "wave_compute.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute_v2\\wave_compute.py",
+      "sha256": "cdc882b29d04182a81f4304b8b6b85f00ff34db1d67c057095ca3de8b919ab39",
+      "bytes": 3074
+    },
+    "component_identity.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute\\component_identity.py",
+      "sha256": "6b3c43b6543c2e906603b112bd31f409d9d628d2d10def7dcdd7fcf94293cbd6",
+      "bytes": 4679
+    },
+    "mapped_identity.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute\\mapped_identity.py",
+      "sha256": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+      "bytes": 5068
+    },
+    "validate_component.py": {
+      "local_source": "work\\training_candidates\\p4_wave_compute\\validate_component.py",
+      "sha256": "8960f58e8a37dda26c775fb06af9eafbde6d7bc96cf4b5516b8ea265537592ce",
+      "bytes": 12534
+    },
+    "CMakeLists.txt": {
+      "local_source": "work\\training_candidates\\p4_wave_compute_v2\\CMakeLists.txt",
+      "sha256": "b8c094edf054190f4794284f612fa53ec56264136eca5feac98a8eeec24c1a52",
+      "bytes": 2044
+    },
+    "native/wave_compute.cpp": {
+      "local_source": "work\\training_candidates\\p4_wave_compute_v2\\native\\wave_compute.cpp",
+      "sha256": "80a4c88e937b5b580faae3414922f2371846cfc216d04b6704ad37460c913fb4",
+      "bytes": 12233
+    }
+  },
+  "first_device_contract_sha256": "a896cec62f6838e5a24ca1121d4512c48e8daab1a6f1c1599a40e0f8b9f29bf0",
+  "CPU_checks": 24,
+  "CPU_results_sha256": "2248317efe975e1ac0e7f58c7407cc6510f34941d48c2d794a1ea70940548001",
+  "original_manifest_sha256": "deec8aea2e29c9a365fbbc6ddbc51fe3a64328db4173f5b9b72f97ead3e3f9d9",
+  "V2_source_manifest_sha256": "81d9290752168ba3e2bf6b625fec9a0bfa14e2e386166e179ce83f5c6e328949",
+  "actual_compiled_SO_sha256": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+  "build_audit_sha256": "56877b938a8be8394b2d609520bb0c22f4e7c3fbf52efeae18980cecb219d057",
+  "native_compile_done_by_environment_only": true,
+  "qualification": false,
+  "device_authorized": false,
+  "timing_authorized": false
+}

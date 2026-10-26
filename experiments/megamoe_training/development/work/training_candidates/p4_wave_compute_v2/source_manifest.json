@@ -1,0 +1,38 @@
+{
+  "candidate": "P4_compute_wave512_GU_A_Z_v2_loop_bound_UNQUALIFIED",
+  "variant": "Only VEC loop-bound type compatibility fix; component backend/ABI unchanged",
+  "source_inventory": {
+    "__init__.py": {
+      "bytes": 144,
+      "sha256": "c14946881b02b3e7a7d35c25e2c8fc00237e1f584b118685df4080bb825237bb"
+    },
+    "contract.py": {
+      "bytes": 2698,
+      "sha256": "51fd3dc1c8d1a6b25cd71baf3b86b1847726fdeaba241941a34a9233ae4148ee"
+    },
+    "wave_compute.py": {
+      "bytes": 3074,
+      "sha256": "cdc882b29d04182a81f4304b8b6b85f00ff34db1d67c057095ca3de8b919ab39"
+    },
+    "native/wave_compute.cpp": {
+      "bytes": 12233,
+      "sha256": "80a4c88e937b5b580faae3414922f2371846cfc216d04b6704ad37460c913fb4"
+    },
+    "CMakeLists.txt": {
+      "bytes": 2044,
+      "sha256": "b8c094edf054190f4794284f612fa53ec56264136eca5feac98a8eeec24c1a52"
+    },
+    "tests/test_layout_cpu.py": {
+      "bytes": 7409,
+      "sha256": "690627cdf9b6fce3bd9632d054ebbdbe44e8b68336ab1635c347bd88be294997"
+    }
+  },
+  "parent_manifest_sha256": "deec8aea2e29c9a365fbbc6ddbc51fe3a64328db4173f5b9b72f97ead3e3f9d9",
+  "parent_native_SO_sha256": "e96c58fe1f553ace6389c9377a76367333c8404a31483347093a36736d421d65",
+  "native_SO": null,
+  "compile_authorized": false,
+  "device_authorized": false,
+  "patch_sha256": "a5bf72a54ad3ad4b5ee81965d95f92f2e5291d5283229048531a7ea22b4411ba",
+  "CPU_results_sha256": "a58087ea18b2fd7333e48aa73e0b94b83f360223d76ccaf175df0a955881a0b3",
+  "untouched": "DeprecatedDCache aliases/host GM_ADDR casts/math/rounding/fences/ownership untouched; original V1 build and source remain frozen"
+}

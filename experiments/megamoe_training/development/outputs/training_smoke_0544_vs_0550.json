@@ -1,0 +1,328 @@
+{
+  "scope": "offline same-rank actual pre-collective Host library hashes and explicit environment whitelist",
+  "all_16_maps_equal": true,
+  "all_16_whitelisted_env_equal": true,
+  "rows": [
+    {
+      "rank": 0,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 1,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 2,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 3,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 4,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 5,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 6,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 7,
+      "host": "rack05os7",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 8,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 9,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 10,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 11,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 12,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 13,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 14,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    },
+    {
+      "rank": 15,
+      "host": "rack05os8",
+      "maps_same": true,
+      "new_paths": [],
+      "removed_paths": [],
+      "changed_hashes": [],
+      "environment_differences": {},
+      "0550_precision_before": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0550_precision": {
+        "matmul_allow_hf32": false,
+        "allow_internal_format": false
+      },
+      "0544_precision_values": "not recorded; cannot infer",
+      "0550_pure_no_preload": true,
+      "both_ready_exit_recorded": true
+    }
+  ],
+  "conclusion": "Host mapped contents/whitelisted environment match; not proof of deterministic behavior or setter-value causality; 0544 precision initial values unmeasured"
+}

@@ -1,0 +1,47 @@
+{
+  "scope": "Per-RUN launcher-process event hostname override; offline preparation only, not deployed or executed with actual Torch.",
+  "hostname_metadata_mode": "cached socket.gethostname() acquired before Torch imports, substituted only for agent API _get_fq_hostname within wrapper main; original restored in finally if still own hook.",
+  "files_sha256": {
+    "launcher.py": "7e15cc8ebaf480b09ab7d53185b9ad8077990a3a163adac7b7281cb4bf299e4d",
+    "test_launcher_cpu.py": "791bf32f853e736dceb0413d5cdb536d12d4f70da747ec17569a95ce74415aa5",
+    "cpu_results.json": "2a94eeffc4aaf7544a5c1128a7b5cb99dcf91516eddf841cc847e6680a2f1f65"
+  },
+  "installed_agent_api_raw_SHA256_pin": "8184afa022897c622de9ff1b76504e2210550fa772ccbc2fba44279c913bc1fe",
+  "source_evidence": {
+    "rack05os7": {
+      "path": "work\\torch_elastic_exit_dns_review\\rack05os7\\site-packages\\torch\\distributed\\elastic\\agent\\server\\api.py",
+      "archived_raw_sha256": "1e52edb23eecc8368fdd62c635692673ad574e6a0489e8896216707648b8c23c",
+      "archived_CRLF_count": 1013,
+      "LF_reconstructed_sha256": "8184afa022897c622de9ff1b76504e2210550fa772ccbc2fba44279c913bc1fe"
+    },
+    "rack05os8": {
+      "path": "work\\torch_elastic_exit_dns_review\\rack05os8\\site-packages\\torch\\distributed\\elastic\\agent\\server\\api.py",
+      "archived_raw_sha256": "1e52edb23eecc8368fdd62c635692673ad574e6a0489e8896216707648b8c23c",
+      "archived_CRLF_count": 1013,
+      "LF_reconstructed_sha256": "8184afa022897c622de9ff1b76504e2210550fa772ccbc2fba44279c913bc1fe"
+    }
+  },
+  "proof": {
+    "api.py:389-390": "Original helper calls socket.getfqdn(socket.gethostname()).",
+    "api.py:854": "Only name-reference AST in the complete pinned API is metadata hostname in _construct_event at820.",
+    "api.py:721,748,764,771,784,814": "START/worker-result/agent events continue through original _construct_event/record paths; wrapper does not skip events.",
+    "events/__init__.py:75-76": "Destination/null handler receives already-constructed Event; null does not avoid helper.",
+    "metadata_source": "outputs/torch_elastic_exit_dns_review/source-metadata.json"
+  },
+  "cpu_groups": 7,
+  "syntax_pass": true,
+  "launch_contract": {
+    "usage_shape": "python /ABS/PER_RUN/launcher.py <original torchrun arguments unchanged>",
+    "delegation": "Original torch.distributed.run.main() reads existing sys.argv[1:]; no child/worker wrapper, no argv/env rewrite. Return/SystemExit/exception propagate.",
+    "fail_closed": "Pinned raw API SHA and helper source-owner checks before importing torch.distributed.run; preexisting hook/reentry reject.",
+    "changes": "Only agent api._get_fq_hostname replaced in current process. No socket monkeypatch, installed source edits, hosts/resolver/rendezvous/backend/environment changes.",
+    "mode_evidence": "One flushed stderr JSON record binds wrapper SHA, API SHA/path, cached hostname and event metadata scope.",
+    "current_deployment": "none"
+  },
+  "limits": [
+    "Source proof applies to pinned agent API and archived launcher/event paths; does not promise every other Torch/rendezvous DNS use disappears.",
+    "Tests are injected importer/launcher stubs and archived-source AST; no actual Torch/worker/device or DNS call executed.",
+    "27 one-shot child exceeded5s and was reaped;28 reported38.35ms for hostname+FQDN section. This bounded CPU risk does not prove1431 operator failure or all0310 wall time was DNS.",
+    "0310 midrun foreign16/manual abort remains excluded from numerical/performance evidence."
+  ]
+}

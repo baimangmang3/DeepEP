@@ -1,0 +1,140 @@
+{
+  "scope": "CPU-only actual StoreGroup logic with MemoryStore; no real TCP/NPU/HCCL; thread delays are test controls, not clocks from failing run",
+  "checks": [
+    {
+      "scenario": "success",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 16,
+      "close_called_once_each": true,
+      "errors_sample": null
+    },
+    {
+      "scenario": "rank12_failed_close",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 0,
+      "close_called_once_each": true,
+      "errors_sample": "RuntimeError(\"A case body/close failed; no next case permitted: RuntimeError('original SHMEM finalize status -3 (synthetic)')\")"
+    },
+    {
+      "scenario": "rank12_slow_close",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 16,
+      "close_called_once_each": true,
+      "errors_sample": null
+    },
+    {
+      "scenario": "rank12_stage_mismatch",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 0,
+      "close_called_once_each": true,
+      "errors_sample": "RuntimeError('Host close convergence failed; no next case permitted')"
+    },
+    {
+      "scenario": "rank12_exchange_failure",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 0,
+      "close_called_once_each": true,
+      "errors_sample": "RuntimeError('Host close convergence failed; no next case permitted')"
+    },
+    {
+      "scenario": "rank7_numerical_failure",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 0,
+      "close_called_once_each": true,
+      "errors_sample": "RuntimeError('A case body/close failed; no next case permitted: peer failure; inspect peer_status')"
+    },
+    {
+      "scenario": "rank5_report_IO_failure",
+      "ranks": 16,
+      "passed": true,
+      "next_case_ranks": 0,
+      "close_called_once_each": true,
+      "errors_sample": "RuntimeError('A case body/close failed; no next case permitted: peer failure; inspect peer_status')"
+    },
+    {
+      "scenario": "success",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": null
+    },
+    {
+      "scenario": "PG_cleanup_failure",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": "RuntimeError('Host/PG cleanup failed; inspect cleanup_errors')"
+    },
+    {
+      "scenario": "remote_only_prior_error",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": "RuntimeError('Host/PG cleanup failed; inspect cleanup_errors')"
+    },
+    {
+      "scenario": "remote_only_PG_failure",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": "RuntimeError('Host/PG cleanup failed; inspect cleanup_errors')"
+    },
+    {
+      "scenario": "host_exit_failure",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": "RuntimeError('Host/PG cleanup failed; inspect cleanup_errors')"
+    },
+    {
+      "scenario": "final_report_IO_failure",
+      "passed": true,
+      "events": [
+        "comparison/before-PG-teardown",
+        "PG.destroy",
+        "comparison/after-PG-teardown",
+        "host.close",
+        "save"
+      ],
+      "error": "OSError('final IO failed')"
+    },
+    {
+      "scenario": "phase_JSON_flush_and_broken_pipe_safe",
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "StoreGroup_sha256": "5615f1e28642f9fb9b8e98e29b3e41eca0da45272ab5f5dcbaebeeff611f5fdd",
+  "candidate_sha256": "4cb6f73b1143474b8f6b57d05569ddce79772b9e249dc942c2eab9fde19d1ecf"
+}

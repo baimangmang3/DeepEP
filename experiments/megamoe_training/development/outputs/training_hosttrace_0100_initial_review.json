@@ -1,0 +1,732 @@
+{
+  "status": "Startup/launcher snapshot, superseded for case results by outputs/training_hosttrace_0100_analysis.json; no new Store failure found.",
+  "rank_timeline": {
+    "0": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.78390646,
+      "last_source_line": 91
+    },
+    "1": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.75741222,
+      "last_source_line": 92
+    },
+    "2": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.76852558,
+      "last_source_line": 90
+    },
+    "3": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.73597282,
+      "last_source_line": 94
+    },
+    "4": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.72512977,
+      "last_source_line": 93
+    },
+    "5": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.77313674,
+      "last_source_line": 96
+    },
+    "6": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.74202955,
+      "last_source_line": 95
+    },
+    "7": {
+      "host": "rack05os7",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 73.77699432,
+      "last_source_line": 97
+    },
+    "8": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.12294845,
+      "last_source_line": 139
+    },
+    "9": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.12298238,
+      "last_source_line": 141
+    },
+    "10": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.12382296,
+      "last_source_line": 138
+    },
+    "11": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.1231745,
+      "last_source_line": 140
+    },
+    "12": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.11541987,
+      "last_source_line": 145
+    },
+    "13": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.05771875,
+      "last_source_line": 144
+    },
+    "14": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 83.99581965,
+      "last_source_line": 142
+    },
+    "15": {
+      "host": "rack05os8",
+      "last_phase": "case_start",
+      "phases": [
+        "torch_import_before",
+        "torch_import_after",
+        "host_connect_before",
+        "host_connect_after",
+        "set_device_before",
+        "set_device_after",
+        "PG_init_before",
+        "PG_init_after",
+        "identity_before",
+        "identity_after",
+        "case_start",
+        "case_close_before",
+        "case_close_after",
+        "case_close_host_status",
+        "case_start"
+      ],
+      "host_connect_elapsed_s_own_monotonic": 84.05677764,
+      "last_source_line": 143
+    }
+  },
+  "summary": {
+    "host_connect_after_ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "set_device_after_ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "PG_init_after_ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "case_start_ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "host_trace_files_present": [
+      "rack05os7/host-trace/rank0.jsonl",
+      "rack05os7/host-trace/rank1.jsonl",
+      "rack05os7/host-trace/rank2.jsonl",
+      "rack05os7/host-trace/rank3.jsonl",
+      "rack05os7/host-trace/rank4.jsonl",
+      "rack05os7/host-trace/rank5.jsonl",
+      "rack05os7/host-trace/rank6.jsonl",
+      "rack05os7/host-trace/rank7.jsonl",
+      "rack05os8/host-trace/rank10.jsonl",
+      "rack05os8/host-trace/rank11.jsonl",
+      "rack05os8/host-trace/rank12.jsonl",
+      "rack05os8/host-trace/rank13.jsonl",
+      "rack05os8/host-trace/rank14.jsonl",
+      "rack05os8/host-trace/rank15.jsonl",
+      "rack05os8/host-trace/rank8.jsonl",
+      "rack05os8/host-trace/rank9.jsonl"
+    ]
+  },
+  "host_protocol_source": {
+    "path": "work/DeepEP/deep_ep/_store.py",
+    "sha256": "5615f1e28642f9fb9b8e98e29b3e41eca0da45272ab5f5dcbaebeeff611f5fdd",
+    "flow": "from_env: TCPStore(MASTER_ADDR, MASTER_PORT, None, is_master=False, timeout300,use_libuv=False) -> rank0 sets UUID under megamoe/session/RESTART_COUNT -> every rank gets UUID -> namespace megamoe/UUID -> barrier(connect)=all_gather(None,barrier:connect) -> HOST_STORE ready -> return.",
+    "boundary": "An early host_connect_before alone cannot distinguish constructor/connect, UUID get or namespace barrier. Later HOST_STORE ready+host_connect_after on all16 proves this from_env completed for all16 in this run; no evidence here of an unresolved Store protocol failure.",
+    "hypotheses_not_claimed": [
+      "No inference of hang from elapsed minutes",
+      "early.json environment is selected-field capture; missing MASTER/RESTART keys there are not evidence absent from worker environ",
+      "No new Store connection/query or remote operation performed"
+    ]
+  },
+  "launcher_differences": [
+    {
+      "host": "rack05os7",
+      "argv_flag_differences": {
+        "--candidate-source-root": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "--dispatch-host-trace-dir": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/host-trace"
+        },
+        "--dispatch-trace-run-id": {
+          "old": null,
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "--master-addr": {
+          "old": null,
+          "new": "177.22.27.1"
+        },
+        "--master-port": {
+          "old": null,
+          "new": "29926"
+        },
+        "--nnodes": {
+          "old": null,
+          "new": "2"
+        },
+        "--node-rank": {
+          "old": null,
+          "new": "0"
+        },
+        "--nproc-per-node": {
+          "old": null,
+          "new": "8"
+        },
+        "--output": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small"
+        },
+        "--rdzv-backend": {
+          "old": null,
+          "new": "static"
+        }
+      },
+      "environment_differences": {
+        "ASCEND_PROCESS_LOG_PATH": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small/ascend-log",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/ascend-log"
+        },
+        "CANDIDATE_SOURCE_ROOT": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "DISPATCH_DIAGNOSTIC_ROOT": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026"
+        },
+        "LIMIT_SECONDS": {
+          "old": "600",
+          "new": null
+        },
+        "MEGAMOE_TRAINING_LIBRARY": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training/build/libmegamoe_training.so"
+        },
+        "NNODES": {
+          "old": "2",
+          "new": null
+        },
+        "NPROC_PER_NODE": {
+          "old": "8",
+          "new": null
+        },
+        "PYTHONPATH": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/python:/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026:/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/python/site-packages:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe"
+        },
+        "RUN_TAG": {
+          "old": "20261025_1431",
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "SHMEM_LOG_PATH": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small/shmem-debug",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/shmem-debug"
+        }
+      },
+      "unchanged_model_flags": {
+        "--B": "32",
+        "--H": "128",
+        "--I": "128",
+        "--E": "64",
+        "--K": "8",
+        "--seed": "4317",
+        "--cases": "balanced,zero_gate,empty,skew",
+        "--shared": true,
+        "--weight-dtype": "fp32"
+      },
+      "observed_worker_argv_differences": {
+        "--candidate-source-root": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "--dispatch-host-trace-dir": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/host-trace"
+        },
+        "--dispatch-trace-run-id": {
+          "old": null,
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "--output": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small"
+        }
+      },
+      "torchrun_metadata_boundary": {
+        "new": "static nnodes2 nproc8 master177.22.27.1:29926 node-rank0/1",
+        "old": "worker-only argv; envNNODES2 NPROC_PER_NODE8 matches topology, old MASTER/rdzv params not recorded here",
+        "not_a_config_difference_proof": "Do not classify old null flag fields as removed/different effective torchrun settings."
+      },
+      "library_environment_boundary": "New MEGAMOE_TRAINING_LIBRARY explicitly selects the frozen P0 build; old env omission does not prove a different SO because loader has a default. Compare actual mapped FD hashes separately."
+    },
+    {
+      "host": "rack05os8",
+      "argv_flag_differences": {
+        "--candidate-source-root": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "--dispatch-host-trace-dir": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/host-trace"
+        },
+        "--dispatch-trace-run-id": {
+          "old": null,
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "--master-addr": {
+          "old": null,
+          "new": "177.22.27.1"
+        },
+        "--master-port": {
+          "old": null,
+          "new": "29926"
+        },
+        "--nnodes": {
+          "old": null,
+          "new": "2"
+        },
+        "--node-rank": {
+          "old": null,
+          "new": "1"
+        },
+        "--nproc-per-node": {
+          "old": null,
+          "new": "8"
+        },
+        "--output": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small"
+        },
+        "--rdzv-backend": {
+          "old": null,
+          "new": "static"
+        }
+      },
+      "environment_differences": {
+        "ASCEND_PROCESS_LOG_PATH": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small/ascend-log",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/ascend-log"
+        },
+        "CANDIDATE_SOURCE_ROOT": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "DISPATCH_DIAGNOSTIC_ROOT": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026"
+        },
+        "LIMIT_SECONDS": {
+          "old": "600",
+          "new": null
+        },
+        "MEGAMOE_TRAINING_LIBRARY": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training/build/libmegamoe_training.so"
+        },
+        "NNODES": {
+          "old": "2",
+          "new": null
+        },
+        "NPROC_PER_NODE": {
+          "old": "8",
+          "new": null
+        },
+        "PYTHONPATH": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/python:/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026:/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/python/site-packages:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe"
+        },
+        "RUN_TAG": {
+          "old": "20261025_1431",
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "SHMEM_LOG_PATH": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small/shmem-debug",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/shmem-debug"
+        }
+      },
+      "unchanged_model_flags": {
+        "--B": "32",
+        "--H": "128",
+        "--I": "128",
+        "--E": "64",
+        "--K": "8",
+        "--seed": "4317",
+        "--cases": "balanced,zero_gate,empty,skew",
+        "--shared": true,
+        "--weight-dtype": "fp32"
+      },
+      "observed_worker_argv_differences": {
+        "--candidate-source-root": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/diagnostic-dispatch-host-20261026/p1_pointwise"
+        },
+        "--dispatch-host-trace-dir": {
+          "old": null,
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/host-trace"
+        },
+        "--dispatch-trace-run-id": {
+          "old": null,
+          "new": "20261026_0100_hosttrace_once"
+        },
+        "--output": {
+          "old": "/home/zzy/deploy/megamoe-20261024/training/runs/20261025_1431/p1-host-v2-debug-shared-fp32-small",
+          "new": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small"
+        }
+      },
+      "torchrun_metadata_boundary": {
+        "new": "static nnodes2 nproc8 master177.22.27.1:29926 node-rank0/1",
+        "old": "worker-only argv; envNNODES2 NPROC_PER_NODE8 matches topology, old MASTER/rdzv params not recorded here",
+        "not_a_config_difference_proof": "Do not classify old null flag fields as removed/different effective torchrun settings."
+      },
+      "library_environment_boundary": "New MEGAMOE_TRAINING_LIBRARY explicitly selects the frozen P0 build; old env omission does not prove a different SO because loader has a default. Compare actual mapped FD hashes separately."
+    }
+  ],
+  "next_discriminating_evidence": [
+    "Current complete JSONL/rank reports analyzed in outputs/training_hosttrace_0100_analysis.json. Do not retry or reopen TCPStore investigation from earlier wait snapshot.",
+    "Environment agent alone completes already-running external node rc/owned PID release and actual-library identity audit."
+  ],
+  "limits": [
+    "Startup snapshot did not evaluate JSONL contents; later complete trace analysis is separate",
+    "No cross-host timestamp ordering without calibration; host-connect elapsed is per-worker monotonic",
+    "Old launch manifest captures worker argv plus NNODES/NPROC_PER_NODE env, while new manifest captures full torchrun argv. Missing old torchrun flag fields mean unrecorded, not absent."
+  ],
+  "source_logs": [
+    {
+      "path": "outputs/training_results_20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/rack05os7/logs/node0.log",
+      "sha256": "7491901116543f51ddfa989d074bcd0622e8d8fad22712b3eca2d18cde5ec5a8",
+      "bytes": 14340,
+      "HOST_STORE_ready_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "path": "outputs/training_results_20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small/rack05os8/logs/node1.log",
+      "sha256": "3b9e2c76364c25bdd9b36d9b79dc89e11ba67d2d13c69df600908eb614c749b7",
+      "bytes": 18740,
+      "HOST_STORE_ready_ranks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    }
+  ],
+  "no_remote_or_NPU_actions": true
+}

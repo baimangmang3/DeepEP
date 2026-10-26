@@ -1,0 +1,133 @@
+{
+  "status": "P4 v1/v2 CPU builds passed and released; v2 removed explicit vector-loop compatibility warning, no runtime/device qualification. EP2 overlap pending, next guard05:25:04.814088.",
+  "target": {
+    "EP": 16,
+    "B": 8192,
+    "H": 6144,
+    "I": 2048,
+    "E": 64,
+    "K": 8,
+    "dtype": "BF16",
+    "received_rows": 65536,
+    "experts_per_rank": 4
+  },
+  "evidence": {
+    "trace_report": "outputs/training_forward_trace_analysis.json",
+    "cpu_review": "work/trace_analysis_cpu_review.json",
+    "samples": "16 ranks, later two of three forward profiler calls; first call retained but excludes steady-state summary",
+    "P0_forward_profile_median_us": {
+      "gmm1": 7847.21790625,
+      "gmm2": 4025.924046875,
+      "dispatch": 1442.719953125,
+      "combine": 2108.97915625,
+      "activation_window": 1876.7065,
+      "gating_and_combine_setup_window": 2579.7755,
+      "notify": 398.02140625
+    },
+    "qualification": "All 16 ranks full target Y/dX/dP/dW1/dW2 passed, plus shared precision in separate run; fixed thresholds unchanged",
+    "causality_limits": "No comm-only, compute-only or serial/fused controls yet; kernel lifetimes alone do not establish bandwidth or hidden communication. Adjacent per-expert GEMMs in observed P0 forward are contiguous on device; not evidence for a launch-starvation bottleneck."
+  },
+  "candidate_P1": {
+    "source_root": "work/training_candidates/p1_pointwise",
+    "scope": "Fuse only vector arithmetic and casts for activation, activation derivative and row gate; SHMEM and CATLASS schedules unchanged",
+    "math": [
+      "A=BF16((FP32(G)/(1+exp(-FP32(G))))*FP32(U)); no clamp or preweighting",
+      "s=1/(1+exp(-G)); dG=BF16(((dA*U)*s)*(1+G*(1-s))); dU=BF16((dA*G)*s), all intermediate FP32",
+      "weighted=BF16(FP32(Z)*p); retain unweighted rounded BF16 Z for dP, including p=0"
+    ],
+    "tiles": {
+      "rows": 8,
+      "columns": 256,
+      "widths": "native multiples of128, no width padding",
+      "tail_rows": "exact DataCopyPad row count",
+      "buffers": "single tile with MTE2_V, V_MTE3, MTE3_MTE2 completion; no async buffer reuse"
+    },
+    "saved_contract": "Xe/GU/A/Z remain per-autograd-invocation tensors; no in-place changes",
+    "logical_GM_traffic_example": {
+      "activation_P0_GiB": 5.75,
+      "activation_candidate_GiB": 0.75,
+      "gate_P0_GiB_excluding_weight_reads": 7.5,
+      "gate_candidate_GiB_excluding_weight_reads": 1.5,
+      "scope": "Algorithmic tensor read/write counts for target shape using observed standalone slice/cast/mul tasks; not measured HBM or link traffic. Cache effects, duplicate scalar gate reads, metadata and allocator costs are not hardware counters."
+    },
+    "next": "P1 schema2 internal initial/final FD once actual dual-host CPU preflight passed. Original0310 remains numerical-only176 with missing realrc; no new P1 device contract or performance qualification."
+  },
+  "candidate_P2": {
+    "scope": "Controlled backward dW and dX return overlap, separate from P1; not a claim of single-kernel fusion",
+    "schedule": [
+      "cached dispatch dY; compute dP from saved unweighted Z and rounded dE",
+      "dZ -> dA -> dGU -> dXe on compute stream",
+      "combine(dXe, handle, topk_weights=dP, async_with_compute_stream=True) records producer and completion events on existing SHMEM stream",
+      "compute FP32 dW1=dGU^T Xe and dW2=dZ^T A, then wait combine event before returning all gradients"
+    ],
+    "contracts": [
+      "All saved and return tensors retained and record_stream protected through completion.",
+      "Keep peer barrier/UDMA completion/ready recycling and group order unchanged.",
+      "PyTorch custom Function returns all grads together; no claim of early upstream dX return.",
+      "Inspect whether current CATLASS KERNEL_MIX_AIC empty AIV specialization blocks concurrent64-AIV combine before claiming overlap.",
+      "Run reordered serial control with same order and math, then asynchronous variant; profile and formal performance separately."
+    ],
+    "source_draft": "work/training_candidates/p2_backward_overlap",
+    "status": "EP2 serial0348 full56 accuracy/35FD initial-final/true rc0/release accepted. Independent same-shape overlap concrete contract approved once; no physical-overlap or performance claim.",
+    "cpu_evidence": "outputs/p2_training_math_cpu"
+  },
+  "candidate_P3": {
+    "scope": "True BF16 communication-compute pipeline remains to implement",
+    "strategy": [
+      "Port BF16 CATLASS BlockMmad tile adapter into explicit MIX1:2 shell; do not reinterpret existing FP8/MX inference storage.",
+      "Use per-invocation full BF16 Xe/GU/A/Z buffers initially. Local row readiness tracks exact completed producer counts for each expert and M128 tile.",
+      "AIC consumes ready Xe -> up tiles. Save BF16 GU before FP32 activation and BF16 A store; publish activation readiness only after all needed gate/up N tiles are visible.",
+      "AIC down writes unweighted BF16 Z before ready; assigned AIV performs FP32 gating to BF16 and transport. Preserve final send completion and peer handshake.",
+      "Backward dgrad chunks may stream into return while independent full-batch FP32 dW GEMMs run later; do not split dW reduction until separately qualified.",
+      "32 AIC imply64 AIV in MIX1:2, with fixed roles. No oversubscription of communication and activation subcores; UB and event ownership explicit."
+    ],
+    "required_protocols": [
+      "Reuse only after all local readers, remote sends/completions and prior-launch handshakes; chunk-ready is not consumer ACK.",
+      "If full output buffers are later made rings, add generation-tagged credit/ACK, per-reader completion and empty/tail handling before reuse.",
+      "Use same chunks/routes/bytes and load for communication-only/compute-only/forced-serial/fused controls; no stage-duration summation to estimate overlap."
+    ],
+    "compute_component": "outputs/p3_compute_component_status.json: compiled groupedW1/SwiGLU MIX saves GU/A,68single-card cases pass including65536, no communication/down/backward fusion"
+  },
+  "remaining_comparison": [
+    "Pinned original ep_gmm_fused EP8 builtcleanrc0 and archived; actual device qualification/performance pending",
+    "Separate ep_gmm_fused EP16 rank ABI/workspace/tile ownership/UDMA-ready recycling adaptation and full-gradient qualification",
+    "Shared comparable full-step costs and weight layout conversion/update costs",
+    "Measured payload/link bandwidth, calibrated critical path and MoE-layer TFLOP/s; MFU only with independently verified hardware BF16 dense peak"
+  ],
+  "native_aiv_evidence": "Both raw interfaces reject aiv during parameter checking in current CANN9.2/PTA2.12post2/950DT, all16 raw evidence retained in training_cann_aiv_support.json; no AIV performance available for this installation.",
+  "native_wave_contract": "work/p3_bf16_wave_contract.json",
+  "retry_policy": {
+    "conflict_recheck_delay_minutes": 30,
+    "automatic_restart_after_error": false,
+    "on_error": "Stop this attempt and dependent stages; preserve original logs/rc/ownership/identity; analyze and review the next discriminating diagnostic or fix.",
+    "restart_condition": "Latest20261026 human authorization: run a reviewed changed diagnostic immediately when free16/no own job; do not require a proven root cause before collecting evidence. Never repeat an unchanged failed command automatically.",
+    "cleanup_scope": "Verified own PID ledger only; never terminate foreign jobs."
+  },
+  "current_parallel_analysis": "outputs/training_parallel_diagnosis_optimization.json (in progress)",
+  "next_control_review_20261026": {
+    "current_device": "Read latestdevice_progress: serial0348 completed and consumed; overlap approved once in outputs/p2_ep2_overlap_parent_review.json, exact fresh gate required.",
+    "parallel_work": "EP16 both controls CPU-deployed; exact serial one-shot conditional on pending EP2 overlap success/release and fresh gate. P4 independent staged-BF16 GU/A/Z validator being prepared offline. No EP16 overlap or target automatic permission.",
+    "P2_control": "Both serial and overlap use dA,dGU,dXe,combine,dW1,dW2 ordering. Only pre-dW wait changes; final wait/release remains in both. Identity must bind required backward_schedule. P1 original order is a different reorder control.",
+    "P3_minimal_qualification": "EP2 E8K4 four routes BF16/shared FP32, then EP16 E64K8 four routes, then target65536 balanced routed/shared BF16. Each exact candidate gets its own full-gradient/lifecycle/identity audit; a pass does not prove1431 repaired.",
+    "target_route_boundary": "B8192H6144I2048E64K8 target must explicitly select balanced. Default skew gives524288 rows to ranks0/1; P3 wrapper x+w+GU+A+flags totals12484MiB, exceeding12GiB even before Z/oracle.",
+    "target_saved_tensors_MiB": {
+      "A": 256,
+      "GU": 512,
+      "Xe": 768,
+      "Z": 768
+    },
+    "diagnostic_scope": "Existing P1 host-trace patch cannot be reused unchanged for P2 overridden backward or P3 overridden forward; explicit phase hooks would need separate review.",
+    "performance_gate": "No timing from instrumented diagnostic, CPU results or standalone P3 unit. Require exact full-training qualification per mode before controlled comm-only/compute-only/serial/overlap and timeline analysis."
+  },
+  "P2_overlap_source_review": "outputs/p2_overlap_next_diagnostic_review.json",
+  "candidate_P4": {
+    "scope": "Compute-only512-row up/SwiGLU/down wave; full BF16 GU/A/unweighted Z retained; noSHMEM or backward fusion",
+    "source": "work/training_candidates/p4_wave_compute",
+    "review": "outputs/p4_compute_wave_parent_review.json",
+    "status": "v1 compile rc0, SOe96c58fe retained; independent v2 two-line uint16 loop-bound correction compiled rc0, SOeea6c53d, warning removed and remaining13 unchanged, both compiler PID-starts gone. No native load/NPU execution.",
+    "device_authorized": false,
+    "next": "Root review of independent component validator and actual v2 SO binding before a bounded small device diagnostic; no automatic device successor."
+  },
+  "target_memory_design": "outputs/p2_target65536_scope_memory_design.json: component accounting only; native/runtime/allocator peak not bounded",
+  "target_route_bytes": "outputs/training_target_route_byte_accounting.json: logical/rank-dedup/ideal-host-dedup hidden baselines only, not payload or bandwidth measurements"
+}

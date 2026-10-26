@@ -1,0 +1,32 @@
+{
+  "decision": "Accepted as source-structured CPU parsing and logical-writer join prototype; real device metadata remains unobserved",
+  "wire_review": "outputs/p4_metadata_wire_schema_review.json",
+  "wire_review_sha256": "3ef889d45b5bce5ad40d6b691903fcaa8dd97b1498a079912619953273799fc2",
+  "wire_decoder_checks": 9,
+  "join_review": "outputs/p4_metadata_writer_join_cpu_review.json",
+  "join_review_sha256": "02b75aec54b73ff335d8a34db68a1e5a368f015be7ddd15eac3f0a3e3708ea6a",
+  "mapper_sha256": "ab8711a9b6719679db68e3c62a462039a5eae9c18eb282809fa8ea7aa96db992",
+  "mapper_manifest_sha256": "30dc01577394f15714919a6ca310759f0e007f9253d890a2df56efd5cc3ce706",
+  "join_checks": 13,
+  "root_findings": [
+    "Read decoder and mapper implementations, directory prefix code and actual ownership helpers. Complete per-rank return metadata plus local expert counts identifies each final occurrence; original source dst and topk_idx cross-check its destination and expert.",
+    "Original Notify stride and lazily re-encoded power-of-two Dispatch stride are different. The join consumes original signed dst using max(1,max(rank_rows)); mixing the representations rejects.",
+    "Cross-rank primary pair tables and gateway forward records identify final logical writers without preserving temporary Notify meta or bases. forward_list source is the outer partition; column0 is token-group record-end and column5 is gatherrow, never topk slot.",
+    "Self-primary partition uses the actual front-loaded-remainder DispatchSplitRange helper, not a floor(total*worker/workers) approximation. Local expansion uses the rotated full CSR base source*T*K before filtering target rows.",
+    "The join checks exact route/final-occurrence coverage, matching source/token/slot/expert, unique primary pairs and secondary records, and relay/direct consistency. It handles five final-writer paths in coherent synthetic16-rank samples, including duplicate expert occurrences and empty/tail cases.",
+    "Output explicitly retains native_domain=null and seq=null. CrossQp index and logical role do not establish the SDK slot/state alias identity or actual source-ready-dependent submission order."
+  ],
+  "limits": [
+    "No actual NPU dump was used. The9 decoder and13 join checks are distinct source-structured synthetic tests; previously accepted18+10 protocol tests were not rerun or counted again.",
+    "The parser/join scope is reviewed normal server-dedup8 and world8/16. Future device exports must bind dedup/config/source/native identity rather than assuming unsupported modes share this layout.",
+    "Temporary raw meta/bases need not be exported for this logical join. Actual physical SQ aliases and Dispatch generation still require a separate bounded observation; plan ABI8 is not an epoch."
+  ],
+  "next_metadata_diagnostic_requirements": [
+    "Use a separately reviewed bounded diagnostic to export already-persistent handle fields after completed Notify, with exact source/library/config/rank/session identity and actual original stride. Do not mutate the currently approved EP16 or P4 worker/controller to add this export.",
+    "Export only initialized array ranges. Unused pair rows, forward padding, scratch and mutable mailbox bytes are not meaningful immutable metadata; record any canonical zero-fill of unexported ranges explicitly rather than claiming a complete raw device-memory dump.",
+    "Join all rank exports offline and require exact coverage before feeding normalized Expected entries into the readiness model. Do not infer native domains or dynamic sequence numbers from logical names.",
+    "Retain no performance qualification from diagnostic copies or source-level parsing. No metadata device run is authorized by this review."
+  ],
+  "device_authorized": false,
+  "performance_qualified": false
+}

@@ -1,0 +1,135 @@
+{
+  "scope": "CPU real P0 qualification acceptance and synthetic P1 gates, not NPU qualification",
+  "checks": [
+    {
+      "name": "real 0658 P0 all16 accepted, same qualification used0742",
+      "passed": true
+    },
+    {
+      "name": "real 0703 P0 shared all16 legacy accepted",
+      "passed": true
+    },
+    {
+      "name": "real 0714 CANN routed all16 legacy accepted",
+      "passed": true
+    },
+    {
+      "name": "synthetic P1 schema/current config all16 accepted",
+      "passed": true
+    },
+    {
+      "name": "missing P1 cleanup",
+      "passed": true
+    },
+    {
+      "name": "failed peer close",
+      "passed": true
+    },
+    {
+      "name": "missing peer close",
+      "passed": true
+    },
+    {
+      "name": "missing host pre-exit",
+      "passed": true
+    },
+    {
+      "name": "remote prior error",
+      "passed": true
+    },
+    {
+      "name": "remote PG error",
+      "passed": true
+    },
+    {
+      "name": "missing host exit",
+      "passed": true
+    },
+    {
+      "name": "P1 shapes gate false",
+      "passed": true
+    },
+    {
+      "name": "P1 dtype gate false",
+      "passed": true
+    },
+    {
+      "name": "different execution config",
+      "passed": true
+    },
+    {
+      "name": "old P0 identity",
+      "passed": true
+    },
+    {
+      "name": "wrong backend",
+      "passed": true
+    },
+    {
+      "name": "wrong shared",
+      "passed": true
+    },
+    {
+      "name": "wrong seed",
+      "passed": true
+    },
+    {
+      "name": "wrong world",
+      "passed": true
+    },
+    {
+      "name": "wrong recv shape",
+      "passed": true
+    },
+    {
+      "name": "wrong counts",
+      "passed": true
+    },
+    {
+      "name": "missing gradient",
+      "passed": true
+    },
+    {
+      "name": "wrong gradient dtype",
+      "passed": true
+    },
+    {
+      "name": "sampled element count",
+      "passed": true
+    },
+    {
+      "name": "nonfinite gradient",
+      "passed": true
+    },
+    {
+      "name": "nonzero badcount",
+      "passed": true
+    },
+    {
+      "name": "relaxed threshold",
+      "passed": true
+    },
+    {
+      "name": "contradictory RMS",
+      "passed": true
+    },
+    {
+      "name": "serial config identity changed shared",
+      "passed": true
+    },
+    {
+      "name": "candidate source identity changed",
+      "passed": true
+    }
+  ],
+  "identity_digest": "f29580600264cd68aabb0adb2b94fa36d36fd4b3c005e7e2b692392a4faf042c",
+  "passed": true,
+  "probe_sha256": "409d4df8fcdfce441be0669bad76453a32ddae63b49578bba311eb52afeb6488",
+  "gate_sha256": "a636d1b03fabb190680552ce7162600ec70c03df4617816bcb9b6cd7a063f3e4",
+  "static_review": {
+    "single_owner": "Exactly one chosen backend engine; identity collectors load only libraries, no SHMEM session",
+    "execution": "P1 collector config matches main balanced BF16 validator: fixed vector64/gemm32/serial/no-recompute, exact shape/seed/shared, chunk1024/cap12 and frozen LIMITS",
+    "math": "Frozen inputs/shared generator/clear_grads and timing reused; full backward, autograd required; no reference computed in timing",
+    "scope": "Benchmark and profile separate, alignment outside profile label; cleanup forces false and raises; ABBA is caller-orchestrated separate processes"
+  }
+}

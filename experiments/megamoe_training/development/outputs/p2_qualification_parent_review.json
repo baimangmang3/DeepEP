@@ -1,0 +1,68 @@
+{
+  "date_beijing": "2026-10-26",
+  "decision": "Schema2 changed CPU preflight completed once on both hosts, rc0. Root reviewed actual package FD maps and schedule identities; CPU deployment accepted. This is not P2 NPU, physical overlap or performance qualification.",
+  "root": "work/training_candidates/p2_backward_overlap",
+  "qualification_manifest_sha256": "04f47711bf5ac2e3328cd08f5626f0d8e0c4fa1dca0e93b52dadd1c643f70e03",
+  "validator_sha256": "20c617cbde08183654e827885d88e46512cbec5e075bb42bdedf286ed2229b5d",
+  "provenance_sha256": "3a0acc9132cc20381db1e64e94d9df6178e160eb4bf9eeb9ce79e7daf5a12759",
+  "adapter_unchanged_sha256": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce",
+  "CPU_gate_checks": 86,
+  "CPU_math_checks_existing": 36,
+  "review_findings_fixed": [
+    "Initial identity may lack lazily loaded dependencies. Require initial-to-final immutable source/native/config consistency, allow only additions, then require complete final identity to equal current. Do not demand initial digest equal final/current.",
+    "Corrected copied report text FP22 to FP32; arithmetic unchanged.",
+    "Map logical identity uses actual imported deep_ep and torch_npu package-relative roles; loaded basename roles remain for other libraries, with unknown same-basename groups fail-closed. Both _C FD records retained. Schema p2-training-2 rejects old representation."
+  ],
+  "reviewed_contract": [
+    "Explicit serial/overlap required; constructor/property checked before and after each case and bound to execution identity.",
+    "P2 serial and overlap use identical dA,dGU,dXe,combine,dW1,dW2 order. The pre-dW wait differs; final event wait/release remains. P1-to-P2serial is a separate reorder control.",
+    "Full fixed-tolerance checks include seven routed metrics or eleven shared metrics, finite/dtype/shape/counts and deterministic route counts; full rank/case/cleanup/PG/final identity evidence required.",
+    "Original unchanged P1 and DeepEP elastic required; current actual imported paths and dev/inode/fstat-bound native dependencies recorded. P1/P3 reports and hosttrace overlay cannot authorize P2.",
+    "Exact EP2 small E8K4 or EP16 small E64K8 includes all four routes; exact B8192H6144I2048E64K8 main is explicit balanced only.",
+    "CPU synthetic report gates are not native execution evidence. Actual collector/import/library behavior and all-rank gradients remain unvalidated on NPU."
+  ],
+  "next": "Prepare and review separate concrete EP2 serial device contract. This CPU approval is consumed; do not repeat it or infer device permission.",
+  "physical_overlap_proven": false,
+  "NPU_qualification": false,
+  "performance_qualification": false,
+  "cpu_preflight_failure": {
+    "state": "CPU_namespace_false_rejection_fixed_and_preflight_verified",
+    "error": "Same basename maps different native contents",
+    "cause": "Legitimate deep_ep._C and torch_npu._C native extensions have the same basename but different content. Current basename-only identity cannot distinguish packages.",
+    "evidence": "outputs/p2_qualification_deployment/collision-summary.json",
+    "device_initialized": false,
+    "PG_initialized": false,
+    "next": "One new-version CPU preflight; on any failure preserve original rc/stderr and stop, no loop. No NPU/PG/SHMEM engine or device occupancy polling from CPU deployment."
+  },
+  "namespace_fix_review": {
+    "old_manifest_sha256": "d43cb9e633e9695ecfeb6e154f1c0c3db662d0d83850afa0ede0841c5eacc2ef",
+    "new_manifest_sha256": "04f47711bf5ac2e3328cd08f5626f0d8e0c4fa1dca0e93b52dadd1c643f70e03",
+    "schema": "p2-training-2",
+    "qualification_cpu_checks": 71,
+    "real_archived_map_checks": 15,
+    "root_review": "Read candidate_provenance implementation and real archived maps fixture tests. Package-relative role normalization changes neither exact actual-path FD binding nor selected native role hashes. Cross-host package root relocation is allowed; content replacement/removal and unknown collisions remain rejected. Adapter and validator unchanged.",
+    "actual_fixture_canonical_map_digest": "baa09f199b243856d3eb601e28384862766e63eef36523491a2671a19f3bc100",
+    "preflight_probe": "work/p2_qualification_cpu_probe.py",
+    "probe_review": "Read full CPU probe: imports/host CDLL/maps only, six plans, serial/overlap identities separate, before/after NPU/PG false, no ElasticBuffer owner. Bound120s; no engine/session/tensor device operations.",
+    "required": "New remote version directory under /home/zzy, refuse overwrite, source/manifest checks first, save real rc/stdout/stderr per host. New identity must match across hosts per schedule, differ across schedules, actual FD maps valid, no NPU/PG/SHMEM owner."
+  },
+  "schema2_actual_CPU_preflight": {
+    "report": "outputs/p2_qualification_schema2_deployment/cpu-preflight-summary.json",
+    "remote_root": "/home/zzy/deploy/megamoe-20261024/training/candidate-p2-qualification-schema2-20261026/p2_backward_overlap",
+    "node_rc": [
+      0,
+      0
+    ],
+    "plans_each_host": 6,
+    "native_map_count_each": 34,
+    "NPU_initialized": false,
+    "PG_initialized": false,
+    "ElasticBuffer_owner_exists": false,
+    "serial_identity": "1b9d5284fce4c958eff91287e35313ebaf3e4f98def88b2a4d97a91811051464",
+    "overlap_identity": "13c2e53ab37aae28fecc7a4d7505bc5d185395616919cd5828f43a138b843067",
+    "cross_host_schedule_identity_equal": true,
+    "both_package_C_FD_entries_preserved": true,
+    "permission_consumed": true,
+    "old_failed_deployment_preserved": true
+  }
+}

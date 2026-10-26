@@ -1,0 +1,195 @@
+{
+  "schema": "P5-paired-object-compile-preparation-2",
+  "status": "Offline revisions only; no actual compiler/readelf invocation/remote/NPU",
+  "manifest": {
+    "bytes": 113375,
+    "sha256": "9dc1cb9a2f03bb1c6fe2a76438e0c0939239300cb9ec8261f4a2732954062762"
+  },
+  "scripts": {
+    "prepare_snapshots.py": {
+      "bytes": 4738,
+      "sha256": "2472e83fa11d94be4aa87aea6bf4416764227dc4aa83a690f40b35ddb2b879a9"
+    },
+    "compile_objects.py": {
+      "bytes": 9519,
+      "sha256": "4961fd90ae8578704dc4b745d368c6f167d0f42c4c11b881d1bfd47e74805ec0"
+    },
+    "cpu_recorder.py": {
+      "bytes": 7801,
+      "sha256": "c4039f01f34eff47e813d536c1bd3c33f6867c1df0525963b7d7787ed52295b3"
+    },
+    "test_plan_cpu.py": {
+      "bytes": 3041,
+      "sha256": "fef9b8b257fa1d2cedaee6faf78332a62ae2671a9e1801f51c3106a0b4c00fa1"
+    },
+    "test_revision_cpu.py": {
+      "bytes": 8191,
+      "sha256": "3b89ff3607edf7cac09eb4bc281f52ed0aa4d27ad01c653a414190a034404339"
+    }
+  },
+  "P5_source_manifest_unchanged": {
+    "bytes": 9387,
+    "sha256": "b0e63246c9bc5d6bbd279a7e451abb62dbe23cf9823276a6e4bd4c9c0bd641eb"
+  },
+  "P5_patch_unchanged": {
+    "bytes": 8555,
+    "sha256": "d74707491a22a5a8b08646bed0c5d3eaf50440baec60f836bf2f153cc97b6815"
+  },
+  "cpu_revision": {
+    "passed": true,
+    "checks": 15,
+    "items": [
+      "two actual archived ELF hashes/machine4137 and original readelf FUNC evidence verified offline",
+      "separate matching device ELFs satisfy union with per-symbol provenance",
+      "host ELF, undefined FUNC, metadata OBJECT and substring cannot supply device symbol",
+      "new.d root-contained unbound file rejects; bound actual source mutation rejects",
+      "ok recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "nonzero recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "timeout recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "kill recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "unknown recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "startup recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+      "body_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+      "scan_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+      "save_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+      "exited_child afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+      "reused driver PID/session without original birth stays unknown and is never adopted as owned"
+    ],
+    "real_compiler_or_readelf_executed": false,
+    "native_or_NPU": false
+  },
+  "cpu_plan": {
+    "passed": true,
+    "checks": 5,
+    "items": [
+      "88file snapshots byte-pinned with exactly7 overlay differences",
+      "same flags/includeorder/defines/driver under source+output path normalization; objectonly xasc",
+      "recorded devicecompiler bound; incomplete actualexternalpins/coverage contract rejects before compile",
+      "bounded innerELF extent extraction vs absent/truncated payload; not an architecture claim",
+      "actual defaultplan imports noTorch and emits explicit portableLinux sourcepaths without execution"
+    ],
+    "toolchain_invoked": false,
+    "native_compiled": false,
+    "NPU": false
+  },
+  "device_arch_evidence": {
+    "ELFs": {
+      "embedded-938d8.elf": {
+        "bytes": 264008,
+        "sha256": "b49a64aa6226679c1c611933a9ff8d3c85117903486628b8aa111df3a44118a6"
+      },
+      "embedded-22c900.elf": {
+        "bytes": 265456,
+        "sha256": "0f3b00e55ef76773cf3fcc2933bec089e489ed6dbc5799832f53b078ec31955f"
+      }
+    },
+    "inventory": {
+      "bytes": 4383,
+      "sha256": "6d6e501490f9454cd2fd8c326acf68d69a30452d22b6a89876ee640ac3c990f6"
+    },
+    "symbol_and_disassembly": {
+      "bytes": 9659,
+      "sha256": "239e1c334d0ed95696bf45c893b292d36389f7f5dd66ec8ca1a2e1dc141fb731"
+    },
+    "readelf_hash_available_in_archive": false,
+    "archived_other_tool": {
+      "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/bisheng_compiler/bin/llvm-objdump",
+      "sha256": "1c5c3632e8168ee23e443d5047102e525928b45b34b689161487540ff8534409",
+      "scope": "objdump hash, NOT a readelf hash"
+    }
+  },
+  "device_machine": 4137,
+  "missing_before_execute": [
+    "A reviewed perRUN bindings.json with compiler/readelf exact path+bytes+SHA and every listed external dependency path->bytes/SHA. SDK/system files are not present locally; cannot assert present/matching.",
+    "Device machine4137 is bound to actual archived ELFs; actual readelf absolutepath/bytes/SHA still requires reviewed fresh bindings. Archive readelf argv is bare readelf with no SHA; do not substitute archived llvm-objdump hash.",
+    "Parent CPU-only build/deploy authorization, fresh output directory and exact Linux/aarch64 toolchain. This package has no implicit authorization."
+  ],
+  "limitations": [
+    "Existing .d does NOT name most __CCE_AICORE__ device helperheaders; it is not a full device include closure proof. Full csrc snapshots close all project-relative source paths. External dependency pins only cover recorded closure, not unreported compiler-internal device headers.",
+    "No generated build.make or full original driver invocation was retrieved. Reconstruct object command from exact CXX flags/includes/defines plus standard -c/-o and identical -MD/-MF accounting; no CMake/relink.",
+    "Both source roots map to same . via replacement of original source file-prefix-map; same SDKpaths/defines/includeorder/O3+O2flags and same outputbasename. Same commands on each variant; sourcecontent is only intended independentvariable.",
+    "Embedded ELF scanner handles section-backed little-endianELF64 only. If compiler uses compressed/proprietary offload container, preserve rawobject/log and fail coverageUnknown rather than invent extraction flags.",
+    "No code loaded, linked or installed; objectbytes may differ legitimately with parameterized source. No performance/numerical inference from hashes.",
+    "Compiler-reported new external dependencies after -MD are compared against reviewed bindings; unbound paths stop before successor. Compiler may still omit internaldeviceheaders, retained as a scope limit.",
+    "Coverage now unions definedFUNC symbols across all machine4137 embedded ELFs, retaining every per-symbol ELF source. Host/undefined/metadata strings never qualify.",
+    "Each compiler/readelf process is an isolated child-first CPU recorder with real driverPID/start/session/argv and actual waitpid rc. Unknown ownership or unreaped members refuse release/success; raw logs/status retained. No detached compiler tree guarantee is asserted beyond observed PPID lineage and continuously verified original session membership.",
+    "New.d internalpaths must be present in corresponding88 source manifest and match before/after; merely lying under source_root is insufficient.",
+    "All body/startup/scan/save/timeout cleanup now shares child-first exactbirth path. Unknownroot or uncertaindescendant state preserves driver, reports unknownrelease and actualwait rc if available. Every attempted signal logs PID/start/uid/signal/time/result."
+  ],
+  "commands": {
+    "original": [
+      "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/bisheng_compiler/bin/bisheng",
+      "-DCATLASS_ARCH=3510",
+      "-DL2_CACHE_HINT",
+      "-DUSE_SIMT",
+      "-Ddeepep_kernels_EXPORTS",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/aarch64-linux/include",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw/impl",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw/interface",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/include",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt",
+      "-O3",
+      "-DNDEBUG",
+      "-std=c++17",
+      "-fPIC",
+      "-O2",
+      "-xasc",
+      "--npu-arch=dav-3510",
+      "--cce-auto-infer-kernel-type=false",
+      "-ffile-prefix-map=/PARENT_REVIEWED_PACKAGE/snapshots/original=.",
+      "-ffile-prefix-map=/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0=CANN_SDK",
+      "-ffile-prefix-map=/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem=SHMEM_SDK",
+      "-MD",
+      "-MT",
+      "dispatch.o",
+      "-MF",
+      "/NEW_EMPTY_OUTPUT/original/dispatch.o.d",
+      "-o",
+      "/NEW_EMPTY_OUTPUT/original/dispatch.o",
+      "-c",
+      "/PARENT_REVIEWED_PACKAGE/snapshots/original/csrc/kernels/dispatch/dispatch.cpp"
+    ],
+    "identity64": [
+      "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/bisheng_compiler/bin/bisheng",
+      "-DCATLASS_ARCH=3510",
+      "-DL2_CACHE_HINT",
+      "-DUSE_SIMT",
+      "-Ddeepep_kernels_EXPORTS",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/aarch64-linux/include",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw/impl",
+      "-I/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/compiler/tikcpp/tikcfw/interface",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/include",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device",
+      "-I/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt",
+      "-O3",
+      "-DNDEBUG",
+      "-std=c++17",
+      "-fPIC",
+      "-O2",
+      "-xasc",
+      "--npu-arch=dav-3510",
+      "--cce-auto-infer-kernel-type=false",
+      "-ffile-prefix-map=/PARENT_REVIEWED_PACKAGE/snapshots/identity64=.",
+      "-ffile-prefix-map=/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0=CANN_SDK",
+      "-ffile-prefix-map=/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem=SHMEM_SDK",
+      "-MD",
+      "-MT",
+      "dispatch.o",
+      "-MF",
+      "/NEW_EMPTY_OUTPUT/identity64/dispatch.o.d",
+      "-o",
+      "/NEW_EMPTY_OUTPUT/identity64/dispatch.o",
+      "-c",
+      "/PARENT_REVIEWED_PACKAGE/snapshots/identity64/csrc/kernels/dispatch/dispatch.cpp"
+    ]
+  }
+}

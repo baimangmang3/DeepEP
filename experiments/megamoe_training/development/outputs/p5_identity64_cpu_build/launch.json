@@ -1,0 +1,47 @@
+{
+  "recorder": {
+    "pid": 28336,
+    "start": "24475898",
+    "uid": 0,
+    "ppid": 28335,
+    "session": 28336,
+    "argv": [
+      "bash",
+      "/home/zzy/deploy/megamoe-20261024/training/p5-identity64-object-compile-20261026/logs/run-pair-recorded.sh"
+    ],
+    "time_ns": 1792969908151181210,
+    "monotonic_ns": 244758986434280
+  },
+  "driver": {
+    "pid": 28374,
+    "start": "24475900",
+    "uid": 0,
+    "ppid": 28336,
+    "session": 28336,
+    "argv": [
+      "/root/miniconda3/envs/zzy/bin/python",
+      "/home/zzy/deploy/megamoe-20261024/training/p5-identity64-object-compile-20261026/compile_objects.py",
+      "--compile-objects",
+      "--bindings",
+      "/home/zzy/deploy/megamoe-20261024/training/p5-identity64-object-compile-20261026/bindings.json",
+      "--output",
+      "/home/zzy/deploy/megamoe-20261024/training/p5-identity64-object-compile-20261026/runs/20261026_0708_p5_identity64_cpu_once"
+    ],
+    "time_ns": 1792969908196522500,
+    "monotonic_ns": 244759031775150,
+    "environment": {
+      "ASCEND_HOME_PATH": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0",
+      "LD_LIBRARY_PATH": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib:/root/miniconda3/envs/zzy/lib:/home/zzy/runtime/lib:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/lib64:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/lib64/plugin/opskernel:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/lib64/plugin/nnengine:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/op_tiling/lib/linux/aarch64:/usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64/common:/usr/local/Ascend/driver/lib64/driver",
+      "PATH": "/home/zzy/deploy/megamoe-20261024/training/venv/bin:/root/miniconda3/envs/zzy/bin:/home/zzy/deploy/megamoe-20261024/training/venv/bin:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/bin:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/ccec_compiler/bin:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/profiler/bin:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/ascend_system_advisor/asys:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/show_kernel_debug_data:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/tools/msobjdump:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin",
+      "PYTHONPATH": "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/python/site-packages:/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe",
+      "VIRTUAL_ENV": "/home/zzy/deploy/megamoe-20261024/training/venv",
+      "CONDA_PREFIX": "/root/miniconda3/envs/zzy",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MAX_JOBS": "2",
+      "RUN_TAG": "20261026_0708_p5_identity64_cpu_once"
+    }
+  },
+  "run_tag": "20261026_0708_p5_identity64_cpu_once",
+  "scope": "CPU paired-c objects only; no link/load/NPU/occupancy"
+}

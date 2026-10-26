@@ -1,0 +1,15 @@
+--- a/csrc/kernels/dispatch/peer_transport.hpp
++++ b/csrc/kernels/dispatch/peer_transport.hpp
+@@ -675,10 +675,10 @@
+ {
+     return slots.GetWithOffset<uint32_t>(kClosDirectoryBytes / 4U, kClosDirectoryOffset + phase * kClosDirectoryBytes);
+ }
+-__aicore__ inline void CacheClosDirectories(const ascend_deepep::DispatchTiling& t,
++__aicore__ inline void CacheClosDirectories(const ascend_deepep::DispatchTiling& t, uint32_t logical_role,
+                                             AscendC::TBuf<AscendC::QuePosition::VECCALC>& slots)
+ {
+-    if (t.world <= 8U || GetBlockIdx() < 8U || GetBlockIdx() >= 24U) {
++    if (t.world <= 8U || logical_role < 8U || logical_role >= 24U) {
+         return;
+     }
+     auto header = slots.Get<uint32_t>();

@@ -1,0 +1,36 @@
+{
+  "status": "Isolated CPU assembly/default-plan passed once; concrete device controller remains under review",
+  "preparation": "outputs/p4_component_validation_preparation.json",
+  "additional_manifest_sha256": "ace5458f11ffda50a9ea1c4321923d76eae8bb9593d424e2a1b8cec3bf10a1dd",
+  "draft_device_contract_sha256": "a896cec62f6838e5a24ca1121d4512c48e8daab1a6f1c1599a40e0f8b9f29bf0",
+  "validator_sha256": "8960f58e8a37dda26c775fb06af9eafbde6d7bc96cf4b5516b8ea265537592ce",
+  "compiled_v2_manifest_sha256": "81d9290752168ba3e2bf6b625fec9a0bfa14e2e386166e179ce83f5c6e328949",
+  "compiled_v2_SO_sha256": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+  "review_findings": [
+    "Root read validator, component identity, actual-map FD collector, CPU checks, source assembly and first-device draft. Eight fixed cases perform sixteen invocations: fourteen native and two host-empty. Forty-eight GU/A/Z metric summaries include six empty-tensor summaries; these are not forty-eight native kernel tests.",
+    "Independent per-expert FP32 matmul on BF16 operands, explicit BF16 GU/A/Z boundaries, and framework SiLU provide a separate oracle. Actual HF32=false and internal_format=disable readback are enforced. Fixed atol0.003/rtol0.03/RMSrel0.02, all-element finite and zero-out-of-tolerance requirements are retained.",
+    "The last dual-stream case runs only after previous cases pass. Each stream waits for base-stream inputs; the base stream waits on both completion events before validation. Distinct stream IDs, separate output/flag storage, exact ready flag words and unchanged inputs are checked. This does not measure hardware overlap.",
+    "Initial/final actual library FD and fstat-bound hashes are recorded globally and per case. Existing mapped objects must not change or disappear; lazy additions are recorded. The selected P4 path and SO hash are exact, and conflicting P4 SO basenames are rejected. This component identity cannot authorize full-training performance.",
+    "First exceptions remain primary if final synchronization, identity collection or report writes also fail. Native-submit/native-return/device-sync phase markers distinguish submission from completion. External supervision is still required to bound a stuck device synchronization or native wait.",
+    "Current local validator sits beside v1 files. Deployment must assemble the explicit v2 source inventory under the p4_wave_compute package name, never use the adjacent v1 source implicitly. The original builds and P0/P1/P2/P3 stay frozen."
+  ],
+  "cpu_deployment_permission": {
+    "approved": true,
+    "consumed": true,
+    "count": 1,
+    "owner": "/root/environment",
+    "host": "177.22.27.1",
+    "remote_package": "/home/zzy/deploy/megamoe-20261024/training/candidate-p4-component-validation-v2-20261026/p4_wave_compute",
+    "scope": "Create an isolated package from exactly assembled_V2_package_source_inventory, retain additional manifest and device draft, verify source/SO disk hashes and run default plan once with the pinned Python. No --run-npu, Torch import, native library load, rebuild, NPU query, or NPU/PG initialization.",
+    "success_evidence": "Exact assembled source hashes, exact already-built SO hash, real default-plan exit0 and expected eight-case plan without Torch/native initialization. Save command and stdout/stderr.",
+    "failure": "Preserve first error and true rc; stop, do not repeat unchanged command or fall back to a different package/source.",
+    "priority": "Must not delay or duplicate the existing environment agent's unique05:25:04.814088 EP2 gate. If preparation cannot finish before then, complete the device gate first.",
+    "result": "outputs/p4_component_validation_v2_deployment/CPU-deployment-audit.json",
+    "result_sha256": "b7eed00d4368fe92db36b833d8faebe8ce205222a9c45523554e905563ca47e9"
+  },
+  "controller_preparation": "Reference may prepare an isolated single-worker controller using the reviewed child-first/real-rc mechanisms, with exact worker PID-start and RUN, all16 external-launcher/NPU gate, 180-second worker limit, TERM/KILL30 and recorder-harvest40. Prepare offline and targeted CPU fault checks only. Root reviews concrete source before any device launch; avoid changing the existing EP2/EP16 controls.",
+  "device_authorized": false,
+  "timing_authorized": false,
+  "full_training_qualified": false,
+  "successor": "No target65536, full backward, SHMEM or performance successor is implied. The existing P2 EP2 overlap and conditional EP16 serial chain keeps device priority."
+}

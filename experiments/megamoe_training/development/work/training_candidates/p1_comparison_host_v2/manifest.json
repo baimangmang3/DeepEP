@@ -1,0 +1,29 @@
+{
+  "scope": "Isolated CPU-reviewed comparison host-v2; not deployed/NPU-executed; original comparison/P0/P1 qualified sources unchanged",
+  "files_sha256": {
+    "gate.py": "a636d1b03fabb190680552ce7162600ec70c03df4617816bcb9b6cd7a063f3e4",
+    "host_control.py": "4cb6f73b1143474b8f6b57d05569ddce79772b9e249dc942c2eab9fde19d1ecf",
+    "probe.py": "409d4df8fcdfce441be0669bad76453a32ddae63b49578bba311eb52afeb6488",
+    "test_gate_cpu.py": "a7d6e87436de68230eacb3fd8fcce32934e72ab4eccd732d05417273daef99b8",
+    "test_host_control_cpu.py": "2e42891f9e264c21095cd356fbada0439d84d626a73342ad1b64d2b6f1b541e8"
+  },
+  "CPU_evidence": {
+    "gate_checks": 30,
+    "host_control_scenarios": 14,
+    "actual_legacy_rank_reports_accepted": 48,
+    "py_compile": true,
+    "default_plan_no_device": true,
+    "training_step_AST_unchanged": true,
+    "benchmark_profile_branch_AST_unchanged": true,
+    "original_comparison_hashes_unchanged": {
+      "probe.py": "5a7439bfb4b49bef61edb1e64cc0fcfaca698ae407ac706def7b18de5996f40a",
+      "gate.py": "12399a1901e86ddfd408d0907c2c59b350b17549a39945d490dd03655fcf3e24"
+    }
+  },
+  "host_control": "Local standalone host_control.py derives approved validator helper logic, changes report passed key and stage namespace only; engine=None cleanup allowed for setup failure. No runtime import of old validator path. Included as third harness SHA in report/crossrank token. Host connects before device/PG; output directory errors converge on host; close/PG/Store exit outside formal timing.",
+  "owners": "One selected engine per process, identical lifecycle for P0/P1/CANN, no additional ElasticBuffer from identity collectors.",
+  "P1_gate": "Current expanded source/library/config identity collected from --candidate-source-root (no pinned hash). Report execution matches it; every requested case has full successful all-rank cleanup; before-PG and after-PG host statuses complete/successful, no cleanup/IO errors; shapes/dtypes true. Legacy P0/CANN requirements unchanged.",
+  "limits": "Frozen .003 atol/.03 rtol/.02 RMS unchanged. Backend training step/timing/profile AST exactly match original.",
+  "review_required": "Fresh P1 host-v2 numerical qualification still needed from environment. Synthetic P1 reports in CPU gate test are not device evidence. No benchmark authorization implied.",
+  "controls": "Separate-process ABBA still caller-orchestrated. No counters/graphs or performance claims added."
+}

@@ -1,0 +1,40 @@
+{
+  "scope": "AST equivalence after only specified activation/grad/gate and class-reference replacements; no device proof",
+  "checks": [
+    {
+      "candidate": "_RoutedP1.forward",
+      "frozen": "_RoutedMoE.forward",
+      "passed": true
+    },
+    {
+      "candidate": "_RoutedP1.backward",
+      "frozen": "_RoutedMoE.backward",
+      "passed": true
+    },
+    {
+      "candidate": "_SharedP1.forward",
+      "frozen": "_SharedExpert.forward",
+      "passed": true
+    },
+    {
+      "candidate": "_SharedP1.backward",
+      "frozen": "_SharedExpert.backward",
+      "passed": true
+    },
+    {
+      "candidate": "PointwiseTrainingMoE.__call__",
+      "frozen": "TrainingMoE.__call__",
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "base_sha256": "70b21733ca3756493801d29ed2a8a2302927e65dfe7522bb905908015729af11",
+  "adapter_sha256": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+  "preserved": [
+    "unweighted saved Z dP before weighted dZ; zero gate valid",
+    "save_for_backward argument list",
+    "dW2/dA/dGU/dW1/dX ordering",
+    "shared saved tensors and gradient order",
+    "call routed+unweighted shared"
+  ]
+}

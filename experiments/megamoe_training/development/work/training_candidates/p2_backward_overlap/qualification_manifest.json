@@ -1,0 +1,55 @@
+{
+  "status": "Independent P2 full-layer accuracy entry prepared; CPU review only, no native load/NPU/deployment/performance execution",
+  "schema": "p2-training-2",
+  "adapter_unchanged_sha256": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce",
+  "source_sha256": {
+    "__init__.py": "67cc087f7091e31315742ed34d021599bbcaff7af20b190ef45273289183af02",
+    "training_adapter.py": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce",
+    "candidate_provenance.py": "3a0acc9132cc20381db1e64e94d9df6178e160eb4bf9eeb9ce79e7daf5a12759",
+    "validate_training_p2.py": "20c617cbde08183654e827885d88e46512cbec5e075bb42bdedf286ed2229b5d",
+    "host_store.py": "f7c995d83cf5dd364ef4191c5774a65d5f52c800c74f16b960723d0ab6d8f3ff",
+    "mapped_identity.py": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+    "tests/test_qualification_cpu.py": "2914f1b2b3f8582518f35e431ba8c49b03d805ef61639e69fb1bc63316709fee",
+    "tests/test_mapping_roles_cpu.py": "c6e3bcf59a693d9fb9515e5551d0f6479ab86915570db8949dd76614044cb844"
+  },
+  "patch_sha256": "cb5ca4f911d6f77828c67c58aa4bbcab0ceff2bd5cceaa0271d008a0ee51c51e",
+  "CPU_results_sha256": "af9e83ade4f26be9b216a05d2097fb39075f160da3e33ad356e63a3a3051a09d",
+  "CPU_checks": 86,
+  "isolation": {
+    "python_isolated": true,
+    "torch_modules": [],
+    "torch_npu_modules": [],
+    "deep_ep_modules": []
+  },
+  "math_evidence": "Existing outputs/p2_training_math_cpu/cpu-results.json36 CPU checks; adapter unchanged, math tests not repeated",
+  "required_selection": "--backward-schedule serial|overlap is mandatory, constructor/property and per-case report checked against execution identity",
+  "allowed_shapes": {
+    "EP2_small": "B32 H128 I128 E8 K4; all four cases, explicit order allowed",
+    "EP16_small": "B32 H128 I128 E64 K8; all four cases",
+    "EP16_main": "B8192 H6144 I2048 E64 K8; explicit --cases balanced only"
+  },
+  "report_gate": "P2 schema only, current source/SO/all mapped dependencies and actual import paths; rejects P1/P3/P0, other schedule, stale source/SO/dependencies, missing ranks, any missing metric including11 shared/leaf, incorrect counts/shapes/dtypes, nonfinite/tolerance failure, missing final identity or close/host/PG agreement. Final collection allows only lazy additions; later evidence consumption requires current complete identity equal final snapshot.",
+  "original_dependencies": "Original P1 adapter9cf39682 and DeepEP elastic117b0165 required; actual P0/CATLASS/core_C/SHMEM/CANN/PTA identity plus pointwise SO captured with dev/inode/fstat-bound helper; no SHMEM session created by identity collection",
+  "lifecycle": "Per-case one engine, inherited host-v2 close/error/PG convergence retained; current identity final failure exchanged via independent host Store; no perf path",
+  "default_plan_example": "python validate_training_p2.py --world-size 2 --E 8 --backward-schedule serial --p1-source-root /ABS/original/p1_pointwise --pointwise-library /ABS/libmegamoe_pointwise.so --output /ABS/NEW_REPORT (no --run-npu; no Torch import)",
+  "constraints_from_parallel_review": [
+    "P3 target skew would receive524288 rows on rank0/1 and component X/W1/GU/A/flags estimate12.19GiB exceeds its12GiB cap; target65536 scope remains balanced. P2 main is likewise restricted explicitly balanced, not an unreviewed large-skew extension.",
+    "Existing hosttrace integration wraps P1 methods; P2 overrides backward and P3 overrides forward, so it cannot be blindly layered onto either. This P2 gate explicitly rejects patched P1/elastic dependencies.",
+    "P1->P2serial measures reordering; P2serial->overlap isolates wait placement. Same code does not authorize another runtime schedule.",
+    "Full distributed collect_identity, all-rank native gradients and close/PG lifecycle remain unexecuted; current CPU synthetic reports are gate tests, not qualification"
+  ],
+  "review_scope": "Only necessary new files under P2 directory added; P1/P3/frozen sources and P2 adapter unchanged",
+  "deterministic_counts_gate": "Report consumer independently checks approved spread-balanced/zero_gate, flat modulo E-1 empty, firstK expert skew counts for each rank; synthetic complete16rank11metric reports pass, absent rank12 rejects.",
+  "lazy_load_report_gate_fix": "Validate initial schema/content, enforce immutable initial->final files/execution/base existing roles and mapped existing libraries, then require full final identity==current. Initial digest need not equal final/current when only lazy loaded_dependency and mapped objects were added. Positive +5 negative regression cases added.",
+  "documentation_fix": "report.combine_difference corrected FP22 typo to FP32; actual .float() math unchanged.",
+  "CPU_gate_checks": 71,
+  "CPU_mapping_role_checks": 15,
+  "mapping_results_sha256": "dd27cb2d396931ca0c56764520ef09fed54e6013175d5a4832f09f21eac31182",
+  "mapping_namespace_fix": {
+    "evidence": "outputs/p2_qualification_deployment/collision-summary.json and both hosts collision-cpu.json; actual deep_ep._C and torch_npu._C share basename with distinct SHA/inode; NPU/PG/ElasticBuffer owner all false in archived probes",
+    "roles": "package/deep_ep/<relative> and package/torch_npu/<relative> using actual already imported __file__ roots; remaining objects loaded/<basename>. Absolute roots/dev/inodes stay diagnostic; content bytes/SHA included under stable roles.",
+    "safety": "Every actual FD-map entry retained with exact path. Base and selected native roles still match exact loader path plus verified bytes/SHA. Unknown same-basename group containing unclassified mapping rejects. No duplicate selection, disk-only hash or source/SO mutation.",
+    "crosshost": "Both real host raw mapping fixtures yield identical canonical digest baa09f199b243856d3eb601e28384862766e63eef36523491a2671a19f3bc100; relocated root model preserves digest. Replaced/removed initial extension role rejects final; only lazy stable-role additions permitted.",
+    "revision_boundary": "Old p2-training-1 basename identities now rejected. No failed import rerun; revised on-host CPU collection awaits parent review and separate environment execution. Old deployment evidence not modified."
+  }
+}

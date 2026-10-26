@@ -1,0 +1,160 @@
+{
+  "scope": "CPU constructor/metadata/runtime guards only; no native ABI, device AIC-count or EP16 precision proof",
+  "checks": [
+    {
+      "name": "target configuration",
+      "passed": true
+    },
+    {
+      "name": "last source/local-expert/topk boundary",
+      "passed": true
+    },
+    {
+      "name": "minimum configuration",
+      "passed": true
+    },
+    {
+      "name": "invalid max_tokens=0",
+      "passed": true
+    },
+    {
+      "name": "invalid max_tokens=16385",
+      "passed": true
+    },
+    {
+      "name": "invalid hidden=0",
+      "passed": true
+    },
+    {
+      "name": "invalid hidden=129",
+      "passed": true
+    },
+    {
+      "name": "invalid topk=0",
+      "passed": true
+    },
+    {
+      "name": "invalid topk=17",
+      "passed": true
+    },
+    {
+      "name": "invalid num_experts=63",
+      "passed": true
+    },
+    {
+      "name": "invalid num_experts=528",
+      "passed": true
+    },
+    {
+      "name": "invalid cores=31",
+      "passed": true
+    },
+    {
+      "name": "invalid cores=64",
+      "passed": true
+    },
+    {
+      "name": "world8",
+      "passed": true
+    },
+    {
+      "name": "world17",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_MAX_RANKS",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_MAX_LOCAL_EXPERTS",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_MAX_SEGMENTS",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_PEER_ROWS_OFFSET",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_EXPERT_ROWS_OFFSET",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_SEGMENTS_OFFSET",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_SEGMENT_SIZE",
+      "passed": true
+    },
+    {
+      "name": "metadata _MOE_ROUTE_METADATA_SIZE",
+      "passed": true
+    },
+    {
+      "name": "missing metadata fields",
+      "passed": true
+    },
+    {
+      "name": "runtime rank",
+      "passed": true
+    },
+    {
+      "name": "runtime world_size",
+      "passed": true
+    },
+    {
+      "name": "runtime mode",
+      "passed": true
+    },
+    {
+      "name": "runtime members",
+      "passed": true
+    },
+    {
+      "name": "runtime device",
+      "passed": true
+    },
+    {
+      "name": "missing caller UDMA",
+      "passed": true
+    },
+    {
+      "name": "old owner rejects replacement UDMA config identity",
+      "passed": true
+    },
+    {
+      "name": "inherited close retains caller UDMA and is idempotent",
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "inherited_same_function_objects": {
+    "_validate": true,
+    "_check_runtime": true,
+    "__call__": true,
+    "close": true
+  },
+  "module_sha256": {
+    "__init__.py": "701d880b5fb375d90cbcb68c24e92ee346719d57a0037b534d37af6a993b13f5",
+    "training_adapter.py": "3a7999c6cbf62285b8a7bb5bb39034fbdd4e2f14f4ad0a290e051532fa50718d"
+  },
+  "parent_sha256": "2b3ec26b6d77763b12a45b0891e544b1659c82b4789d0f13e4375b49c0081b6c",
+  "expected_metadata": {
+    "_MOE_ROUTE_MAX_RANKS": 16,
+    "_MOE_ROUTE_MAX_LOCAL_EXPERTS": 64,
+    "_MOE_ROUTE_MAX_SEGMENTS": 1024,
+    "_MOE_ROUTE_PEER_ROWS_OFFSET": 16,
+    "_MOE_ROUTE_EXPERT_ROWS_OFFSET": 144,
+    "_MOE_ROUTE_SEGMENTS_OFFSET": 656,
+    "_MOE_ROUTE_SEGMENT_SIZE": 24,
+    "_MOE_ROUTE_METADATA_SIZE": 25232
+  },
+  "limitations": [
+    "cores==32 checks configured CATLASS core argument; actual hardware AIC count is not queried by this wrapper.",
+    "Python metadata values do not prove loaded native header/layout matches; full coordinated11-file build and mapped library identity required.",
+    "The equality-only metadata guard accepts numeric values such as16.0 equal to16; production constants are source-bound integers. Constructor also inherits permissive numeric typing from EP8. No algorithm correction applied."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "status": "Offline source integration design only; no implementation/deployment/device authorization",
+  "purpose": "Disambiguate actual forward/backward dispatch submissions and host layout values without repeating the uninstrumented failed command.",
+  "reviewed_source_sha256": {
+    "work/DeepEP/deep_ep/buffers/elastic.py": "117b01651bc503839ff2aa681fca55308867b09c8bda399b5a0e47ca8b9b8c1c",
+    "work/training_candidates/p1_host_v2/p1_pointwise/training_adapter.py": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+    "work/training_candidates/p1_host_v2/p1_pointwise/validate_training_p1.py": "841f663ee336bb3c342c83de9bc4d19bf5b41cc685329bef141dcf5fbc0ac93c",
+    "work/training_diagnostics/dispatch_host_trace/recorder.py": "e1125b5e7f66b6613c0edbfe378c0dd07d27938c81b04a1ca0f2097f05bfb5b2"
+  },
+  "isolated_scope": "Future changes must be in a separate diagnostic Python source tree; preserve frozen P0/P1, native libraries, arithmetic and communication protocols. Diagnostic identities cannot inherit performance qualification.",
+  "explicit_phase": {
+    "source": "p1_pointwise/training_adapter.py:_RoutedP1.forward and _RoutedP1.backward",
+    "action": "Set explicit forward or backward context inside these methods around the existing buffer.dispatch call. Supply run/case/session tags from the validator; never infer phase from stack, weights or cached_handle.",
+    "thread_boundary": "Do not rely only on a ContextVar set around top-level loss.backward: autograd may execute backward on another host thread. Create the context in the actual backward method.",
+    "semantics": "Retain once_differentiable, exact original dispatch args, saved tensors, dtype/cast/gate/dW ordering and exception propagation."
+  },
+  "notify_host_snapshot": {
+    "source": "deep_ep/buffers/elastic.py:_notify, existing summary at lines1451-1454 and EPHandle creation",
+    "action": "In diagnostic mode only, retain immutable tuples from existing rows and count_list, plus native-session identity. Do not add cpu/item/tolist/device reads: these host lists already exist here.",
+    "boundary": "EPHandle.num_recv_tokens_per_expert_list already retains local counts, but EPHandle.rank_rows is a device tensor. Do not reconstruct actual global rows from the expected route or address_stride=max(rows).",
+    "lifecycle": "Bind snapshot to the created handle and native session; reject missing/stale or cross-session metadata. Cached backward uses the same immutable host snapshot. No route/count tensor mutation."
+  },
+  "native_call_boundary": {
+    "source": "deep_ep/buffers/elastic.py:dispatch immediately surrounding native.dispatch at line962",
+    "action": "Combine explicit phase/case/session tags with handle snapshot and actual session/args; enter DispatchHostTrace.label only for the existing native call. Label cached_handle from the public dispatch entry before a new handle is created.",
+    "checks": "Verify global rows/address_stride, local rows/count sum and session match without collective/device work. Record actual peer_table/optional plan, controls/profiles, metadata pointers/layout and optional existing workspace accessor.",
+    "fail_closed": "Any recorder/native/metadata failure latches stop and propagates through existing error handling; no later operator or next case is admitted. Keep owned cleanup and controller failure convergence.",
+    "completion": "before/native_return/native_error are host submission boundaries, not kernel or device completion; call_sequence is not native generation."
+  },
+  "required_cpu_review": [
+    "Execute actual transformed Python methods with CPU stubs; verify labels both in direct forward and backward on a separate host thread.",
+    "Fresh/cached handle metadata retention, legitimate empty local ranks and optional plan; reject missing/stale tags before native invocation.",
+    "Compare original native arguments/results/exceptions; verify original frozen files and native libraries unchanged.",
+    "No added tensor value reads, device events, barriers, synchronization, routing changes or profiling enablement; verify stop latch."
+  ],
+  "remaining_non_host_evidence": [
+    "Actual device context, heap table and translated descriptor writes remain unobserved.",
+    "Live mapped-library FD hashes and read-only process sampling need a separately reviewed controller.",
+    "Host file flush and metadata add diagnostic overhead; use disabled builds for later formal performance."
+  ],
+  "execution_policy": "Design only. Both hosts currently occupied and1431 cause unresolved; no device queue, retry, launcher or automatic restart. Any future single validation needs evidence-supported primary review."
+}

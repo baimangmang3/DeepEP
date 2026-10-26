@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": 13,
+  "details": [
+    "inherits_exact_P1_backward",
+    "forward_AST_equal_outside_fused_GU_A",
+    "guard_before_native_and_parent:1/3/32",
+    "guard_before_native_and_parent:16/256/32",
+    "guard_before_native_and_parent:1/4.0/32",
+    "guard_before_native_and_parent:1/4/16",
+    "guard_before_native_and_parent:0/0/32",
+    "four_local_experts:1",
+    "shared_P1_apply_and_pair_guard:1",
+    "four_local_experts:2",
+    "shared_P1_apply_and_pair_guard:2",
+    "four_local_experts:16",
+    "shared_P1_apply_and_pair_guard:16"
+  ],
+  "source_sha256": "2b8ab6cec8c87292ebd85611df0d42b28eb7ebc9ad7f7255a459620eebb4c52f",
+  "scope": "No Torch import; actual AST/constructor with metadata-only stubs, not native or numerical qualification"
+}

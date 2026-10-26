@@ -1,0 +1,232 @@
+{
+  "schema": "P5-identity64-logical-role-patch-1",
+  "scope": "Offline source candidate only. Original vector-only64 identity mapping; not mixed role/32reuse/tile-ready/hardware qualification.",
+  "files": {
+    "csrc/kernels/dispatch/dispatch.cpp": {
+      "before": {
+        "bytes": 30039,
+        "sha256": "fc03e180401146b9047e512e4b998b7cb9b97b506e3517aeec9a99a0c5d06bb1"
+      },
+      "after": {
+        "bytes": 30321,
+        "sha256": "e8a00ca7aeba25d1e0777021d5a8fa530c29e280d39f11a0286e9783dd28a8e1"
+      },
+      "diff": {
+        "bytes": 2579,
+        "sha256": "d5d0c789c84235f112e5b311e9932ce95a1ab078bfbde588b3b76b9a2ec7f89e"
+      }
+    },
+    "csrc/kernels/dispatch/peer_address.hpp": {
+      "before": {
+        "bytes": 2411,
+        "sha256": "2f42701540734820038dbcceb53679f3cbbf928b9f83506206eff74ee94dd1d8"
+      },
+      "after": {
+        "bytes": 2447,
+        "sha256": "ed446c4556f299ea68245786600ab2846c7f0f813a5ab785884d02b7fc3bd03e"
+      },
+      "diff": {
+        "bytes": 857,
+        "sha256": "64f1165807af25f8802c13c9b1166a9c85ba2a6b8d02b7b878b78d0309c34de0"
+      }
+    },
+    "csrc/kernels/dispatch/peer_transport.hpp": {
+      "before": {
+        "bytes": 46913,
+        "sha256": "be56a13261dcfdc1c0ba618acc7fb519fbb7495c3a52c86e234fd1a0485e1e07"
+      },
+      "after": {
+        "bytes": 46934,
+        "sha256": "5a464f2474cbd74ca900ac3df42982952206b69ec40376255d8a4b93f04fa805"
+      },
+      "diff": {
+        "bytes": 745,
+        "sha256": "a2efbc6c4977a2c4a6c2a68024e57d24851f3743101807c9729f21ad8ed3f6b2"
+      }
+    },
+    "csrc/kernels/dispatch/completion_wait.hpp": {
+      "before": {
+        "bytes": 2822,
+        "sha256": "3b98ccfcd42d8cf3cc3374686103ed1407c37101b07098e1045e89ae75a99e51"
+      },
+      "after": {
+        "bytes": 2844,
+        "sha256": "22d9ac17ed67aeb360086c3da3c3225bb83e1d16449a4d06a681014edc281879"
+      },
+      "diff": {
+        "bytes": 950,
+        "sha256": "8e9471ee20579a94694d05d3b5367425b8da9125e2bb24a0022184e0e57e0938"
+      }
+    },
+    "csrc/kernels/dispatch/aux_pipeline.hpp": {
+      "before": {
+        "bytes": 14597,
+        "sha256": "ca36ebb2fd400855bde7f47f450faa9bb135aa171c8f50110edefd45ab463fb3"
+      },
+      "after": {
+        "bytes": 14605,
+        "sha256": "5338b87906ae0d831731af36042164d08483d07aec5bafc4fc81098bfd5d0363"
+      },
+      "diff": {
+        "bytes": 1288,
+        "sha256": "b2313987353b79e182aab6deeabce07b3d06ce9982c58fafd7704d64ffc00fe1"
+      }
+    },
+    "csrc/kernels/dispatch/peer_scale.hpp": {
+      "before": {
+        "bytes": 1232,
+        "sha256": "780bd26c6d9501531fda187e35a21d229e2159d222c1717dadce025efcb65c74"
+      },
+      "after": {
+        "bytes": 1334,
+        "sha256": "38f9fbb584fa3f175cbdc7b8526c5a19306bb2441aba565c0ce8b86eb593d781"
+      },
+      "diff": {
+        "bytes": 871,
+        "sha256": "f915b11c385dc5b2b4bac33585cad09ee8c5c294cc3c222a25099e29e1dfbccb"
+      }
+    },
+    "csrc/kernels/dispatch/scale_pipeline.hpp": {
+      "before": {
+        "bytes": 19604,
+        "sha256": "a84fc7848f318335ab7327baaf03ab0a0e9f4de32fad126cc210f48bff35f114"
+      },
+      "after": {
+        "bytes": 19603,
+        "sha256": "838a48cfcd29d76c4d7271f9c35ebc58cd08ee7ff8a7e6c4e9ad34d4a2007284"
+      },
+      "diff": {
+        "bytes": 1265,
+        "sha256": "d40af5465da832ec108aebd00a20b9f2c35101d57c93df58187e053297546570"
+      }
+    }
+  },
+  "changes": {
+    "dispatch.cpp": [
+      [
+        "    const uint32_t core = GetBlockIdx(), cores = 64U;",
+        "    const uint32_t physical_role = GetBlockIdx();\n    const uint32_t logical_role = physical_role;  // identity64 only; launch/participants unchanged\n    const uint32_t core = logical_role, cores = 64U;"
+      ],
+      [
+        "PublishPeerAddresses(workspace, t, copy, slots);",
+        "PublishPeerAddresses(workspace, t, logical_role, copy, slots);"
+      ],
+      [
+        "    if (core >= 32U) {\n        if (weights)",
+        "    if (core >= 32U) {\n        const uint32_t aux_owner = logical_role - 32U;\n        if (weights)"
+      ],
+      [
+        "DispatchAuxPipeline::Run<Profile>(workspace, t, plan, slots, copy, wqe_buffer);",
+        "DispatchAuxPipeline::Run<Profile>(workspace, t, plan, logical_role, aux_owner, slots, copy, wqe_buffer);"
+      ],
+      [
+        "PeerScales<Profile>(workspace, scales, destinations, t, copy, slots, wqe_buffer);",
+        "PeerScales<Profile>(workspace, scales, destinations, t, logical_role, aux_owner, copy, slots, wqe_buffer);"
+      ],
+      [
+        "WaitDispatchIncoming(workspace, t, wqe_buffer);",
+        "WaitDispatchIncoming(workspace, t, logical_role, wqe_buffer);"
+      ]
+    ],
+    "peer_address.hpp": [
+      [
+        "__aicore__ inline void PublishPeerAddresses(GM_ADDR workspace, const DispatchTiling& t,",
+        "__aicore__ inline void PublishPeerAddresses(GM_ADDR workspace, const DispatchTiling& t, uint32_t logical_role,"
+      ],
+      [
+        "CacheClosDirectories(t, slots);",
+        "CacheClosDirectories(t, logical_role, slots);"
+      ],
+      [
+        "if (GetBlockIdx() == 0U)",
+        "if (logical_role == 0U)"
+      ]
+    ],
+    "peer_transport.hpp": [
+      [
+        "__aicore__ inline void CacheClosDirectories(const ascend_deepep::DispatchTiling& t,",
+        "__aicore__ inline void CacheClosDirectories(const ascend_deepep::DispatchTiling& t, uint32_t logical_role,"
+      ],
+      [
+        "if (t.world <= 8U || GetBlockIdx() < 8U || GetBlockIdx() >= 24U)",
+        "if (t.world <= 8U || logical_role < 8U || logical_role >= 24U)"
+      ]
+    ],
+    "completion_wait.hpp": [
+      [
+        "__aicore__ inline void WaitDispatchIncoming(GM_ADDR workspace, const DispatchTiling& t, Scratch& scratch)",
+        "__aicore__ inline void WaitDispatchIncoming(GM_ADDR workspace, const DispatchTiling& t, uint32_t logical_role, Scratch& scratch)"
+      ],
+      [
+        "if (GetBlockIdx() != 7U)",
+        "if (logical_role != 7U)"
+      ]
+    ],
+    "aux_pipeline.hpp": [
+      [
+        "__aicore__ inline void Run(GM_ADDR workspace, const DispatchTiling& t, const PeerAuxPlan& plan,",
+        "__aicore__ inline void Run(GM_ADDR workspace, const DispatchTiling& t, const PeerAuxPlan& plan,\n                           uint32_t logical_role, uint32_t owner,"
+      ],
+      [
+        "    const uint32_t owner = AscendC::GetBlockIdx() - 32U;\n",
+        ""
+      ],
+      [
+        "(t.profile) + (owner + 32U) * 32U;",
+        "(t.profile) + logical_role * 32U;"
+      ]
+    ],
+    "peer_scale.hpp": [
+      [
+        "__aicore__ inline void PeerScales(GM_ADDR workspace, GM_ADDR input, GM_ADDR destinations, const DispatchTiling& t,",
+        "__aicore__ inline void PeerScales(GM_ADDR workspace, GM_ADDR input, GM_ADDR destinations, const DispatchTiling& t,\n                                  uint32_t logical_role, uint32_t aux_owner,"
+      ],
+      [
+        "DispatchScalePipeline::Run<Profile>(workspace, t, plan, staging, metadata, wqe_scratch);",
+        "DispatchScalePipeline::Run<Profile>(workspace, t, plan, logical_role, aux_owner, staging, metadata, wqe_scratch);"
+      ]
+    ],
+    "scale_pipeline.hpp": [
+      [
+        "__aicore__ inline void Run(GM_ADDR workspace, const DispatchTiling& t, const PeerScalePlan& plan,",
+        "__aicore__ inline void Run(GM_ADDR workspace, const DispatchTiling& t, const PeerScalePlan& plan,\n                           uint32_t logical_role, uint32_t worker,"
+      ],
+      [
+        "    const uint32_t worker = AscendC::GetBlockIdx() - 32U;\n",
+        ""
+      ],
+      [
+        "t.profile + uint64_t(AscendC::GetBlockIdx()) * 256U",
+        "t.profile + uint64_t(logical_role) * 256U"
+      ]
+    ]
+  },
+  "device_authorized": false,
+  "native_compile_authorized": false,
+  "patch": {
+    "bytes": 8555,
+    "sha256": "d74707491a22a5a8b08646bed0c5d3eaf50440baec60f836bf2f153cc97b6815"
+  },
+  "remaining_physical": [
+    "candidate dispatch.cpp: one GetBlockIdx at top-level physical_role->logical_role=physical_role identity64.",
+    "Original peer_plan.hpp: NotifyDispatchPrefix/NotifyDispatchDirectory two independent physical partition uses unchanged; no Notify role refactor claimed.",
+    "low_latency subtree is separate entry and remains unchanged.",
+    "SHMEM/SDK internal physical worker/engine ownership is unchanged and not parameterized by this patch."
+  ],
+  "callsites": "Entire csrc search found only definitions/calls changed here; no external forward declarations found for these helper names in current files. Signature/definition sites included; C extern dispatch launcher ABI untouched.",
+  "uncompiled_risks": [
+    "AscendC/bisheng compile/link has not run. Header include order resolves CacheClosDirectories before peer_address in current entry; source checks do not prove device compiler compatibility.",
+    "No new launch guard or runtime role validation added; unchanged native launch64 remains precondition.",
+    "No changes to events/fences/quiet/SIMT/UDMA ordering intended; native identity64 accuracy still requires separate bounded hardware qualification."
+  ],
+  "harness": {
+    "prepare_patch.py": {
+      "bytes": 6931,
+      "sha256": "7a397c9274a6b09a3284a229a37c688dc0d6ad94b1c5a8d7d437b23c59932612"
+    },
+    "test_patch_cpu.py": {
+      "bytes": 6150,
+      "sha256": "1f5cba9a5710152678651f102382cb314f440e25fca047ef06e5695055810753"
+    }
+  }
+}

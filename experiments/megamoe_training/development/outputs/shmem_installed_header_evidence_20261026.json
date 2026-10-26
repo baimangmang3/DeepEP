@@ -1,0 +1,635 @@
+{
+  "scope": "Read-only selected headers and existing build metadata. No NPU query/Torch/native loading/build/driver action.",
+  "source_revision": "4dd80e2129da42bd773982c2bb3758af1ed0bba8",
+  "tracked_source_clean": true,
+  "CANN_build_record": {
+    "cann_version": "9.2.0",
+    "cann_timestamp": "20261015_201912253",
+    "target": "Ascend950",
+    "source_patches": []
+  },
+  "unique_header_byte_copies": 8,
+  "selected_source_and_public_files": [
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/include/device/gm2gm/engine/shmem_device_udma.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\installed_udma.h",
+      "bytes": 76299,
+      "current_sha256": "3cfee9f5228dca6cab4511f8a9d0d8d01fb6a1a7ad6629ef3af0e7489512c772",
+      "build_info_record_key": "include/device/gm2gm/engine/shmem_device_udma.h",
+      "build_info_recorded_sha256": "3cfee9f5228dca6cab4511f8a9d0d8d01fb6a1a7ad6629ef3af0e7489512c772",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": "3cfee9f5228dca6cab4511f8a9d0d8d01fb6a1a7ad6629ef3af0e7489512c772",
+      "Git_blob_path": "include/device/gm2gm/engine/shmem_device_udma.h"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device/gm2gm/engine/shmem_device_udma.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma.hpp",
+      "bytes": 119037,
+      "current_sha256": "b3a52aa082bd4c72341270a22d5fc2356f475370675ad4cc77642831ed4138df",
+      "build_info_record_key": "src/device/gm2gm/engine/shmem_device_udma.hpp",
+      "build_info_recorded_sha256": "b3a52aa082bd4c72341270a22d5fc2356f475370675ad4cc77642831ed4138df",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device/gm2gm/engine/shmem_device_udma.hpp"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device/gm2gm/engine/shmemi_device_udma.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma_queue.h",
+      "bytes": 13211,
+      "current_sha256": "f1d430ff5e984958f90eebf32543ce54f37920e6b2baa24e789b1145516aaa36",
+      "build_info_record_key": "src/device/gm2gm/engine/shmemi_device_udma.h",
+      "build_info_recorded_sha256": "f1d430ff5e984958f90eebf32543ce54f37920e6b2baa24e789b1145516aaa36",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device/gm2gm/engine/shmemi_device_udma.h"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/gm2gm/shmem_device_simt_rma.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_rma.hpp",
+      "bytes": 19000,
+      "current_sha256": "cb7ff0a12c0ac20eec53d00374bc4e8dd33edc6eefa96c6c36daac7bb1bcb83b",
+      "build_info_record_key": "src/device_simt/gm2gm/shmem_device_simt_rma.hpp",
+      "build_info_recorded_sha256": "cb7ff0a12c0ac20eec53d00374bc4e8dd33edc6eefa96c6c36daac7bb1bcb83b",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device_simt/gm2gm/shmem_device_simt_rma.hpp"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_mte.hpp",
+      "bytes": 5113,
+      "current_sha256": "d6ea26f6b5234190b62053b13913a241c5a60ccce0e1e676163f0c626644e6c5",
+      "build_info_record_key": "src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp",
+      "build_info_recorded_sha256": "d6ea26f6b5234190b62053b13913a241c5a60ccce0e1e676163f0c626644e6c5",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/shmemi_device_simt_common.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_common.h",
+      "bytes": 1316,
+      "current_sha256": "d884e1621cedff628c26c9df0e35dca98beb91d9a0385d7bc78a6bcc4756c5e7",
+      "build_info_record_key": "src/device_simt/shmemi_device_simt_common.h",
+      "build_info_recorded_sha256": "d884e1621cedff628c26c9df0e35dca98beb91d9a0385d7bc78a6bcc4756c5e7",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device_simt/shmemi_device_simt_common.h"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/shmemi_device_simt_common.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_common.hpp",
+      "bytes": 3358,
+      "current_sha256": "e71e8bc5719a5d04770ce0d35146e24e50750963fa5b83319e90a4d6ec225fb2",
+      "build_info_record_key": "src/device_simt/shmemi_device_simt_common.hpp",
+      "build_info_recorded_sha256": "e71e8bc5719a5d04770ce0d35146e24e50750963fa5b83319e90a4d6ec225fb2",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": null,
+      "Git_blob_path": "src/device_simt/shmemi_device_simt_common.hpp"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/include/device_simt/gm2gm/shmem_device_simt_rma.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\installed_simt_rma.h",
+      "bytes": 19951,
+      "current_sha256": "5d52fc2268ccbe4d70f779d1eb587417220040cff4e3a2761a424300473f0385",
+      "build_info_record_key": "include/device_simt/gm2gm/shmem_device_simt_rma.h",
+      "build_info_recorded_sha256": "5d52fc2268ccbe4d70f779d1eb587417220040cff4e3a2761a424300473f0385",
+      "matches_existing_build_info_header_entry": true,
+      "SDK_snapshot_entry": "5d52fc2268ccbe4d70f779d1eb587417220040cff4e3a2761a424300473f0385",
+      "Git_blob_path": "include/device_simt/gm2gm/shmem_device_simt_rma.h"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/build/megamoe-timer/temp.linux-aarch64-cpython-312/51b2b48f26e28ad6/device/CMakeFiles/deepep_kernels.dir/home/zzy/deploy/megamoe-20261024/DeepEP/csrc/kernels/dispatch/dispatch.cpp.o.d",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\build-records\\dispatch.cpp.o.d",
+      "bytes": 74453,
+      "current_sha256": "f8ce9a907afd4d7a2a632ecca2d0b4cc53360721b1452e21f42647b9f307b6c4",
+      "role": "existing build record; path/dependency evidence, not a fresh build"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/build/megamoe-timer/temp.linux-aarch64-cpython-312/51b2b48f26e28ad6/device/CMakeFiles/deepep_kernels.dir/flags.make",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\build-records\\device-flags.make",
+      "bytes": 1523,
+      "current_sha256": "d85db7827060e6e4bb2007a1bfd112da88b13f5c0496d9b1f4d0766d5ea3e825",
+      "role": "existing build record; path/dependency evidence, not a fresh build"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/build/megamoe-timer/temp.linux-aarch64-cpython-312/51b2b48f26e28ad6/device/CMakeFiles/deepep_kernels.dir/DependInfo.cmake",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\build-records\\device-DependInfo.cmake",
+      "bytes": 2730,
+      "current_sha256": "e7b864664a3b335067178c7232034a170f6d3cd063f2e14894f8717637e8f5d3",
+      "role": "existing build record; path/dependency evidence, not a fresh build"
+    }
+  ],
+  "current_installed_private_files": [
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device/gm2gm/engine/shmem_device_udma.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma.hpp",
+      "bytes": 119037,
+      "current_installed_sha256": "b3a52aa082bd4c72341270a22d5fc2356f475370675ad4cc77642831ed4138df",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device/gm2gm/engine/shmem_device_udma.hpp",
+      "build_info_key": "src/device/gm2gm/engine/shmem_device_udma.hpp",
+      "recorded_build_info_sha256": "b3a52aa082bd4c72341270a22d5fc2356f475370675ad4cc77642831ed4138df",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device/gm2gm/engine/shmemi_device_udma.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma_queue.h",
+      "bytes": 13211,
+      "current_installed_sha256": "f1d430ff5e984958f90eebf32543ce54f37920e6b2baa24e789b1145516aaa36",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device/gm2gm/engine/shmemi_device_udma.h",
+      "build_info_key": "src/device/gm2gm/engine/shmemi_device_udma.h",
+      "recorded_build_info_sha256": "f1d430ff5e984958f90eebf32543ce54f37920e6b2baa24e789b1145516aaa36",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt/gm2gm/shmem_device_simt_rma.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_rma.hpp",
+      "bytes": 19000,
+      "current_installed_sha256": "cb7ff0a12c0ac20eec53d00374bc4e8dd33edc6eefa96c6c36daac7bb1bcb83b",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/gm2gm/shmem_device_simt_rma.hpp",
+      "build_info_key": "src/device_simt/gm2gm/shmem_device_simt_rma.hpp",
+      "recorded_build_info_sha256": "cb7ff0a12c0ac20eec53d00374bc4e8dd33edc6eefa96c6c36daac7bb1bcb83b",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_mte.hpp",
+      "bytes": 5113,
+      "current_installed_sha256": "d6ea26f6b5234190b62053b13913a241c5a60ccce0e1e676163f0c626644e6c5",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp",
+      "build_info_key": "src/device_simt/gm2gm/engine/shmem_device_simt_mte.hpp",
+      "recorded_build_info_sha256": "d6ea26f6b5234190b62053b13913a241c5a60ccce0e1e676163f0c626644e6c5",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt/shmemi_device_simt_common.h",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_common.h",
+      "bytes": 1316,
+      "current_installed_sha256": "d884e1621cedff628c26c9df0e35dca98beb91d9a0385d7bc78a6bcc4756c5e7",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/shmemi_device_simt_common.h",
+      "build_info_key": "src/device_simt/shmemi_device_simt_common.h",
+      "recorded_build_info_sha256": "d884e1621cedff628c26c9df0e35dca98beb91d9a0385d7bc78a6bcc4756c5e7",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/src/device_simt/shmemi_device_simt_common.hpp",
+      "local_file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_common.hpp",
+      "bytes": 3358,
+      "current_installed_sha256": "e71e8bc5719a5d04770ce0d35146e24e50750963fa5b83319e90a4d6ec225fb2",
+      "matching_pinned_source_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/src/device_simt/shmemi_device_simt_common.hpp",
+      "build_info_key": "src/device_simt/shmemi_device_simt_common.hpp",
+      "recorded_build_info_sha256": "e71e8bc5719a5d04770ce0d35146e24e50750963fa5b83319e90a4d6ec225fb2",
+      "named_in_existing_dispatch_dependency": false,
+      "scope": "Current installed bytes; same raw local copy as byte-identical pinned source mirror. Existing build-info header hash binding is recorded separately from binary runtime observation."
+    }
+  ],
+  "SDK_manifest": {
+    "path": "/home/zzy/deploy/megamoe-20261024/logs/shmem-sdk-manifest.json",
+    "sha256": "f2b1c7f2255942c2fb553e7eeafec58a7b2e5ab770351ed82d9361bcb9926bc1"
+  },
+  "installed_DeepEP_build_info": {
+    "path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/_build_info.json",
+    "sha256": "b1665b45c9b8b6f2b6b48980e4b6e35d09a5d7252f12ffefe4edad4cff3701ce",
+    "has_explicit_private_header_SHA_inventory": true,
+    "all6_selected_private_entries_match_current_install_src": true,
+    "all8_selected_header_entries_match": true
+  },
+  "existing_build_records": {
+    "flags": "work\\shmem_runtime_header_review_20261026\\build-records\\device-flags.make",
+    "dispatch_dependency": "work\\shmem_runtime_header_review_20261026\\build-records\\dispatch.cpp.o.d",
+    "flags_include_install_src": true,
+    "private_header_names_present_in_collected_dispatch_dependency": []
+  },
+  "source_index": {
+    "SO_CQE_config": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\installed_udma.h",
+      "lines": [
+        18,
+        34
+      ]
+    },
+    "CQE_flag_encoding": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma.hpp",
+      "lines": [
+        39,
+        90
+      ]
+    },
+    "queue_state": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma_queue.h",
+      "lines": [
+        71,
+        101
+      ]
+    },
+    "compute_slot": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma.hpp",
+      "lines": [
+        748,
+        760
+      ]
+    },
+    "qp_quiet": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_udma.hpp",
+      "lines": [
+        1260,
+        1280
+      ]
+    },
+    "SIMT_put128_macro": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_rma.hpp",
+      "lines": [
+        55,
+        88
+      ]
+    },
+    "SIMT_address_translation_and_copy": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_mte.hpp",
+      "lines": [
+        42,
+        90
+      ]
+    },
+    "SIMT_threadgroup_sync": {
+      "file": "work\\shmem_runtime_header_review_20261026\\headers\\source_simt_common.hpp",
+      "lines": [
+        61,
+        68
+      ]
+    }
+  },
+  "already_captured_runtime_binary_evidence": {
+    "run": "20261026_0526_p2_overlap_once",
+    "raw_rank_report": "outputs\\training_results_20261026_0526_p2_overlap_once\\p2-ep2-bf16-overlap\\rack05os7\\rank0.json",
+    "raw_report_sha256": "9b9032926fdc5003aa9fab64e0aa5c0fec9b0a758d5190bfcd91d19ad83d5beb",
+    "actual_FD_mapped_objects": {
+      "identity": [
+        {
+          "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib/libshmem.so",
+          "mapped_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib/libshmem.so",
+          "sha256": "9105bcc0a5022d70123291a55ac23cdf6b94e0a594ec296b709b43bb6cdbd8b3",
+          "bytes": 4275432,
+          "device": 66309,
+          "inode": 46027749,
+          "map_device_major": 259,
+          "map_device_minor": 5,
+          "map_inode": 46027749,
+          "map_entries": [
+            {
+              "line": 43,
+              "address_range": "fffe58da0000-fffe58f71000",
+              "permissions": "r--p",
+              "offset": "00000000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 44,
+              "address_range": "fffe58f71000-fffe58f80000",
+              "permissions": "---p",
+              "offset": "001d1000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 45,
+              "address_range": "fffe58f80000-fffe590c9000",
+              "permissions": "r-xp",
+              "offset": "001d0000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 46,
+              "address_range": "fffe590c9000-fffe590d8000",
+              "permissions": "---p",
+              "offset": "00329000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 47,
+              "address_range": "fffe590d8000-fffe590e1000",
+              "permissions": "r--p",
+              "offset": "00318000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 48,
+              "address_range": "fffe590e1000-fffe590f0000",
+              "permissions": "---p",
+              "offset": "00341000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 49,
+              "address_range": "fffe590f0000-fffe591e4000",
+              "permissions": "rw-p",
+              "offset": "00320000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            }
+          ],
+          "logical_role": "loaded/libshmem.so"
+        },
+        {
+          "path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/libdeepep_kernels.so",
+          "mapped_path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/libdeepep_kernels.so",
+          "sha256": "b075ec52b9fa6d1587b6c15ab537e85d8459c6b600121d6fb980b8b1cbfe4c17",
+          "bytes": 3509240,
+          "device": 66309,
+          "inode": 46140683,
+          "map_device_major": 259,
+          "map_device_minor": 5,
+          "map_inode": 46140683,
+          "map_entries": [
+            {
+              "line": 36,
+              "address_range": "fffe58a30000-fffe58bd5000",
+              "permissions": "r--p",
+              "offset": "00000000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 37,
+              "address_range": "fffe58bd5000-fffe58be4000",
+              "permissions": "---p",
+              "offset": "001a5000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 38,
+              "address_range": "fffe58be4000-fffe58c06000",
+              "permissions": "r-xp",
+              "offset": "001a4000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 39,
+              "address_range": "fffe58c06000-fffe58c15000",
+              "permissions": "---p",
+              "offset": "001d6000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 40,
+              "address_range": "fffe58c15000-fffe58c19000",
+              "permissions": "r--p",
+              "offset": "001c5000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 41,
+              "address_range": "fffe58c19000-fffe58c28000",
+              "permissions": "---p",
+              "offset": "001e9000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 42,
+              "address_range": "fffe58c28000-fffe58d91000",
+              "permissions": "rw-p",
+              "offset": "001c8000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            }
+          ],
+          "logical_role": "package/deep_ep/libdeepep_kernels.so"
+        }
+      ],
+      "identity_final": [
+        {
+          "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib/libshmem.so",
+          "mapped_path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib/libshmem.so",
+          "sha256": "9105bcc0a5022d70123291a55ac23cdf6b94e0a594ec296b709b43bb6cdbd8b3",
+          "bytes": 4275432,
+          "device": 66309,
+          "inode": 46027749,
+          "map_device_major": 259,
+          "map_device_minor": 5,
+          "map_inode": 46027749,
+          "map_entries": [
+            {
+              "line": 78,
+              "address_range": "fffe58da0000-fffe58f71000",
+              "permissions": "r--p",
+              "offset": "00000000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 79,
+              "address_range": "fffe58f71000-fffe58f80000",
+              "permissions": "---p",
+              "offset": "001d1000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 80,
+              "address_range": "fffe58f80000-fffe590c9000",
+              "permissions": "r-xp",
+              "offset": "001d0000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 81,
+              "address_range": "fffe590c9000-fffe590d8000",
+              "permissions": "---p",
+              "offset": "00329000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 82,
+              "address_range": "fffe590d8000-fffe590e1000",
+              "permissions": "r--p",
+              "offset": "00318000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 83,
+              "address_range": "fffe590e1000-fffe590f0000",
+              "permissions": "---p",
+              "offset": "00341000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            },
+            {
+              "line": 84,
+              "address_range": "fffe590f0000-fffe591e4000",
+              "permissions": "rw-p",
+              "offset": "00320000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46027749
+            }
+          ],
+          "logical_role": "loaded/libshmem.so"
+        },
+        {
+          "path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/libdeepep_kernels.so",
+          "mapped_path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/libdeepep_kernels.so",
+          "sha256": "b075ec52b9fa6d1587b6c15ab537e85d8459c6b600121d6fb980b8b1cbfe4c17",
+          "bytes": 3509240,
+          "device": 66309,
+          "inode": 46140683,
+          "map_device_major": 259,
+          "map_device_minor": 5,
+          "map_inode": 46140683,
+          "map_entries": [
+            {
+              "line": 71,
+              "address_range": "fffe58a30000-fffe58bd5000",
+              "permissions": "r--p",
+              "offset": "00000000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 72,
+              "address_range": "fffe58bd5000-fffe58be4000",
+              "permissions": "---p",
+              "offset": "001a5000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 73,
+              "address_range": "fffe58be4000-fffe58c06000",
+              "permissions": "r-xp",
+              "offset": "001a4000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 74,
+              "address_range": "fffe58c06000-fffe58c15000",
+              "permissions": "---p",
+              "offset": "001d6000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 75,
+              "address_range": "fffe58c15000-fffe58c19000",
+              "permissions": "r--p",
+              "offset": "001c5000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 76,
+              "address_range": "fffe58c19000-fffe58c28000",
+              "permissions": "---p",
+              "offset": "001e9000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            },
+            {
+              "line": 77,
+              "address_range": "fffe58c28000-fffe58d91000",
+              "permissions": "rw-p",
+              "offset": "001c8000",
+              "device": "103:05",
+              "device_major": 259,
+              "device_minor": 5,
+              "inode": 46140683
+            }
+          ],
+          "logical_role": "package/deep_ep/libdeepep_kernels.so"
+        }
+      ]
+    }
+  },
+  "current_disk_binary_hashes": [
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/DeepEP/third-party/shmem/install/shmem/lib/libshmem.so",
+      "bytes": 4275432,
+      "sha256": "9105bcc0a5022d70123291a55ac23cdf6b94e0a594ec296b709b43bb6cdbd8b3",
+      "scope": "current disk binary only; not a new actual mapped observation"
+    },
+    {
+      "path": "/home/zzy/deploy/megamoe-20261024/training/venv/lib/python3.12/site-packages/deep_ep/libdeepep_kernels.so",
+      "bytes": 3509240,
+      "sha256": "b075ec52b9fa6d1587b6c15ab537e85d8459c6b600121d6fb980b8b1cbfe4c17",
+      "scope": "current disk binary only; not a new actual mapped observation"
+    }
+  ],
+  "boundaries": [
+    "Current installed include/src paths and SHA are separately recorded; six installed private files were explicitly read and byte-match the saved pinned repository mirrors.",
+    "The installed _build_info.json explicitly records these private header SHA values; SDK snapshot also binds public headers and libshmem SHA. This is existing build metadata, not a newly executed build.",
+    "The collected flags.make names install/shmem/include and install/shmem/src. The collected dispatch.cpp.o.d lists host SHMEM includes but not the selected private header names. Do not claim that this dependency file proves every preprocessed device include or actual relay/template branch.",
+    "Actual loaded libshmem9105 and kernelb075 evidence is from the already accepted0526 worker initial/final FD snapshots. New binary reads in discovery are current disk hashes only; no new mapped process was inspected.",
+    "SO/CQE/quiet/compute_slot and SIMT copy bodies are source evidence only. Actual CQ/SQ aliasing, runtime relay branch, payload visibility and source-DMA lifetime are not hardware-validated here. No conclusion is inferred solely from comments or absence of quiet/fence."
+  ],
+  "copy_root": "work\\shmem_runtime_header_review_20261026"
+}

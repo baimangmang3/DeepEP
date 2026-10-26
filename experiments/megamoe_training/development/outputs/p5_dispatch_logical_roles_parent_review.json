@@ -1,0 +1,39 @@
+{
+  "status": "identity64 source patch accepted; isolated CPU compilation preparation authorized",
+  "owner": "/root/reference_validation",
+  "scope": "Root read the entire seven-file patch and original Dispatch/helper call chains. This is an explicit-parameter refactor with the original vector-only64 mapping, not a32-role or mixed-kernel implementation.",
+  "patch_sha256": "d74707491a22a5a8b08646bed0c5d3eaf50440baec60f836bf2f153cc97b6815",
+  "manifest_sha256": "b0e63246c9bc5d6bbd279a7e451abb62dbe23cf9823276a6e4bd4c9c0bd641eb",
+  "CPU_report": "outputs/p5_dispatch_logical_roles_cpu_review.json",
+  "CPU_report_sha256": "03d430eca0a27b8f3d5233dc885c2cad4a15aa9c5cf421f6f1ca8d90f943564d",
+  "accepted_changes": [
+    "Dispatch reads physical GetBlockIdx once and assigns logical_role=physical_role. Existing core branches, hidden state, profile indices, launch64 and participant count remain unchanged.",
+    "Descriptor publisher0, Clos directory cache8..23 and final incoming poller7 receive that same logical_role explicitly.",
+    "Only the original core>=32 branch computes aux_owner=logical_role-32. Weight and scale helpers receive owner separately from profile role; role is identical to prior owner+32 and physical index in this version.",
+    "PeerScales retains its existing metadata/staging argument order while threading role/owner to the scale implementation. SyncAll, event IDs, waits, SO/quiet, payload/activation math and communication order are unchanged in the patch.",
+    "Notify peer_plan partitioning and low-latency kernels remain unchanged and outside this patch. No mutable global role, TLS, mixed role mapping or new readiness protocol was introduced."
+  ],
+  "validation_scope": "Eight targeted CPU groups passed: exact before/after pinning, patch apply reproduces candidate bytes, inverse rewrite restores original bytes, helper parameter wiring including a missing-owner negative case, identity64 coverage/profile offsets and explicit exclusions. These are source checks, not AscendC compiler or NPU validation.",
+  "next_preparation": {
+    "local_only": true,
+    "purpose": "Prepare isolated original and candidate Dispatch TU CPU compilation using the retrieved actual bisheng device flags, with exact source closure, compiler/SDK binding, raw return codes/warnings/object/device-ELF identities. Compare outputs under matched path remapping where supported.",
+    "failure_policy": "A compile or identity failure stops dependent actions and retains raw logs. Do not run the unchanged failed command again.",
+    "required_before_remote": "Root review of concrete script, source/SDK/tool pins, bounded lifecycle and scope. The current source acceptance is not a deployment or execution permission."
+  },
+  "native_compile_authorized": false,
+  "deployment_authorized": false,
+  "device_authorized": false,
+  "performance_qualified": false,
+  "historical_failure": "No causal claim or fix for1431 follows from a role-parameter refactor.",
+  "compile_preparation_review": {
+    "initial_plan": "outputs/p5_identity64_compile_preparation.json",
+    "status": "root requested corrections before remote execution",
+    "findings": [
+      "Device symbol coverage must be the union across verified device ELFs, with per-symbol evidence; requiring both kernels in one ELF could reject genuine per-kernel outputs.",
+      "Compiler timeout must capture actual PID-start/returncode and retire only confirmed own descendants; killing only driver may leave CPU children. Preserve uncertainty.",
+      "New compiler-reported project dependencies must also match source manifest membership and hashes; being under the source root is not sufficient."
+    ],
+    "reference_fixing": true,
+    "remote_execution_authorized": false
+  }
+}

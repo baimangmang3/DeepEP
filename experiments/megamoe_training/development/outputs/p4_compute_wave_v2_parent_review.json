@@ -1,0 +1,46 @@
+{
+  "status": "One-shot CPU build passed; vector-loop compatibility warning removed; no device or performance qualification",
+  "source_root": "work/training_candidates/p4_wave_compute_v2",
+  "source_manifest_sha256": "81d9290752168ba3e2bf6b625fec9a0bfa14e2e386166e179ce83f5c6e328949",
+  "native_source_sha256": "80a4c88e937b5b580faae3414922f2371846cfc216d04b6704ad37460c913fb4",
+  "patch_sha256": "a5bf72a54ad3ad4b5ee81965d95f92f2e5291d5283229048531a7ea22b4411ba",
+  "CPU_equivalence_sha256": "a58087ea18b2fd7333e48aa73e0b94b83f360223d76ccaf175df0a955881a0b3",
+  "parent_build_audit": "outputs/p4_compute_wave_build/CPU-build-audit.json",
+  "parent_source_and_SO_preserved": true,
+  "review": "Root read the exact two-line diff and source, manifest and arithmetic evidence. Precompute const uint16_t vector_chunks before VEC and use it as the loop bound. For actual cols128/256 and a positive vector width the quotient is at most256, so narrowing is exact. All other five pinned files, vector arithmetic/casts, fences, flags and ABI/backend string remain unchanged. Source identities distinguish v1 and v2. Actual compiler result must verify whether the Wcce-compat warning disappears; CPU arithmetic does not prove compiler lowering or device execution.",
+  "cpu_compile_permission": {
+    "approved": true,
+    "consumed": true,
+    "count": 1,
+    "owner": "/root/environment",
+    "host": "177.22.27.1",
+    "remote_root": "/home/zzy/deploy/megamoe-20261024/training/candidate-p4-compute-wave-v2-build-20261026",
+    "scope": "New directory, exact six source files, same pinned CATLASS/CANN/compiler and flags as accepted v1. Configure/build once, retain actual exit codes, full logs and warnings, source/toolchain hashes, SO hash and ELF dependencies. Explicitly compare the vector-condition warning. No native library load, Torch import, NPU query or initialization.",
+    "stop_condition": "On configure/build failure preserve first error and true rc, stop this chain and do not repeat unchanged command. A remaining/new compatibility warning is reported for root review. Do not silently change flags or source.",
+    "occupancy": "No NPU ownership recheck before05:25:04.814088 CST; this CPU build is independent of pending exact EP2 overlap and conditional EP16 serial permissions."
+  },
+  "device_authorized": false,
+  "performance_authorized": false,
+  "qualification": false,
+  "next": "Bind independent component validator to actual successful v2 SO and source; root reviews a bounded device contract separately. No automatic device successor.",
+  "build_result": {
+    "audit": "outputs/p4_compute_wave_v2_build/CPU-build-audit.json",
+    "audit_sha256": "56877b938a8be8394b2d609520bb0c22f4e7c3fbf52efeae18980cecb219d057",
+    "comparison": "outputs/p4_compute_wave_v2_build/v1-v2-source-toolchain-warning-comparison.json",
+    "SO_sha256": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+    "rc": {
+      "ldd": 0,
+      "readelf": 0,
+      "build": 0,
+      "configure": 0,
+      "overall": 0
+    },
+    "build_PID": 4045253,
+    "build_start_ticks": 23701312,
+    "build_PID_start_gone": true,
+    "Wcce_compat_removed": true,
+    "remaining_warning_count": 13,
+    "new_warning_count": 0,
+    "scope": "Build and saved ELF inspection only; native not loaded and no Torch/NPU activity"
+  }
+}

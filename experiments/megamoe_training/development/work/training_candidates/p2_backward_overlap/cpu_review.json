@@ -1,0 +1,33 @@
+{
+  "scope": "CPU source and symbolic lifecycle review only; no NPU, no native build, no performance qualification",
+  "source_sha256": {
+    "__init__.py": "67cc087f7091e31315742ed34d021599bbcaff7af20b190ef45273289183af02",
+    "training_adapter.py": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce"
+  },
+  "checks": {
+    "forward": "Exactly delegates actual P1 Function.forward using P2 context",
+    "shared": "Uses exact _SharedP1.apply; source does not add shared overlap",
+    "math": "dP uses saved rounded unweighted Z, gate enters dZ once. Independent dA/dGU/dXe precede async combine; dW1/dW2 remain FP32 with leaf casts. No rematerialization/clamp or changed expert reduction order.",
+    "lifetime": "Context/local references retain dGU/Xe/dZ/A during both dWs. Successful HT combine creates real EventOverlap; final wait registers retained tensors on consumer stream before release. Both dW exceptions and missing dp enter finally wait. No event cannot be drained and is rejected before dW.",
+    "schedule": "Serial inserts an early wait and a final release wait; overlap submits both dWs before final release wait. Serial therefore has two event-wait calls, overlap one, as explicitly designed; their overhead remains part of full step. Actual device concurrency/resource contention remains unverified."
+  },
+  "CPU_executed": {
+    "symbolic_backward_cases": 10,
+    "actual_EventOverlap_method_case": 1,
+    "all_passed": true,
+    "results": "tests/lifecycle_cpu_results.json",
+    "py_compile": true
+  },
+  "CPU_Torch_prepared": {
+    "file": "tests/test_math_cpu.py",
+    "execution": "COMPLETED by environment CPU-only isolation;36 checks passed, source hashes match. No NPU/transport qualification.",
+    "cases": 32,
+    "autograd_failure_cases": 4,
+    "reference": "Reuses independent expert segmented-autograd VJP from ep_gmm CPU test; dP itself uses autograd on linear gate product. Frozen statistics/LIMITS reused; not a copy of P2 manual backward formula.",
+    "candidate": "Actual torch.autograd.Function.apply for routed and shared P1/P2, CPU communication/GEMM/pointwise stubs. P0 CPU helper rewrites only original validator device check.",
+    "coverage": "4 routes x2 schedules xBF16/FP32 xshared yes/no, Y/dx/dp/FP32/leaf/shared gradients, zero-gate dP, event and dW launch failures.",
+    "evidence": "outputs/p2_training_math_cpu/cpu-results.json"
+  },
+  "findings": "No concrete mathematical or source lifetime defect found; P2 module files unchanged. No proof of physical stream overlap or all-rank error convergence from CPU stubs.",
+  "required_later": "Separate P2 identity must bind actual schedule and dependencies; no P0/P1 report can qualify P2. CPU Torch run, then separate authorized NPU full-gradient/repeated/allocator tests before any performance."
+}

@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "base_git": "35fa7d91b321340c153b098bf166202645976a75",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "020c2606e8ed484089c2083e0be438b9d0736bee1558a6b76af0d58bd23f69cf",
+      "bytes": 8
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "3a22f9f786b192e0f5893e846d1f168ccf1400c61b5e199525bc916bb80cafd8",
+      "bytes": 1982
+    },
+    {
+      "path": "megamoe_training/__init__.py",
+      "sha256": "3111370b22bd6d61ebbfbd2bdc17ce98ed6bca80309d7e06576c439e59ab2c38",
+      "bytes": 61
+    },
+    {
+      "path": "megamoe_training/gemm.py",
+      "sha256": "26171a5ceaa770adcdbcc9f8929e8a973370f8980680897a2239b23e5c75db2a",
+      "bytes": 3535
+    },
+    {
+      "path": "megamoe_training/training.py",
+      "sha256": "70b21733ca3756493801d29ed2a8a2302927e65dfe7522bb905908015729af11",
+      "bytes": 8325
+    },
+    {
+      "path": "native/gemm.cpp",
+      "sha256": "a7c4363f9ce555436ef53b340a20f538e29f01e2560c1f5739c1fcd28f13e520",
+      "bytes": 2885
+    },
+    {
+      "path": "README.md",
+      "sha256": "64cac66030feba2b062c7b2616855b8f9426bb00a5083fbf48c0fc20c6dc8647",
+      "bytes": 4699
+    },
+    {
+      "path": "tests/benchmark_compare.py",
+      "sha256": "3fda51b5662fee9f6e0dbe6a25ce02004e789f6ec4bc6e222920eb6322d1f4f7",
+      "bytes": 14234
+    },
+    {
+      "path": "tests/cann_baseline.py",
+      "sha256": "229f7f7a112d8c1662c1dc6e76d896cd0bd2b3dcc853a60a4eec175772139368",
+      "bytes": 7191
+    },
+    {
+      "path": "tests/cann_training.py",
+      "sha256": "6dcca3800b82ae54e57e00a83098792302ad411a2a2cc0ce3299d54a0c9dbfad",
+      "bytes": 5757
+    },
+    {
+      "path": "tests/provenance.py",
+      "sha256": "7fda215ad138256d2157020a40180cc75476875e7f54ef9aecbe5b4ccc2d3755",
+      "bytes": 11849
+    },
+    {
+      "path": "tests/README.md",
+      "sha256": "78b34e67137a6787aa4412e8c5f35f643b45b4385a27af987d418c81128438ac",
+      "bytes": 10122
+    },
+    {
+      "path": "tests/test_native_gemm.py",
+      "sha256": "0999f71f1b34d925a40add5fb215b262e40b4bf5b5a13911310b00375ccf3e0c",
+      "bytes": 2263
+    },
+    {
+      "path": "tests/test_provenance.py",
+      "sha256": "cfb5ae0665e753ebb5437ced36bce9ae7aec967b62c2f07011d0a0ca614a359c",
+      "bytes": 9183
+    },
+    {
+      "path": "tests/test_training_math_cpu.py",
+      "sha256": "2fd903b6ae80ff52db8418232763347b4b2151d5078f1f1ef76322a413b84f18",
+      "bytes": 8733
+    },
+    {
+      "path": "tests/validate_training_npu.py",
+      "sha256": "a71f8083a054153085ccafea4b4a2e769649287d60b796cd808d9a310ce975d0",
+      "bytes": 19223
+    }
+  ],
+  "native_library_sha256": "f26ddcb4ea287d10f9b45bdc7bc29b44d03c79304c530960abad46d750fecf32"
+}

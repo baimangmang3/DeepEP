@@ -1,0 +1,56 @@
+{
+  "date_beijing": "2026-10-26",
+  "status": "isolated_schema2_CPU_preflight_completed_once",
+  "decision": "Both actual isolated P1 schema2 CPU preflights passed once:rc0, eight configurations each,34 FD maps initial/repeat-final, stable digest, per-configuration cross-host match, before/after NPU/PG false and no owner. No NPU or performance qualification; existing gate/deployments preserved.",
+  "root": "work/training_candidates/p1_qualification_review",
+  "manifest_sha256": "a5b455f47b40efa6f08faae1c96855c4e335872558b33718af095aa794984129",
+  "patch_sha256": "36dc6b7f94654c55da1e3deaa17b97e594797e48dcfc79541c14ab25f8dcd16d",
+  "provenance_sha256": "efa85107e0e4495d5db2d98c04db1bc1e489a28da48fcc6bcc3ab00d0babcd69",
+  "validator_sha256": "ad3e3b6c6bbc92a3d92c320f2afc75b58bd59fb9271b5d62ac6d7530d9091f3f",
+  "gate_sha256": "bc47f434444224550f327943c0e0f931280d4685264115060dc1af5288cfb1f5",
+  "mapped_identity_sha256": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+  "CPU_checks": 51,
+  "review": [
+    "Actual archived cold/main reports have only initial identity. A synthetic legal dependency addition demonstrates a potential exact-initial-digest false rejection, but this is not evidence that the old runs encountered that rejection.",
+    "Schema p1-training-2 source-pins the byte-exact existing FD helper. Worker initial/final collectors retain raw map results and all FD objects. Base native/dependency objects and pointwise must match actual loader exact paths, bytes and SHA; dev/inode/segments are validated by the helper.",
+    "Actual imported package roots distinguish deep_ep._C from torch_npu._C. Canonical cross-host identity excludes physical inode/path while retaining stable logical roles/hash/bytes; unknown collisions fail closed.",
+    "Final collection occurs after case close and before PG teardown, including failure paths. Host-only rank/digest convergence preserves the first body/collector error. No added device barrier, model synchronization or SHMEM protocol change.",
+    "All original candidate source/native/execution and base version/precision/source/native/old dependencies remain immutable. Only lazy dependencies/maps may be added. P1 performance consumption requires final exact match to current and complete all-rank final/cleanup evidence; missing-final old reports are not reinterpreted.",
+    "Adapter/native/math/thresholds and old reports are untouched. CPU tests include archived P0 routed/shared and CANN gate compatibility, actual dual-C FD fixtures and negative mutations. Modeled final identities used by tests do not confer training qualification."
+  ],
+  "known_boundaries": [
+    "Actual revised collector/import/final convergence has not yet run in the target environment.",
+    "0310 was manually aborted after new in-flight foreign occupancy. Its raw176 metric pass, missing real exit codes and missing supplemental FD remain separate evidence; this patch cannot retroactively fill gaps.",
+    "This is an audit/qualification correction, not a demonstrated fix for1431, a proof of environmental causality, or physical overlap/performance evidence."
+  ],
+  "NPU_authorized": false,
+  "performance_qualification": false,
+  "automatic_device_successor": false,
+  "CPU_preflight": {
+    "probe": "work/p1_qualification_cpu_probe.py",
+    "probe_sha256": "8767232898410a80536fade958683e3dc13fc3dd49eec463f15a37d0580d5d5e",
+    "preparation": "work/p1_qualification_cpu_probe_preparation.json",
+    "remote_root": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-qualification-schema2-20261026",
+    "planned_configurations": 8,
+    "timeout_seconds": 120,
+    "before_after_require": "NPU false, PG false, ElasticBuffer owner none",
+    "required": "All native/dependency and pointwise exact FD binding; both imported package _C; stable repeat identity/final policy; corresponding config identity equal across hosts; exact source pins and actual rc/stdout/stderr.",
+    "new_directory_only": true,
+    "replace_existing_gate": false,
+    "on_error": "Stop and preserve raw first failure; no repeated command.",
+    "authorization_consumed": true,
+    "result": {
+      "summary": "outputs/p1_schema2_cpu_deployment/cpu-summary.json",
+      "summary_sha256": "43ceb44b35c8c92beb9b9462c15ef1fc30d6f212e0a0f9358d7b65f2e1e79845",
+      "rc": [
+        0,
+        0
+      ],
+      "plans_each": 8,
+      "FD_maps_initial_and_final_each": 34,
+      "cross_host_mismatches": 0,
+      "before_after_initialized": false,
+      "owner": false
+    }
+  }
+}

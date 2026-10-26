@@ -1,0 +1,83 @@
+{
+  "pinned_revision": "35fa7d91b321340c153b098bf166202645976a75",
+  "scope": "Isolated EP16 candidate source only; not built, initialized or qualified",
+  "files": [
+    {
+      "path": "experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/runtime.py",
+      "original_sha256": "d64b1f092fda21e61002e54ec5955705854ba12068c06e2cab5c9dfaff101ec3",
+      "candidate_sha256": "f0d13f1de5814c511bd4474aa806e52068685a138ecd712e96e19122f13259f2"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/ops.py",
+      "original_sha256": "39a6f64909ec4a31dee5de8862a66535026cd178f924698b7dad44990cfcf446",
+      "candidate_sha256": "57344593f053e7247f971bc0eb68b5a7c71920029d00c9a57fca29a53da8a5c1"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/_tiling.py",
+      "original_sha256": "ade090e6940a9c1c900900229ea3d8ea2d1226b75cfe57f59f94e1caacb3bb0b",
+      "candidate_sha256": "cd5eb5e02b991822859cb1c2a297de1f2e396acb6c30e89bc9a1d45856cdab75"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma.cpp",
+      "original_sha256": "9d5ea6502be896a566abdbcc0c2972efa84dd5e7d650e8081a0e80f486c2295c",
+      "candidate_sha256": "cf17a3e8721dde2b06679094c507b5f552f74275c6433d9d1adefcbbdbb83a85"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/udma_runtime.cpp",
+      "original_sha256": "654d3c6a140a0b85cd1a8ad2d66e48619df5e4383f774b34ccad26997b443be8",
+      "candidate_sha256": "f940649faab79a278463fd2b7d57dc3cf373f9121a5f4ccb67ae531926cf70b6"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma_device.hpp",
+      "original_sha256": "71e4299bab605fba4507a32b5bc5a1ba8430896926d1d4bd641bfb0d3624f0fe",
+      "candidate_sha256": "cdd3766409dc6a3a7e08469b5323df9e4dface66e74ab872d56bdb30a2ed3083"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma.cpp",
+      "original_sha256": "7845e430ed493317f00e457928a7fa75dac7f0f2c1d1242a97567f62a8d52846",
+      "candidate_sha256": "4750845f8bceb4076540e5e46e6952866e5089d7a705928b42345a218a0e632c"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma_device.hpp",
+      "original_sha256": "064027af8a10005dfb08de335f6141dc7a60052e2bd9f3313cacb274c2a34983",
+      "candidate_sha256": "4d80898de8bdefef508292833592918f6926de1cbd768dc8d93ffc1364c2dc63"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/tiling_validation.hpp",
+      "original_sha256": "e4d45df69b21341278bcb94329060076bbc53dc126bc52c804b6cec6fd6ed85e",
+      "candidate_sha256": "969a68c7d4cc1d6a92b0e051ed0f41fafe0c2db968aeba535bd352f4e1cd739f"
+    },
+    {
+      "path": "experiments/ep_gmm_fused/csrc/catccos_overlay/include/catccos/dgemm/moe_route_metadata.hpp",
+      "original_sha256": "42218c4cd08ba988ef1d0b26c32f67acad36b115d7fc72c8eb74a1e1675b35f8",
+      "candidate_sha256": "c518858f3a0e528de89d7dc9cb24232736441ae2b2c99790b5ce425816cc6058"
+    },
+    {
+      "path": "csrc/runtime/session.cpp",
+      "original_sha256": "33f24c9590f444ad227b68d9a99671ac9c0ff6e99a8d7b519ddc108966eb74ad",
+      "candidate_sha256": "e81daf07fc7a0a6f0379619434ca2eb65ee97a0cc696530e1dc250dd45a4cf08"
+    }
+  ],
+  "UDMA_only": "Session::create_udma guard only; general HT Session constructor unchanged",
+  "ABI": "candidate Python and native must match; pinned originalEP8 remains separate and unchanged",
+  "defaults": "EP<=8 profiles unchanged. EP16 up1024/2stage/384MiB; down128/2stage/48MiB, interval12, copy nominal32/effective10 at N6144. Explicit32 fails UB.",
+  "unverified": [
+    "SHMEM16-peer connection/channel capacity and init/cleanup",
+    "CANN compile/stack/register/UB effects of expanded scheduler arrays",
+    "quiet/ready/recycle liveness with empty/skew/repeated/queued cases",
+    "full BF16/FP32-master/shared autograd qualification"
+  ],
+  "patch_sha256": "4dc5a3073a0dec8f45bd2f4c49d2a00ed6fea8d5f6c5fa49eb2535ba5747b839",
+  "cpu_result_summary": {
+    "checks": 1421,
+    "old_profile_cases": 432,
+    "worker_mapping_cases": 944,
+    "array_declarations_audited": 25,
+    "host_header_Python_ctypes_agreement_and_negative_test": true,
+    "pinned_selected_files_unchanged": true,
+    "git_apply_check": true,
+    "CXX_compile": "not run; standalone CPU header test prepared"
+  },
+  "ABI_review_fix": "Parent review caught stale host12880 assertion; now25232, segment24 unchanged. Cross-file native-host/header/Python/ctypes gate and injected-old-host negative added.",
+  "residual_scan": "abi_residual_scan.json: 50 operator source files plus dedicated Session file (51 total); no unclassified old ABI/active bound sites"
+}

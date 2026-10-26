@@ -1,0 +1,78 @@
+[
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include/aclnnop/aclnn_allto_allv_grouped_mat_mul.h",
+    "sha256": "12f0b8fa5e4e6e807fb217cf0a0955f58000229a376fd40c8d9a447dd71de1da"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include/aclnnop/aclnn_allto_allv_grouped_mat_mul_v2.h",
+    "sha256": "475f9c1715fe80a2c9991c58834de642f80de547fc9717419ebcbfaf58db92aa"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include/aclnnop/aclnn_grouped_mat_mul_allto_allv.h",
+    "sha256": "08b1af16fefb9dc0f94d70c90decc53cd0c911aa5c69532ee3e7b3ec32995e09"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/include/aclnnop/aclnn_grouped_mat_mul_allto_allv_v2.h",
+    "sha256": "ef3025372ce5af5ab44470fd73e44ab3d95303cf795accccb74df480785d59f0"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/allto_allv_grouped_mat_mul/op_kernel/allto_allv_grouped_mat_mul.cpp",
+    "sha256": "1f96e580ba6ca4b234bb63111b5d8f410900826003fe098851e35fd673815bd8"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/allto_allv_grouped_mat_mul/op_kernel/allto_allv_grouped_mat_mul_tiling_key.h",
+    "sha256": "96e6cefc4fe0fa84446f37a0ed2634e5e4f5a9a22f97a732b602bb12bc496fdf"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/dynamic/allto_allv_grouped_mat_mul.py",
+    "sha256": "fc0b7655492ab0102ea90a190812bbcdbbbeaf51802b658913fb40cd81e4f583"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/config/ascend950/ops_transformer/allto_allv_grouped_mat_mul.json",
+    "sha256": "e232971ef52873172f68a4519a3d929c226a08d591ea736093aac32421dff14b"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/ascend950/ops_transformer/allto_allv_grouped_mat_mul/AlltoAllvGroupedMatMul_556dfeb44368a8992204d6dae2b2f3be.json",
+    "sha256": "e16c882b70c4490d617d464681ec12c545bf52019c6505a3747253f8bb8e7681"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/ascend950/ops_transformer/allto_allv_grouped_mat_mul/AlltoAllvGroupedMatMul_62c6ece26f6deb532242bc49d39e4920.json",
+    "sha256": "e0510d85cfdfd1572fdc28b79a01cd2a4edb9b0f08579a395ca4537c8b6a261c"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/grouped_mat_mul_allto_allv/op_kernel/grouped_mat_mul_allto_allv_a3.cpp",
+    "sha256": "7f8127aaaca215d1a947a96f1a5adf2745cd5b36965c5704a970ae4cf0f9299c"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/grouped_mat_mul_allto_allv/op_kernel/grouped_mat_mul_allto_allv.cpp",
+    "sha256": "2200bf45952380a2e19190745702dc03ca510befe2eaf6c245d503c2a0127784"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/grouped_mat_mul_allto_allv/op_kernel/grouped_mat_mul_allto_allv_tiling_key.h",
+    "sha256": "78aec837fcdf43e29bb3bfc9a3cbc89fcbdd2b33762bd43023d872a8ff70d3f8"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/dynamic/grouped_mat_mul_allto_allv.py",
+    "sha256": "cb00014733aab521bb3a6465bc6214c47e591ded2a6683267f81bb9674628d54"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/config/ascend950/ops_transformer/grouped_mat_mul_allto_allv.json",
+    "sha256": "b278b333c3effa526e8e8325e631f6b44d923ccd95cba44b900153b7e71439a2"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/ascend950/ops_transformer/grouped_mat_mul_allto_allv/GroupedMatMulAlltoAllv_5e2a7f2d879e6efea7564b5f2b96d7b7.json",
+    "sha256": "60d904e4e3f5353476b667aad3ba11e84290cdaa1b865522b8ccdeaa7345386a"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/kernel/ascend950/ops_transformer/grouped_mat_mul_allto_allv/GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9.json",
+    "sha256": "68f77749804e4888d4218fb1b50f6f663cec6ac46faa8d50179e835985454e57"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/opp/built-in/op_impl/ai_core/tbe/impl/ops_transformer/ascendc/allto_allv_quant_grouped_mat_mul/op_kernel/mc2_templates/communication/hccl_a2av_op.h",
+    "sha256": "aace2e0d0ab8e3f014304bf94d381f6af15c32ca10076e7fabdf41d7190c6d79"
+  },
+  {
+    "path": "/home/zzy/deploy/megamoe-20261024/cann-env/Ascend/cann-9.2.0/aarch64-linux/lib64/libopapi.so",
+    "sha256": "a83959f0291e5df5eb29b4e69c8832103ecf9de7e5cb355366f7ca1abab411e1"
+  }
+]

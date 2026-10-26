@@ -1,0 +1,10 @@
+{
+  "changed_files": [
+    "tests/validate_training_npu.py"
+  ],
+  "native_reused": true,
+  "expected": {
+    "cpu": "04c7371f9d9c78623e54ad823c224dddffbb6f9e63b35c665f3f379e10a0fba6",
+    "npu": "15399c4d3624b1e6fd5f5789e81e80b4d4c62bc73d98fa3be9874fb1613c6015"
+  }
+}

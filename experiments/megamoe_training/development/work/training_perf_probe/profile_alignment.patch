@@ -1,0 +1,22 @@
+--- a/probe.py
++++ b/probe.py
+@@ -124,6 +124,7 @@
+                 report['timing']=comparison.timing_round_robin(functions,dist.group.WORLD,args.warmup,args.iters,x.device)
+             elif args.profile:
+                 report['mode']='profile';report['traces']={}
++                report['profile_alignment_scope']='Each profiled call: synchronize/barrier/synchronize outside record_function; step plus final synchronize inside label. Alignment barrier is external calibration, not training operator cost.'
+                 from torch_npu.profiler import profile,ProfilerActivity
+                 from torch.profiler import record_function
+                 for name in names:
+@@ -131,7 +132,10 @@
+                     torch.npu.synchronize();dist.barrier()
+                     with profile(activities=[ProfilerActivity.CPU,ProfilerActivity.NPU],record_shapes=True) as prof:
+                         for _ in range(args.profile_steps):
+-                            with record_function('training_perf_probe/'+name+'/forward_backward'):step(name)
++                            torch.npu.synchronize();dist.barrier();torch.npu.synchronize()
++                            with record_function('training_perf_probe/'+name+'/forward_backward'):
++                                step(name)
++                                torch.npu.synchronize()
+                         torch.npu.synchronize()
+                     path=args.output/f'{name}_rank{rank}_trace.json'
+                     prof.export_chrome_trace(str(path));report['traces'][name]=str(path.resolve())

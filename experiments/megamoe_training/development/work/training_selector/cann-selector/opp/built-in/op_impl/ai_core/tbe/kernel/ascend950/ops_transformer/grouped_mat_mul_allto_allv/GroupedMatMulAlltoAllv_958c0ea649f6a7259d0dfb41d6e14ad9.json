@@ -1,0 +1,300 @@
+{
+ "binFileName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9",
+ "binFileSuffix": ".o",
+ "blockDim": -1,
+ "coreType": "MIX",
+ "intercoreSync": 1,
+ "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9",
+ "magic": "RT_DEV_BINARY_MAGIC_ELF",
+ "memoryStamping": [],
+ "opParaSize": 6296,
+ "parameters": [
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null
+ ],
+ "sha256": "6eefbcf676c4db01e5d08d5b126506b5fc3d8b9bb5139a6353c28a13a54e22b0",
+ "workspace": {
+  "num": 1,
+  "size": [
+   -1
+  ],
+  "type": [
+   0
+  ]
+ },
+ "kernelList": [
+  {
+   "tilingKey": 0,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_0"
+  },
+  {
+   "tilingKey": 8,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_8"
+  },
+  {
+   "tilingKey": 4,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_4"
+  },
+  {
+   "tilingKey": 12,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_12"
+  },
+  {
+   "tilingKey": 2,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_2"
+  },
+  {
+   "tilingKey": 10,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_10"
+  },
+  {
+   "tilingKey": 6,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_6"
+  },
+  {
+   "tilingKey": 14,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_14"
+  },
+  {
+   "tilingKey": 1,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_1"
+  },
+  {
+   "tilingKey": 9,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_9"
+  },
+  {
+   "tilingKey": 5,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_5"
+  },
+  {
+   "tilingKey": 13,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_13"
+  },
+  {
+   "tilingKey": 3,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_3"
+  },
+  {
+   "tilingKey": 11,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_11"
+  },
+  {
+   "tilingKey": 7,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_7"
+  },
+  {
+   "tilingKey": 15,
+   "kernelType": "MIX_AIC",
+   "crossCoreSync": 1,
+   "taskRation": "1:2",
+   "kernelName": "GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9_15"
+  }
+ ],
+ "taskRation": "tilingKey",
+ "optionalInputMode": "gen_placeholder",
+ "optionalOutputMode": "gen_placeholder",
+ "supportSuperKernel": 1,
+ "platformInfo": {
+  "deterministicLevel": 0
+ },
+ "compileInfo": {},
+ "supportInfo": {
+  "implMode": "high_performance",
+  "int64Mode": false,
+  "simplifiedKeyMode": 0,
+  "simplifiedKey": [
+   "GroupedMatMulAlltoAllv/d=0,p=1/1,2/1,2/1,2",
+   "GroupedMatMulAlltoAllv/d=0,p=0/1,2/1,2/1,2",
+   "GroupedMatMulAlltoAllv/d=1,p=1/1,2/1,2/1,2",
+   "GroupedMatMulAlltoAllv/d=1,p=0/1,2/1,2/1,2"
+  ],
+  "optionalInputMode": "gen_placeholder",
+  "optionalOutputMode": "gen_placeholder",
+  "staticKey": "061333b80f6884c306febb75bb313181df58dce395e38ca606f6b8abf1190504,82bb6d4a5ff4dea0eee94754607ebb8daaa25be6fa5bfd8d4b7828fe6b967267",
+  "inputs": [
+   {
+    "name": "gmm_x",
+    "index": 0,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "required",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "gmm_weight",
+    "index": 1,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "required",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "send_counts_tensor",
+    "index": 2,
+    "dtype": "int32",
+    "format": "ND",
+    "paramType": "optional",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "recv_counts_tensor",
+    "index": 3,
+    "dtype": "int32",
+    "format": "ND",
+    "paramType": "optional",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "mm_x",
+    "index": 4,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "optional",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "mm_weight",
+    "index": 5,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "optional",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "y",
+    "index": 0,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "required",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   },
+   {
+    "name": "mm_y",
+    "index": 1,
+    "dtype": "float16",
+    "format": "ND",
+    "paramType": "optional",
+    "shape": [
+     -2
+    ],
+    "format_match_mode": "FormatAgnostic"
+   }
+  ],
+  "attrs": [
+   {
+    "name": "group",
+    "dtype": "str",
+    "value": ""
+   },
+   {
+    "name": "ep_world_size",
+    "dtype": "int",
+    "value": 0
+   },
+   {
+    "name": "send_counts",
+    "dtype": "list_int",
+    "value": []
+   },
+   {
+    "name": "recv_counts",
+    "dtype": "list_int",
+    "value": []
+   },
+   {
+    "name": "trans_gmm_weight",
+    "dtype": "bool",
+    "value": false
+   },
+   {
+    "name": "trans_mm_weight",
+    "dtype": "bool",
+    "value": false
+   },
+   {
+    "name": "comm_mode",
+    "dtype": "str",
+    "value": ""
+   }
+  ],
+  "opMode": "dynamic",
+  "deterministic": "ignore"
+ },
+ "filePath": "ascend950/bin/grouped_mat_mul_allto_allv/GroupedMatMulAlltoAllv_958c0ea649f6a7259d0dfb41d6e14ad9.json"
+}

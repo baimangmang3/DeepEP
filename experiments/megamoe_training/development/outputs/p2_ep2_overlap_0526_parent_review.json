@@ -1,0 +1,33 @@
+{
+  "decision": "Accept this EP2 routed overlap accuracy, identity and lifecycle result. Preserve the existing unconsumed EP16 serial single-run permission behind a new all16 ownership gate.",
+  "run_tag": "20261026_0526_p2_overlap_once",
+  "reviewed_at_cst": "2026-10-26T05:33:00+08:00",
+  "strict_audit": "outputs/training_results_20261026_0526_p2_overlap_once/p2-ep2-bf16-overlap/strict-accuracy-release-audit.json",
+  "strict_audit_sha256": "577123067ef304433039179bb72299699f2e59b8008d0efabb7a7dbf29bf462a",
+  "compact_archive_sha256": "8097e73730b33488cac82eb5314e0a10055d84cbf5acc539698be87e3e33305a",
+  "root_raw_review": {
+    "metrics": "Two raw rank reports each contain28 fixed-limit Y/dx/dp/dW1/dW2/leaf_dW1/leaf_dW2 summaries across balanced,zero_gate,empty,skew. All56 finite, zero out-of-tolerance, fixed atol0.003/rtol0.03/RMSrel0.02. Maximum RMSrel2.3461230247959236e-5.",
+    "identity": "Both ranks each record35 initial/final actual FD mappings. All four content digests equal0ff37c6cb865320c2d253ae4a40850dc4dabc3ed3263832720165ebbe152f031, with no additions/changes/removals. Shape B32H128I128E8K4/world2/routedBF16 and overlap schedule match.",
+    "lifecycle": "All four case closes and both ranks' host/PG exit statuses pass without error. Root read original node0.rc and supervisor-node0.rc, both0. No cleanup signals. Saved recording markers and all five sampled own launcher/recorder PID-starts are gone; final own0.",
+    "sampling_limit": "External collector did not capture the complete historical worker PID-start ledger. Internal FD and normal exit evidence are retained; no rerun or fabricated historic sample is required."
+  },
+  "post_run_occupancy": {
+    "host27": "free8, own0",
+    "host28": "foreign8, own0",
+    "foreign_arrival_vs_training_end": "unknown",
+    "missing_evidence": ["foreign Linux start_ticks", "foreign monotonic anchor", "local sampling start/end", "cross-host calibrated causal ordering"],
+    "interpretation": "The post-run foreign observation blocks the next launch, but does not establish a training-time conflict or make the completed accuracy result a training failure. No performance or interference-free timing is claimed.",
+    "next_gate_not_before_cst": "2026-10-26T05:56:51.864556+08:00",
+    "next_gate_not_before_utc": "2026-10-25T21:56:51.864556+00:00"
+  },
+  "next_stage": {
+    "parent": "outputs/p2_ep16_parent_review.json",
+    "permission": "Existing EP16 serial448 single-run conditional permission remains unconsumed. EP2 evidence requirements are now accepted. After the deadline, reuse environment for one unique fresh all16free/own0/no recognized foreign launcher/ports29926+27774/exact pins gate. If clear, execute immediately; no further parent permission wait. Busy preserves the permit and moves the next check30minutes; errors stop and require analysis.",
+    "controller_sha256": "7c0e656a196162716b0bca6fae10b0d5fa66127b6883af0d78002bfc6cf5f58a",
+    "manifest_sha256": "4908ff82d5b7396d9a6174ab2ad80c33ae8033ac4410ca893ad02a2b2b6a12d7",
+    "repeat_EP2_authorized": false,
+    "EP16_overlap_authorized": false,
+    "target_or_performance_authorized": false
+  },
+  "limitations": "This is the small EP2 routed overlap schedule only. It does not prove physical overlap, speedup, target/shared correctness or the cause/fix of1431."
+}

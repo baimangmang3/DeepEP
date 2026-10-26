@@ -1,0 +1,59 @@
+{
+  "scope": "Offline isolated P1 qualification audit revision; no deployment/device/precision/performance qualification. Not a fix for1431/0310 operator failure.",
+  "source_root": "work/training_candidates/p1_qualification_review",
+  "modified_roles": [
+    "p1_pointwise/candidate_provenance.py",
+    "p1_pointwise/validate_training_p1.py",
+    "comparison/gate.py"
+  ],
+  "files": {
+    "p1_pointwise/candidate_provenance.py": {
+      "original_sha256": "f1bfd202a641a064eeb8a298d58119f646b1bc4e5bec0ffa6def6bfce0eab6d5",
+      "review_sha256": "620541bcb3c52c2fe3208ddc65dfaf89b3342629afb4a6bfbc28cd466f84fd81"
+    },
+    "p1_pointwise/validate_training_p1.py": {
+      "original_sha256": "841f663ee336bb3c342c83de9bc4d19bf5b41cc685329bef141dcf5fbc0ac93c",
+      "review_sha256": "ad3e3b6c6bbc92a3d92c320f2afc75b58bd59fb9271b5d62ac6d7530d9091f3f"
+    },
+    "comparison/gate.py": {
+      "original_sha256": "a636d1b03fabb190680552ce7162600ec70c03df4617816bcb9b6cd7a063f3e4",
+      "review_sha256": "a863c712fa66c805c48aaf55229af29d334b0af379529bcef5397464268b5437"
+    }
+  },
+  "immutable_copied_files": {
+    "p1_pointwise\\CMakeLists.txt": "cd992ddacc86d011efcafa10307a7f0d4272685699193fec509ad08ec0c4a318",
+    "p1_pointwise\\pointwise.py": "d01a65729f61f947daf0b73a0639b12390eca230a8ca43a90c2669f21f0980e1",
+    "p1_pointwise\\test_pointwise_npu.py": "2b5e49ad02222946ad20865e371dbcce0a9d4738c5d4834a9a79e6290c293acb",
+    "p1_pointwise\\training_adapter.py": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+    "p1_pointwise\\training_manifest.json": "620956b87157aa07e950a4824acb43eeb00d1b71eb26b71e0dea628a21e24e95",
+    "p1_pointwise\\__init__.py": "a27577c65738ea52e5902c9056eb7657af51a898f381ca17ce49462223892d1a",
+    "p1_pointwise\\native\\pointwise.cpp": "ee58581acf370bdef4709b1dbe1e8ad61f27617899e76891a09ddd02029f97cc"
+  },
+  "patch_sha256": "d9b59f2d7fd42854956d5c52a07c4e584c8a2746adc0de39ded6b0d7e599c919",
+  "patch_apply_check": true,
+  "cpu_checks": 28,
+  "cpu_results_sha256": "99d5c64c21fd24c6ac9c148df54824238dac4d821b9078d5cd8be1fe085d75cb",
+  "cpu_test_sha256": "0d24c06d65ddf31e0e32ecaedc9f9dcd12bd58a7b0f5203147fd586c21b22351",
+  "syntax_pass": true,
+  "policy": [
+    "Same P1 schema; changed validator/helper source hashes bind revised implementation. Old missing-final reports fail performance without retroactive reinterpretation.",
+    "Final collection happens after cases/close and before host-converged PG teardown, including failure paths. No new unconditional device synchronization/barrier or SHMEM protocol.",
+    "Initial candidate source/native/config and base versions/precision/old files immutable. Only loaded_dependency roles may be added. Final exact match current plus complete allrank final-identity host status.",
+    "Body/collector first error preserved when later identity/host/PG/report cleanup also fails. Allrank host cleanup still attempted."
+  ],
+  "compatibility": {
+    "P0_routed_actual_reports": 16,
+    "P0_shared_actual_reports": 16,
+    "CANN_actual_reports": 16,
+    "P1_test_scope": "Archived main metrics cloned into temporary synthetic final-identity fixtures, not newly qualified reports. Lazy final passes full16; final missing/cleanup missing/metric missing/rank missing reject.",
+    "math_AST_unchanged": true,
+    "close_and_PG_protocol_AST_unchanged": true,
+    "Torch_DeepEP_imported": false
+  },
+  "limitations": [
+    "Actual revised runtime identity collection/new final dependency agreement not yet tested by environment.",
+    "Existing P1 cold/main reports lack final identity and cannot authorize this revised performance gate.",
+    "0310 shared midrun foreign16 overlap/manual abort is excluded; no old permission reuse.",
+    "This isolated gate has no new launcher; any deployment or qualification requires separate parent review."
+  ]
+}

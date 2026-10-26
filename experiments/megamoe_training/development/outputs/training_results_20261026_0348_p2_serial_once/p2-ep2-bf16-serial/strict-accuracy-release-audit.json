@@ -1,0 +1,120 @@
+{
+  "complete": true,
+  "all_56_numerical_metrics_passed": true,
+  "counts_shapes_dtypes_schedule_passed": true,
+  "host_case_close_final_identity_PG_passed": true,
+  "world": 2,
+  "backend": "shmem_catlass_backward_overlap_p2",
+  "backward_schedule": "serial",
+  "shape": {
+    "B": 32,
+    "H": 128,
+    "I": 128,
+    "E": 8,
+    "K": 4
+  },
+  "weight_dtype": "torch.bfloat16",
+  "shared": false,
+  "maximum_RMS_relative": 2.3461230247959236e-05,
+  "node_rc": 0,
+  "supervisor_rc": 0,
+  "no_cleanup_signals_sent": true,
+  "observed_own_processes_after": 0,
+  "observed_foreign_processes_after": 0,
+  "all16_free_after": true,
+  "saved_recording_PID_start_checks": [
+    {
+      "source": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0348_p2_serial_once/p2-ep2-bf16-serial/.node0-launch-once/identity.json",
+      "identity": {
+        "pid": 3947170,
+        "pgid": 3947169,
+        "process_start_ticks": "23254383",
+        "boot_id": "8b0067fd-8de6-475d-8846-25ed750006e1",
+        "argv": [
+          "bash",
+          "/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-serial-hostname-20261026/scripts/run_dispatch_host_trace_checked.sh",
+          "0"
+        ],
+        "time_ns": 1792957693051199720
+      },
+      "current_start": null,
+      "same_PID_start_alive": false
+    },
+    {
+      "source": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0348_p2_serial_once/p2-ep2-bf16-serial/.node0-controller-once/identity.json",
+      "identity": {
+        "pid": 3947168,
+        "pgid": 3947168,
+        "start_ticks": "23254383",
+        "argv": [
+          "bash",
+          "-c",
+          "set +e; timeout --signal=TERM --kill-after=30 690 bash \"$1\" \"$2\"; saved_rc=$?; printf \"%s\n\" \"$saved_rc\" > \"$3\"; exit \"$saved_rc\"",
+          "dispatch-supervisor",
+          "/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-serial-hostname-20261026/scripts/run_dispatch_host_trace_checked.sh",
+          "0",
+          "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_0348_p2_serial_once/p2-ep2-bf16-serial/supervisor-node0.rc"
+        ],
+        "node": 0,
+        "time_ns": 1792957692999439260,
+        "run_tag": "20261026_0348_p2_serial_once",
+        "contract_sha256": "07cfad0e860ffdfd49b515774e7f8196f661ee58ecc57e39fd42ee7839ae9496",
+        "deployment_manifest_sha256": "662589d416fe3258385d0167080bc9660f284fbebf7ced8f21b36c361284db51",
+        "ppid": 3947160,
+        "cwd": "/root",
+        "uid": "0\t0\t0\t0"
+      },
+      "current_start": null,
+      "same_PID_start_alive": false
+    }
+  ],
+  "all_saved_recording_PID_start_gone": true,
+  "historical_worker_PID_start_ledger": "External capture arrived after all workers exited; no separate live worker PID/start ledger or FD snapshot was sampled. Actual initial/final FD evidence comes from each worker report, normal torchrun+supervisor rc0 and current own-RUN census0 prove process completion; do not claim a fabricated full historical PID-start ledger.",
+  "ranks": [
+    {
+      "rank": 0,
+      "all_passed": true,
+      "cases": [
+        "balanced",
+        "zero_gate",
+        "empty",
+        "skew"
+      ],
+      "initial_digest": "71d43ad11471b0ab3bbdb179353d6f486e014145c666649fda8483061abd2c04",
+      "final_digest": "71d43ad11471b0ab3bbdb179353d6f486e014145c666649fda8483061abd2c04",
+      "actual_mapped_FD_objects_initial": 35,
+      "actual_mapped_FD_objects_final": 35,
+      "source_and_FD_pins_verified": true,
+      "identity_difference": {
+        "added": {},
+        "changed": {},
+        "removed": {}
+      },
+      "raw_report_sha256": "952543ab4971f3d48b533e728224c0dc86397234846d4af5f7ac16d1b3a54b25"
+    },
+    {
+      "rank": 1,
+      "all_passed": true,
+      "cases": [
+        "balanced",
+        "zero_gate",
+        "empty",
+        "skew"
+      ],
+      "initial_digest": "71d43ad11471b0ab3bbdb179353d6f486e014145c666649fda8483061abd2c04",
+      "final_digest": "71d43ad11471b0ab3bbdb179353d6f486e014145c666649fda8483061abd2c04",
+      "actual_mapped_FD_objects_initial": 35,
+      "actual_mapped_FD_objects_final": 35,
+      "source_and_FD_pins_verified": true,
+      "identity_difference": {
+        "added": {},
+        "changed": {},
+        "removed": {}
+      },
+      "raw_report_sha256": "859a94b1b9b4d6156275f4d6326b63a159844005846915e069c255dfece88205"
+    }
+  ],
+  "compact_archive_sha256": "4f438266e923da4465d012ca38063de4055e592da0af44964ad293d6ee5bff22",
+  "source_provenance_validator_sha256": "3a0acc9132cc20381db1e64e94d9df6178e160eb4bf9eeb9ce79e7daf5a12759",
+  "scope": "EP2 routed serial accuracy/lifecycle qualification only. No overlap/performance or1431 root cause/fix claim."
+}

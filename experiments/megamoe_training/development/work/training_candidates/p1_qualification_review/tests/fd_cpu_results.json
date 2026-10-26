@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "checks": 23,
+  "items": [
+    "actual dual_C all FD records preserved:rack05os7",
+    "cross-root logical identity model:rack05os7",
+    "unknown same basename rejected:rack05os7",
+    "FD collector error rejected:rack05os7",
+    "FD inode mismatch rejected:rack05os7",
+    "all actual base/PW exact-path bindings:rack05os7",
+    "missing exact selected FD rejected:rack05os7",
+    "selected extension replaced rejected:rack05os7",
+    "actual dual_C all FD records preserved:rack05os8",
+    "cross-root logical identity model:rack05os8",
+    "unknown same basename rejected:rack05os8",
+    "FD collector error rejected:rack05os8",
+    "FD inode mismatch rejected:rack05os8",
+    "all actual base/PW exact-path bindings:rack05os8",
+    "missing exact selected FD rejected:rack05os8",
+    "selected extension replaced rejected:rack05os8",
+    "two actual hosts equal canonical identity despite physical dev/inode differences",
+    "old P1 schema rejected",
+    "producer and consumer mapped removed",
+    "producer and consumer mapped replaced",
+    "producer and consumer mapped lazy_added",
+    "reviewed fstat FD helper copied byte-exact",
+    "namespace helper AST equal reviewed P2"
+  ],
+  "archives": [
+    "outputs\\p2_qualification_deployment\\rack05os7\\collision-cpu.json",
+    "outputs\\p2_qualification_deployment\\rack05os8\\collision-cpu.json"
+  ],
+  "scope": "Offline archived FD evidence and identity models; no current collector/device/qualification run"
+}

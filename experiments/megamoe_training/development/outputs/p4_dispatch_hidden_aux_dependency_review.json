@@ -1,0 +1,267 @@
+{
+  "scope": "Bounded read-only source analysis of current peer-table BF16 Dispatch; no source edits/build/deploy/native load/NPU/device qualification.",
+  "answer": "No direct hidden/relay/terminal wait on auxiliary gate-weight data or completion was found in the inspected path. Reusing32 concurrently active logical workers for their original hidden role then auxiliary owner0..31 has no identified new hidden->aux->hidden wait cycle, conditional on preserving all original hidden producers and the finite prelude. This is a source DAG result, not a proof of mixed-kernel progress or unchanged-library resource behavior.",
+  "source_inventory": {
+    "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp": {
+      "sha256": "fc03e180401146b9047e512e4b998b7cb9b97b506e3517aeec9a99a0c5d06bb1",
+      "bytes": 30039
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_address.hpp": {
+      "sha256": "2f42701540734820038dbcceb53679f3cbbf928b9f83506206eff74ee94dd1d8",
+      "bytes": 2411
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp": {
+      "sha256": "be56a13261dcfdc1c0ba618acc7fb519fbb7495c3a52c86e234fd1a0485e1e07",
+      "bytes": 46913
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp": {
+      "sha256": "aa621ed77270390f7f66677d60b003871ff2ef7c08bf5348a39b2dc074a7b991",
+      "bytes": 16502
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_simt.hpp": {
+      "sha256": "3493ecb931b2687704d46b2cd80a242b684b96245c37979247f3cbec6213ff90",
+      "bytes": 3291
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_primary.hpp": {
+      "sha256": "0d421c3a979b17257f7acdfa92792a07caacd7928ef4f377f1a8cd64ac3b2f8c",
+      "bytes": 4590
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_queue.hpp": {
+      "sha256": "e14fdf2da2ef8181620cabd8f820d31e0ca8788ea9879bb505ecddb50e844905",
+      "bytes": 6930
+    },
+    "work/DeepEP/csrc/kernels/dispatch/completion.hpp": {
+      "sha256": "d5f5bc59e8fafaa49888a9abefa0f102d13502d9a663e31c58b91bcd12496726",
+      "bytes": 4225
+    },
+    "work/DeepEP/csrc/kernels/dispatch/completion_wait.hpp": {
+      "sha256": "3b98ccfcd42d8cf3cc3374686103ed1407c37101b07098e1045e89ae75a99e51",
+      "bytes": 2822
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_scale.hpp": {
+      "sha256": "780bd26c6d9501531fda187e35a21d229e2159d222c1717dadce025efcb65c74",
+      "bytes": 1232
+    },
+    "work/DeepEP/csrc/kernels/dispatch/aux_pipeline.hpp": {
+      "sha256": "ca36ebb2fd400855bde7f47f450faa9bb135aa171c8f50110edefd45ab463fb3",
+      "bytes": 14597
+    },
+    "work/DeepEP/csrc/kernels/dispatch/scale_pipeline.hpp": {
+      "sha256": "a84fc7848f318335ab7327baaf03ab0a0e9f4de32fad126cc210f48bff35f114",
+      "bytes": 19604
+    },
+    "work/DeepEP/csrc/kernels/dispatch/aggregate_transport.hpp": {
+      "sha256": "02d5f49a7b35e2657cddc5ba6400368f259ff0a0eb54af51fd2dd278090f04aa",
+      "bytes": 1900
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp": {
+      "sha256": "3b9e90de5832dc1238904f2ec6286f62a869f2995debab0de49bf414d54f6684",
+      "bytes": 14673
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_protocol.hpp": {
+      "sha256": "6b15a9d5b035057a98a388b4f9bab537d39d84d9a5399603dae35b8482feaffa",
+      "bytes": 4672
+    },
+    "work/DeepEP/csrc/kernels/dispatch/tiling.hpp": {
+      "sha256": "82a28cc80af862ba441c732575e3ed88d025ccc1562d1a99e749840f6104f2b6",
+      "bytes": 4920
+    },
+    "work/DeepEP/csrc/ops/dispatch.cpp": {
+      "sha256": "d25e73ea5c50d513e83bed324b4cadba9384839b2b2bd858853fff8852769175",
+      "bytes": 12409
+    }
+  },
+  "direct_physical_worker_uses": [
+    {
+      "file": "dispatch.cpp",
+      "line": 467,
+      "code": "const uint32_t core = GetBlockIdx(), cores = 64U;"
+    },
+    {
+      "file": "peer_address.hpp",
+      "line": 27,
+      "code": "if (GetBlockIdx() == 0U) {"
+    },
+    {
+      "file": "peer_address.hpp",
+      "line": 45,
+      "code": "SyncAll<true>();"
+    },
+    {
+      "file": "peer_transport.hpp",
+      "line": 681,
+      "code": "if (t.world <= 8U || GetBlockIdx() < 8U || GetBlockIdx() >= 24U) {"
+    },
+    {
+      "file": "completion_wait.hpp",
+      "line": 13,
+      "code": "if (GetBlockIdx() != 7U) return;"
+    },
+    {
+      "file": "aux_pipeline.hpp",
+      "line": 116,
+      "code": "const uint32_t owner = AscendC::GetBlockIdx() - 32U;"
+    },
+    {
+      "file": "scale_pipeline.hpp",
+      "line": 196,
+      "code": "const uint32_t worker = AscendC::GetBlockIdx() - 32U;"
+    },
+    {
+      "file": "scale_pipeline.hpp",
+      "line": 388,
+      "code": "auto* record = reinterpret_cast<__gm__ uint64_t*>(t.profile + uint64_t(AscendC::GetBlockIdx()) * 256U);"
+    },
+    {
+      "file": "peer_plan.hpp",
+      "line": 209,
+      "code": "for (uint32_t peer = GetBlockIdx(); peer < t.world; peer += Cores) {"
+    },
+    {
+      "file": "peer_plan.hpp",
+      "line": 245,
+      "code": "reinterpret_cast<__ubuf__ int32_t*>(ub[512U].GetPhyAddr()), directory, begin, n, base, GetBlockIdx());"
+    }
+  ],
+  "proven": [
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+      "lines": [
+        467,
+        492,
+        503,
+        510,
+        560,
+        563
+      ],
+      "finding": "Physical0..31 run hidden/local/Clos/forward;32..63 run auxiliary weight then optional FP8 scale. Hidden state contains hidden/output/sync/book/plan but no weights. Every returning worker drains MTE; onlyphysical7 waits incoming."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+      "lines": [
+        486,
+        491
+      ],
+      "finding": "Physical16..16+groupwidth-1 initialize hidden peer signals before PublishPeerAddresses. This role must not be lost when32 communication workers replace64 physical workers."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/peer_address.hpp",
+      "lines": [
+        23,
+        45
+      ],
+      "finding": "CacheClosDirectories then onlyphysical0 writes all three output addresses and generation; NativeStore+DDR barrier, VF put128+V_S wait+DDR barrier, then SyncAll<true>. This prelude executes before hidden/aux divergence. Aux does not create the descriptor awaited by hidden."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp",
+      "lines": [
+        20,
+        31,
+        678,
+        696
+      ],
+      "finding": "EnsureDeepepPeerAddress waits peer descriptor generation and acquires its cacheline; hidden uses this before remote output access. Clos directory cache onlyphysical8..23. Neither wait tests auxiliary inbox/header/output weight completion."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+      "lines": [
+        391,
+        438
+      ],
+      "finding": "Local writers publish private done after CopyDeepepRows and DDR ordering; local worker0 waits every local writer then signals self primary readiness. All producers are hidden roles, not auxiliary owners."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp",
+      "lines": [
+        277,
+        500,
+        852,
+        946
+      ],
+      "finding": "Clos helper7 reads owner0..15 mailboxes/CQEs, waits pairedQP SO snapshots, publishes readiness and ACK. FinishClosSplit waits finalCQ and helperACK before quiet, then publishes done lanes0/1. These are hidden SQ/helper dependencies; no weight inbox/aux header is read."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp",
+      "lines": [
+        135,
+        174,
+        295,
+        320
+      ],
+      "finding": "ForwardPeer consumes hidden source-ready generation/forward metadata, locally expands hidden rows or issuesFM rows; local path drains MTE events+quiet; remote path FinishFmRows+UDMAQP0quiet precedes independent done lane2 publication."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/completion_wait.hpp",
+      "lines": [
+        13,
+        53
+      ],
+      "finding": "Onlyphysical7 polls done lanes0/1 for nonlocal sources andlane2 forlocal peers, excluding self. Expected count has no gate-weight lane. Existing hidden incoming poll can finish without auxiliary packets; full kernel completion still joins the separately running auxiliaries."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/aux_pipeline.hpp",
+      "lines": [
+        116,
+        162,
+        267,
+        311
+      ],
+      "finding": "Aux owner is physicalID-32, sends to(owner+p*32+rank)%world, waits peer epoch before writes, finishes all local sends/headers+MTEquiet/reuse before receive-loop over source=owner mod32. Receive waits independent weight header+packet generation and expands FP32 bits. No hidden ready/terminal wait is used."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/aggregate_transport.hpp",
+      "lines": [
+        17,
+        48
+      ],
+      "finding": "Aux Put ordersV/S->MTE3, uses aclshmemx_mte_put_nbi for remote writes. Local MTE completion/UB reuse is distinct from remote packet generation visibility; do not replace packet waits by quiet or plain ready stores."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/scale_pipeline.hpp",
+      "lines": [
+        113,
+        129
+      ],
+      "finding": "Aux shares four local MTE3_S ticketIDs0..3; pending tickets must be retired before NativeStore/WaitLocalPut can reuseID3. Original separate workers have private TPipe/UB; phased reuse needs an explicit completed-event/scratch boundary."
+    },
+    {
+      "source": "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp",
+      "lines": [
+        201,
+        250
+      ],
+      "finding": "Notify prefix/directory use physical block IDs for partitioned metadata construction. They are separate Notify kernels, not Dispatch hidden/aux progress, but any fusedNotify path must retain their full partition coverage."
+    }
+  ],
+  "host_boundary": {
+    "source": "work/DeepEP/csrc/ops/dispatch.cpp",
+    "lines": [
+      151,
+      204
+    ],
+    "finding": "Prepared plan/session generation required; layout change synchronizes stream, session barrier, clears sync/peer_book/done and applicable weight/scale inboxes, synchronizes then barrier before kernel. Cached layout skips clear. Phased roles do not authorize deleting this initialization/epoch contract."
+  },
+  "unknowns": [
+    "SyncAll<true> of the original vector-only64worker kernel cannot be transplanted unchanged into32communication+mixedAIC/AIV roles; exact participant/barrier domain remains unproved.",
+    "Physical GetBlockIdx in all listed helpers/profiling/cache must become explicit roleID/count. Low-latency dispatch files were excluded because they are not this peer-table Dispatch entry.",
+    "SHMEM MTE quiet implementation/per-core engine resource ownership and transport progress under mixed compute contention were not proved here; no device timeline or scheduler fairness evidence.",
+    "InitializeTokenScatterPeerSignals/PublishPeerCompletionSignal are external included utilities; their call roles/order are visible, but utility internals were not re-audited in this bounded pass.",
+    "Descriptor put128 target-platform32byte visibility assumption remains; no atomicity upgrade follows from role reuse.",
+    "No perXe tile-ready, consumption/reclaim epoch, or mixed-kernel final join exists in this analysis; hidden terminal lanes are whole-peer data completion, insufficient for early expert-tile consumption."
+  ],
+  "candidate_DAG_not_implementation": [
+    "Preserve host control-init/Notify->finite communication prelude: explicit logicalIDs0..31 perform original init roles and logical0 publishes descriptors; establish a reviewed communication-only prelude completion before divergent compute/communication.",
+    "Keep all32logical hidden roles concurrently live:0..6FM;7Closhelper(orEP8local);8..23ClosQPowners;LocalFirst..31local expansion/Forward. Never replace helper7 with a pure incoming poller before its helper role finishes.",
+    "Each logicalworker completes its original hidden role including Forward/terminal publications and all relevant MTE/UDMA drains before reusing its own UB/events as auxiliary owner=logicalID. Other ranks may still be in hidden work; auxiliary epoch only depends on the already-published descriptor.",
+    "Run complete auxiliary send/header/drain then receive/expand for thatowner; retain optionalFP8scale after weights if later supported. Poll incoming at a reviewed final location with logical7 and keep complete auxiliary completion as an independent final join condition.",
+    "Xe-ready must be a new explicit perexpert-tile protocol after all contributor transfers/local copies, independently from weight-ready. Compute may consume Xe only after this proof; combine waits saved unweightedZ and FP32gate weights. Retain epoch-safe final drains/reclaim."
+  ],
+  "cycle_counterexamples_to_avoid": [
+    "Moving descriptor publisher after hidden or auxiliary receive creates peer epoch/address waits on unpublished descriptors.",
+    "Running only some hidden roles to completion before scheduling helper7 or local-copy producers can deadlock existing helperACK/self primary waits; reuse32workers means concurrent32hidden roles, not one physical worker serially simulating allroles.",
+    "Retaining old64participant SyncAll while only32logical communication workers enter is not an established legal barrier.",
+    "Publishing next descriptor/recycling inbox before auxiliary receives finish lets another sender overwrite prior-generation weight packets; hidden done alone is insufficient for epoch retirement."
+  ],
+  "device_authorized": false,
+  "performance_claim": null
+}

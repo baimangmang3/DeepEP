@@ -1,0 +1,44 @@
+{
+  "scope": "Compute-only single MIX grouped W1+SwiGLU; not communication fusion or complete training qualification",
+  "native_sha256": "de4e57e210f9209e1210e3c914685acb3d49e23da209d1dbe616785d7e2f0edc",
+  "findings": [
+    {
+      "source": "native/up_swiglu.cpp:39-46",
+      "result": "Locate prefixes skip empty experts; job<total prevents e overrun. Paired G/U tiles map canonical [4,2I,H] via column-major H,2I; last N tile128/256 only."
+    },
+    {
+      "source": "native/up_swiglu.cpp:79-105",
+      "result": "One producer per actual job; both GU GEMMs precede FIX_S completion and one bypass-cache flag store. Local CATLASS policy inherits ASYNC=false, uses FIX_M not FIX_S event channel. No proven source-level wait cycle."
+    },
+    {
+      "source": "native/up_swiglu.cpp:108-147",
+      "result": "Two AIV halves [0,64)/[64,128) clipped to actual rows; empty half does not wait. Flag wait then S_MTE2; MTE2_V and V_MTE3 order transfers; MTE3_MTE2 protects reused single UB buffers including final drain."
+    },
+    {
+      "source": "native/up_swiglu.cpp:150-173",
+      "result": "MIX1:2, required actual32AIC/64AIV, checked uint32 row/job prefix. Wrapper supplies stricter signed64 products,12GiB default live-byte cap and fresh allocations/zero flags each invocation."
+    },
+    {
+      "source": "work/DeepEP/third-party/catlass/include/tla/layout.hpp:538-546",
+      "result": "Row-major MakeLayout strides explicitly int64_t; wrapper caps tensor byte products before allocation."
+    },
+    {
+      "source": "CMakeLists.txt",
+      "result": "Added platform+tiling_api per existing ep_gmm_fused target, alongside runtime/ascendcl. Did not build or inspect actual installed symbol resolution."
+    }
+  ],
+  "native_algorithm_modified_by_this_task": false,
+  "pending": [
+    "Compile MIX annotation/platform GetCoreNumAiv and CATLASS tile call against installed CANN/CATLASS; link-time success not established",
+    "Actual MIX GetBlockIdx/GetSubBlockNum mapping and cross-core FIX->bypass flag->S_MTE2 visibility require device validation",
+    "CATLASS partial M and N128 tails, immutable saved BF16 GU/A, zero/skew/repeat and two independent streams require device all-element precision tests",
+    "Raw C entry has no byte-budget/alias checks; strict wrapper is the supported test entry",
+    "Zero-row wrapper return is host-empty behavior and does not check native hardware",
+    "Standalone component has no autograd registration; complete training integration/identity/full-gradient qualification absent"
+  ],
+  "standalone_evidence_fix": {
+    "source_inventory": "Use parent/name; actual nested native path exercised on CPU",
+    "actual_P0_sources": "Validate/hash imported package __init__.py and gemm.py at initial and final identity",
+    "final_identity": "Always best-effort fstat-bound actual maps; preserve initial/final and added/removed/changed libraries. Success requires final validated identity; errors never replace original exception. This remains standalone component evidence. Initial mappings changed or removed fail closed; only lazy additions are allowed."
+  }
+}

@@ -1,0 +1,85 @@
+--- a/cleanup_own.py
++++ b/cleanup_own.py
+@@ -2,8 +2,8 @@
+ import pathlib,json,time,os,argparse
+ from cleanup_policy import cleanup
+ T=pathlib.Path('/home/zzy/deploy/megamoe-20261024/training')
+-STAGE='p2-ep2-bf16-serial'
+-WRAPPER='/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-serial-hostname-20261026/scripts/launcher.py'
++STAGE='p2-ep2-bf16-overlap'
++WRAPPER='/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-overlap-hostname-20261026/scripts/launcher.py'
+ VALIDATOR=str(T/'candidate-p2-qualification-schema2-20261026/p2_backward_overlap/validate_training_p2.py')
+ 
+ class ProcIO:
+--- a/controller.py
++++ b/controller.py
+@@ -2,9 +2,9 @@
+ import argparse,json,pathlib,hashlib,shlex,time
+ import sys; sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[2]))
+ from training_native_round import SshBackend,T,HOSTS,parallel
+-R=T+'/validation-p2-ep2-serial-hostname-20261026'
+-STAGE='p2-ep2-bf16-serial'
+-OUT=pathlib.Path('outputs/p2_ep2_serial_hostname_preparation')
++R=T+'/validation-p2-ep2-overlap-hostname-20261026'
++STAGE='p2-ep2-bf16-overlap'
++OUT=pathlib.Path('outputs/p2_ep2_overlap_hostname_preparation')
+ 
+ def stop_owned(backend,host,tag):
+  assert host==HOSTS[0], 'Only host27 was launched by this EP2 contract'
+@@ -28,7 +28,7 @@
+  argv=['bash',R+'/scripts/run_dispatch_host_trace_checked.sh','0']
+  report={'run_tag':a.run_tag,'stage':STAGE,'manifest_sha256':mh,'launcher_argv':argv,'environment':{'RUN_TAG':a.run_tag,'TRAIN_MASTER_PORT':'29946','DISPATCH_MANIFEST_SHA256':mh},'timeout_seconds':600,'kill_after_seconds':30,'diagnostic_only':True,'no_successor_queue':True}
+  if not a.execute:print(json.dumps(report,indent=2));return
+- state=json.loads(pathlib.Path('outputs/training_device_progress.json').read_text(encoding='utf-8-sig'));assert state.get('p2_ep2_serial_hostname_control',{}).get('device_authorized') is True,'P2 serial device execution is not authorized'
++ state=json.loads(pathlib.Path('outputs/training_device_progress.json').read_text(encoding='utf-8-sig'));assert state.get('p2_ep2_overlap_hostname_control',{}).get('device_authorized') is True,'P2 overlap device execution is not authorized'
+  dest=pathlib.Path('outputs/training_round_'+a.run_tag)/(STAGE+'-controller');dest.mkdir(parents=True,exist_ok=True)
+  x=SshBackend();x.connect();launch_attempted=False
+  try:
+@@ -100,7 +100,7 @@
+  finally:
+   progress=pathlib.Path('outputs/training_device_progress.json');d=json.loads(progress.read_text(encoding='utf-8-sig'))
+   d.update(status=report.get('status','controller_error'),device_tasks_currently_running=report.get('status')=='supervisors_started',active={'run_tag':a.run_tag,'stage':STAGE} if report.get('status')=='supervisors_started' else None,automatic_device_queue=[])
+-  d['p2_ep2_serial_hostname_control']['latest_controller_report']=str(dest/'summary.json')
++  d['p2_ep2_overlap_hostname_control']['latest_controller_report']=str(dest/'summary.json')
+   progress.write_text(json.dumps(d,indent=2,ensure_ascii=False),encoding='utf-8')
+   x.close();(dest/'summary.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))
+ if __name__=='__main__':main()
+--- a/external_launcher_gate.py
++++ b/external_launcher_gate.py
+@@ -1,7 +1,7 @@
+ """Stdlib read-only active launcher census; does not initialize/query an NPU."""
+ import os,pathlib,json,argparse,time
+ from cleanup_policy import external_launcher_evidence
+-WRAPPER='/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-serial-hostname-20261026/scripts/launcher.py'
++WRAPPER='/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-overlap-hostname-20261026/scripts/launcher.py'
+ VISIBLE=('ASCEND_RT_VISIBLE_DEVICES','ASCEND_VISIBLE_DEVICES','CUDA_VISIBLE_DEVICES')
+ def collect(tag):
+  rows=[];errors=[]
+--- a/run_dispatch_host_trace_checked.sh
++++ b/run_dispatch_host_trace_checked.sh
+@@ -2,14 +2,14 @@
+ set -eo pipefail
+ T=/home/zzy/deploy/megamoe-20261024/training
+ source "$T/activate-qualified-p0.sh"
+-export DISPATCH_DIAGNOSTIC_ROOT="$T/validation-p2-ep2-serial-hostname-20261026"
++export DISPATCH_DIAGNOSTIC_ROOT="$T/validation-p2-ep2-overlap-hostname-20261026"
+ export CANDIDATE_SOURCE_ROOT="/home/zzy/deploy/megamoe-20261024/training/candidate-p2-qualification-schema2-20261026/p2_backward_overlap"
+ export P1_SOURCE_ROOT="/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise"
+ export ASCEND_RT_VISIBLE_DEVICES=0,1
+ export PYTHONPATH="/home/zzy/deploy/megamoe-20261024/training/candidate-p2-qualification-schema2-20261026:/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2:${PYTHONPATH:-}"
+ export POINTWISE_SO="$T/candidate-p1/build/libmegamoe_pointwise.so"
+ set -u
+-NODE_RANK=${1:?node rank}; STAGE=p2-ep2-bf16-serial
++NODE_RANK=${1:?node rank}; STAGE=p2-ep2-bf16-overlap
+ [[ "$NODE_RANK" == 0 ]]
+ : "${RUN_TAG:?same explicit RUN_TAG on both hosts}"
+ [[ "$RUN_TAG" =~ ^[a-zA-Z0-9_-]+$ ]]
+@@ -39,7 +39,7 @@
+ fi
+ ARGS=(--run-npu --training-source-root "$TRAINING_SOURCE_ROOT"
+  --candidate-source-root "$CANDIDATE_SOURCE_ROOT" --pointwise-library "$POINTWISE_SO"
+- --p1-source-root "$P1_SOURCE_ROOT" --backward-schedule serial
++ --p1-source-root "$P1_SOURCE_ROOT" --backward-schedule overlap
+  --seed 4317 --oracle-chunk 1024 --max-reference-gib 12 --world-size 2
+  --B 32 --H 128 --I 128 --E 8 --K 4 --cases balanced,zero_gate,empty,skew
+  --weight-dtype bf16 --output "$RUN")

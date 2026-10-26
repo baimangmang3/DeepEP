@@ -1,0 +1,332 @@
+{
+  "binList": [
+    {
+      "implMode": "high_performance",
+      "int64Mode": false,
+      "simplifiedKeyMode": 0,
+      "simplifiedKey": [
+        "AlltoAllvGroupedMatMul/d=0,p=1/27,2/27,2/27,2",
+        "AlltoAllvGroupedMatMul/d=0,p=0/27,2/27,2/27,2",
+        "AlltoAllvGroupedMatMul/d=1,p=1/27,2/27,2/27,2",
+        "AlltoAllvGroupedMatMul/d=1,p=0/27,2/27,2/27,2"
+      ],
+      "staticKey": "b63284028b42294194dd4a19d66e76d759cd6cdf73d3a92f1b6eda1df91428da,ecf8a8980d8aead4e6854e25e5ab0aa2ff6b4ee22e99384cdf53ea50ca10215e",
+      "inputs": [
+        {
+          "name": "gmm_x",
+          "index": 0,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "gmm_weight",
+          "index": 1,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "send_counts_tensor",
+          "index": 2,
+          "dtype": "int32",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "recv_counts_tensor",
+          "index": 3,
+          "dtype": "int32",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_x",
+          "index": 4,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_weight",
+          "index": 5,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "gmm_y",
+          "index": 0,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_y",
+          "index": 1,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "permute_out",
+          "index": 2,
+          "dtype": "bfloat16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "group",
+          "dtype": "str",
+          "value": ""
+        },
+        {
+          "name": "ep_world_size",
+          "dtype": "int",
+          "value": 0
+        },
+        {
+          "name": "send_counts",
+          "dtype": "list_int",
+          "value": []
+        },
+        {
+          "name": "recv_counts",
+          "dtype": "list_int",
+          "value": []
+        },
+        {
+          "name": "trans_gmm_weight",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "trans_mm_weight",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "permute_out_flag",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "comm_mode",
+          "dtype": "str",
+          "value": ""
+        }
+      ],
+      "opMode": "dynamic",
+      "optionalInputMode": "gen_placeholder",
+      "deterministic": "ignore",
+      "optionalOutputMode": "gen_placeholder",
+      "binInfo": {
+        "jsonFilePath": "ascend950/allto_allv_grouped_mat_mul/AlltoAllvGroupedMatMul_556dfeb44368a8992204d6dae2b2f3be.json"
+      }
+    },
+    {
+      "implMode": "high_performance",
+      "int64Mode": false,
+      "simplifiedKeyMode": 0,
+      "simplifiedKey": [
+        "AlltoAllvGroupedMatMul/d=0,p=1/1,2/1,2/1,2",
+        "AlltoAllvGroupedMatMul/d=0,p=0/1,2/1,2/1,2",
+        "AlltoAllvGroupedMatMul/d=1,p=1/1,2/1,2/1,2",
+        "AlltoAllvGroupedMatMul/d=1,p=0/1,2/1,2/1,2"
+      ],
+      "staticKey": "622702780f5ac4e63ce3639829e6f497f01f863667847fcae60494f82098df61,8804b9d142e4b4ccb00a059cfafa90a1da7eb8fa4f5c0c09c78db32a91f13e7a",
+      "inputs": [
+        {
+          "name": "gmm_x",
+          "index": 0,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "gmm_weight",
+          "index": 1,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "send_counts_tensor",
+          "index": 2,
+          "dtype": "int32",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "recv_counts_tensor",
+          "index": 3,
+          "dtype": "int32",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_x",
+          "index": 4,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_weight",
+          "index": 5,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "gmm_y",
+          "index": 0,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "required",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "mm_y",
+          "index": 1,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        },
+        {
+          "name": "permute_out",
+          "index": 2,
+          "dtype": "float16",
+          "format": "ND",
+          "paramType": "optional",
+          "shape": [
+            -2
+          ],
+          "format_match_mode": "FormatAgnostic"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "group",
+          "dtype": "str",
+          "value": ""
+        },
+        {
+          "name": "ep_world_size",
+          "dtype": "int",
+          "value": 0
+        },
+        {
+          "name": "send_counts",
+          "dtype": "list_int",
+          "value": []
+        },
+        {
+          "name": "recv_counts",
+          "dtype": "list_int",
+          "value": []
+        },
+        {
+          "name": "trans_gmm_weight",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "trans_mm_weight",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "permute_out_flag",
+          "dtype": "bool",
+          "value": false
+        },
+        {
+          "name": "comm_mode",
+          "dtype": "str",
+          "value": ""
+        }
+      ],
+      "opMode": "dynamic",
+      "optionalInputMode": "gen_placeholder",
+      "deterministic": "ignore",
+      "optionalOutputMode": "gen_placeholder",
+      "binInfo": {
+        "jsonFilePath": "ascend950/allto_allv_grouped_mat_mul/AlltoAllvGroupedMatMul_62c6ece26f6deb532242bc49d39e4920.json"
+      }
+    }
+  ]
+}

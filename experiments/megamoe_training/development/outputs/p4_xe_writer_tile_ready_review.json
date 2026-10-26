@@ -1,0 +1,352 @@
+{
+  "scope": "BF16 peer-table Dispatch final Xe writers only. Offline source analysis; no implementation/device/ABI-progress qualification.",
+  "source_inventory": {
+    "work/DeepEP/csrc/kernels/notify/notify.cpp": {
+      "sha256": "bc97dc44ac54d00935153a5030c533fd96087d5f911b965c3f5f364b3d07339b",
+      "bytes": 119412
+    },
+    "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp": {
+      "sha256": "fc03e180401146b9047e512e4b998b7cb9b97b506e3517aeec9a99a0c5d06bb1",
+      "bytes": 30039
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp": {
+      "sha256": "3b9e90de5832dc1238904f2ec6286f62a869f2995debab0de49bf414d54f6684",
+      "bytes": 14673
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_primary.hpp": {
+      "sha256": "0d421c3a979b17257f7acdfa92792a07caacd7928ef4f377f1a8cd64ac3b2f8c",
+      "bytes": 4590
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_simt.hpp": {
+      "sha256": "3493ecb931b2687704d46b2cd80a242b684b96245c37979247f3cbec6213ff90",
+      "bytes": 3291
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp": {
+      "sha256": "aa621ed77270390f7f66677d60b003871ff2ef7c08bf5348a39b2dc074a7b991",
+      "bytes": 16502
+    },
+    "work/DeepEP/csrc/kernels/dispatch/fm_queue.hpp": {
+      "sha256": "e14fdf2da2ef8181620cabd8f820d31e0ca8788ea9879bb505ecddb50e844905",
+      "bytes": 6930
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp": {
+      "sha256": "be56a13261dcfdc1c0ba618acc7fb519fbb7495c3a52c86e234fd1a0485e1e07",
+      "bytes": 46913
+    },
+    "work/DeepEP/csrc/kernels/dispatch/wqe_cache.hpp": {
+      "sha256": "0e2ac8059e3d0fd886764d393019be32bc8a4ff21af4e0d82a0d0266c5d06674",
+      "bytes": 5992
+    },
+    "work/DeepEP/csrc/kernels/dispatch/peer_order.hpp": {
+      "sha256": "30e66d75b9edbe50fa66622bc7dac0b6eb03c2ac08943dcf9250176f119dc4ff",
+      "bytes": 2817
+    },
+    "work/DeepEP/csrc/kernels/dispatch/completion.hpp": {
+      "sha256": "d5f5bc59e8fafaa49888a9abefa0f102d13502d9a663e31c58b91bcd12496726",
+      "bytes": 4225
+    },
+    "work/DeepEP/csrc/kernels/dispatch/completion_wait.hpp": {
+      "sha256": "3b98ccfcd42d8cf3cc3374686103ed1407c37101b07098e1045e89ae75a99e51",
+      "bytes": 2822
+    }
+  },
+  "layout": {
+    "evidence": {
+      "file": "work/DeepEP/csrc/kernels/notify/notify.cpp",
+      "anchors": [
+        {
+          "line": 422,
+          "symbol": "NotifyExpertTotalsVf"
+        },
+        {
+          "line": 446,
+          "symbol": "NotifyBasesVf"
+        },
+        {
+          "line": 481,
+          "symbol": "NotifyResolveDstVf"
+        }
+      ]
+    },
+    "formula": "final_row(e,source,token,slot)=sum totals of earlier local experts + sum count(e,s) for s<source + source-local expert ordinal(token,slot). Ordinal is stable token/slot prefix, including duplicate occurrences. Xe is expert-major, then original-source-major, then token/slot. Each(e,source) has a contiguous possibly-empty segment; it is not globally source-major.",
+    "prefix_evidence": {
+      "file": "work/DeepEP/csrc/kernels/notify/notify.cpp",
+      "anchors": [
+        {
+          "line": 383,
+          "symbol": "int32_t ordinal = asc_ldcg(row + 4)"
+        },
+        {
+          "line": 255,
+          "symbol": "asc_stcg(row + 4, ordinal)"
+        }
+      ]
+    },
+    "qualification": "Logical final rows are contiguous segments; actual transport order/owner/QP is not contiguous row order. Original source differs from final network sender for relayed rows."
+  },
+  "writer_paths": [
+    {
+      "name": "self primary",
+      "evidence": [
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+          "anchors": [
+            {
+              "line": 397,
+              "symbol": "DispatchDeepepLocalCopy"
+            },
+            {
+              "line": 301,
+              "symbol": "CopyDeepepRows"
+            },
+            {
+              "line": 391,
+              "symbol": "DeepepLocalPrimaryDone"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/notify/notify.cpp",
+          "anchors": [
+            {
+              "line": 481,
+              "symbol": "NotifyResolveDstVf"
+            }
+          ]
+        }
+      ],
+      "mapping": "Scan original source route indices over tokens*topk partition. Nonnegative encoded destination only: rank=encoded/address_stride must equal self; final row=encoded%address_stride, source token=route_index/topk. Negative secondary/complement routes do not enter this primary writer.",
+      "role": "LocalFirst(world)..31; world8=>7..31, otherworld=>24..31. worker=logicalrole-LocalFirst; DispatchSplitRange partitions original flattened routes.",
+      "retire": "CopyDeepepRows tiles full row bytes through twoUB buffers; MTE3_MTE2 protects stage reuse, MTE2_MTE3 orders loads before stores, both MTE3_MTE2 final waits drain stores. DDR barrier then perwriter done generation. localworker0 waits all local done and publishes self primary-ready. That is all self primary writes, not complete local expert expansion."
+    },
+    {
+      "name": "direct/primary same-server FM",
+      "evidence": [
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp",
+          "anchors": [
+            {
+              "line": 98,
+              "symbol": "NotifyDispatchEmitCachedVf"
+            },
+            {
+              "line": 119,
+              "symbol": "asc_stcg(rows + at * 2U + 1U, bases[expert] + m[4])"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_primary.hpp",
+          "anchors": [
+            {
+              "line": 58,
+              "symbol": "IssueFmPrimaryPlanRange"
+            },
+            {
+              "line": 6,
+              "symbol": "DispatchBuildFmWqesVf"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+          "anchors": [
+            {
+              "line": 352,
+              "symbol": "DispatchDeepepLocalPeer"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_queue.hpp",
+          "anchors": [
+            {
+              "line": 94,
+              "symbol": "PublishFmSourceReady"
+            },
+            {
+              "line": 62,
+              "symbol": "FinishFmRows"
+            }
+          ]
+        }
+      ],
+      "mapping": "Notify plan rows pair(inputtoken, bases[expert]+expertordinal), selected primary flags&2, excluding self. Directory phase begin/count owns pair range. WQE dst=live PeerHiddenAddress + pair.finalrow*row_bytes; src=input + pair.token*row_bytes.",
+      "role": "source logicalrole0..6 maps destination local lane=(sourceRank%8+role+1)%lanes. Same privateFM QP0 is used in primary then secondaryforward order.",
+      "retire": "Metadata NativeLoad, MTE2_V thenSIMT WQE build, V_MTE3 thenPublishFmPreparedRows orders descriptor publication/doorbell, not payload completion. Nonempty relay primary range publishes primary-ready unsignaledSO on same orderedQP. Final FinishFmRows SO+udma_qp_quiet covers primary and relays, then lane2 terminal publish. Direct-only primary rows need no early source-ready; terminal remains required."
+    },
+    {
+      "name": "cross-server Clos primary (gateway Xe row)",
+      "evidence": [
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/peer_plan.hpp",
+          "anchors": [
+            {
+              "line": 57,
+              "symbol": "const uint32_t qp = !fm"
+            },
+            {
+              "line": 98,
+              "symbol": "NotifyDispatchEmitCachedVf"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp",
+          "anchors": [
+            {
+              "line": 504,
+              "symbol": "DispatchBuildPeerTableWqesVf"
+            },
+            {
+              "line": 630,
+              "symbol": "PrepareClosBuiltWqes<Profile>"
+            },
+            {
+              "line": 851,
+              "symbol": "FinishClosSplit"
+            },
+            {
+              "line": 921,
+              "symbol": "DispatchClosSplitQp"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/wqe_cache.hpp",
+          "anchors": [
+            {
+              "line": 16,
+              "symbol": "PrepareClosBuiltWqes"
+            }
+          ]
+        }
+      ],
+      "mapping": "Same Notify pair(inputtoken,finalrow) but grouped by destination/relay-direct phase/QP. Whole-peer ordinal selects 3:1 QP0/QP1 including explicit tail rule. WQE dst=published gateway Xe base + finalrow*row_bytes; source=inputtoken. Gateway primary row is itself one expert occurrence and may be read again to expand other expert occurrences.",
+      "role": "logical8..15 QP0 owner=role-8; logical16..23 QP1 owner=role-16; peer_order Peer selects gateway local lane=owner with destination server traversal.",
+      "retire": "WQE cacheNativeLoad/SIMT build+event order then bounded packet/doorbell; not remote payload completion. PhaseSO CQ snapshots are published to helper7; helper checks bothQP snapshots before source-ready fanout/ACK, with MTE3_S/DDR or SIMT fence publication. FinishClosSplit waits finalCQ+helperACK and quiet, then publishes done lane0/1. No perrow/tileCQ exists."
+    },
+    {
+      "name": "gateway local expansion (received source or own source)",
+      "evidence": [
+        {
+          "file": "work/DeepEP/csrc/kernels/notify/notify.cpp",
+          "anchors": [
+            {
+              "line": 610,
+              "symbol": "asc_stcg(out + 2U, primary_row)"
+            },
+            {
+              "line": 611,
+              "symbol": "asc_stcg(out + 3U, direct ? -1"
+            },
+            {
+              "line": 612,
+              "symbol": "asc_stcg(out + 4U, peer_row)"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp",
+          "anchors": [
+            {
+              "line": 43,
+              "symbol": "DecodeForwardRowsVf"
+            },
+            {
+              "line": 138,
+              "symbol": "ForwardPeer"
+            },
+            {
+              "line": 11,
+              "symbol": "CopyLocalForwardRecords"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/peer_order.hpp",
+          "anchors": [
+            {
+              "line": 35,
+              "symbol": "SplitLocalForwardRange"
+            }
+          ]
+        }
+      ],
+      "mapping": "forward_list[source,record,6] col2=primaryrow, col3=finaltargetrank or-1 for direct, col4=finaltargetrow. Select col3==self, producing(primaryrow,finalrow). Read Xe[primaryrow], write Xe[finalrow]; same payload copied unchangedBF16. Record is skipped/parked only if selected rows exist and original-source primary-ready absent.",
+      "role": "LocalFirst..31; SplitLocalForwardRange partitions each original source rawrecord range with CSR-offset rotation, then filters selftarget. Owner cannot be inferred from finalrow//128.",
+      "retire": "SIMT decode/vector mask+GatherMask+V_S gives rowpairs; CopyLocalForwardRecords batches<=4, aliases repeated reads only withinbatch, MTE2_MTE3 before stores, MTE3_MTE2 pingpong. Final ForwardPeer<Local> waits bothstageevents +mte_quiet. Prefetched metadata banks Finish waitsMTE2_V thenV_S. These are local final writes; earlier source-ready only permits their input reads."
+    },
+    {
+      "name": "gateway remote FM final expansion to another local rank",
+      "evidence": [
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_forward.hpp",
+          "anchors": [
+            {
+              "line": 138,
+              "symbol": "ForwardPeer"
+            },
+            {
+              "line": 92,
+              "symbol": "SelectForwardRows"
+            },
+            {
+              "line": 245,
+              "symbol": "IssueFmRows"
+            },
+            {
+              "line": 312,
+              "symbol": "FinishFmRows"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_simt.hpp",
+          "anchors": [
+            {
+              "line": 12,
+              "symbol": "IssueFmRows"
+            }
+          ]
+        },
+        {
+          "file": "work/DeepEP/csrc/kernels/dispatch/fm_primary.hpp",
+          "anchors": [
+            {
+              "line": 19,
+              "symbol": "sqe[5] = target"
+            },
+            {
+              "line": 21,
+              "symbol": "sqe[7] = source"
+            }
+          ]
+        }
+      ],
+      "mapping": "Same forward cols2/3/4. Filter finaltarget peer=(gatewayRank%8+logicalrole+1)%lanes; rowpairs(primarygatewayXeRow,finalpeerXeRow). SIMT WQE src=gatewayXe+primaryrow*rowbytes,dst=peerXe+finalrow*rowbytes. Original source may be crosshost; final network writer is the gateway, and peer terminal lane2 is indexed by that gateway sender.",
+      "role": "gateway logical0..6 after primary work; all original source records scanned, selecting assigned destinationpeer. dedup_group_size1 disables remoteFM relay because primary already covers rankdedup.",
+      "retire": "Only append acquired source-ready records. Carry can span128metadata tiles and original sources before32WQE flush, so a WQE batch need not align a final128row tile. V_MTE3 covers descriptor read; finalSO/quiet thenlane2 publishes remote completion. Completion of source-ready/intermediateClos is insufficient for these final writes."
+    }
+  ],
+  "metadata_for_expected_contributors": [
+    "Notify source\u00d7expert count inbox and expert_totals/bases define exact(e,source)segments and expertMtile extent; full source histogram is needed, not only perexpertcount_list.",
+    "Resolved encoded destinations plus direct/primary flags identify self or original-sender primary finalrows. Notify dispatch directory and pairtable identify destination/phase/QP and exact pairinput/output rows.",
+    "forward_list[source,record,6] plus forward_counts identify primaryrow->targetrank/finalrow and originalsource; SplitLocalForwardRange gives final local writer; local-lane relation gives finalFM sender.",
+    "Current generation, descriptor epoch, logicalrole/QP-owner and packet/rowpair batch memberships can key future contributions. They are distributed metadata; there is no existing consumer-ready perexpert128row table."
+  ],
+  "tile_ready_missing": [
+    "Need construct exact set of final writers intersecting [expertbase+128*m, min(expertend,base+128*(m+1))). Do not count intermediate primary arrival and its downstream expansion as two writes to the same final occurrence.",
+    "Need percontribution retired/published notification after complete rowbytes and destination visibility for each intersecting finaltile, with exact-once generation/step key. RO dataWQEs have no perrowCQE; existing queue terminal aggregates manytiles.",
+    "Cross(e,source)boundary tile can depend on several originalsources and mixed self/MTE/Clos/FM writers. QP3:1 striping and rotated rawrecord ownership can give several owners even within one source-expert segment.",
+    "Tail uses only actualrows and actualrowbytes: metadata128 andWQE32 batches are not XeM128 tile boundaries; empty expert has zero production, no consumerwait on nonexistent rows. Emptyrank still participates descriptor/control/terminal protocol.",
+    "Source primary Xe remains an input to localexpand and outgoingFM WQEs. Tile compute-read readiness is distinct from source-buffer reclaim: preserve outstandinglocalread and remoteDMAread lifetimes before reuse, plus auxiliary/kernel epoch retirement.",
+    "No current tile counter/storage/publication protocol or mixedkernel memory-acquire/reclaim proof; wholepeer flags may be retained as conservative outer completion but cannot simply be renamed tile-ready."
+  ],
+  "unknowns": [
+    "Exact payload-visible semantics rely on existingSHMEM/UDMA SO/CQE/quiet contracts; this pass does not reprove device/driver memory model.",
+    "Notify andDispatch local helpers checked at currentdisk hashes; noclaim this source inventory alone binds any deployedbinary.",
+    "No new native/protocol implementation or test run; root chooses anyfuture expectedcontributor/epochprotocol."
+  ],
+  "device_authorized": false
+}

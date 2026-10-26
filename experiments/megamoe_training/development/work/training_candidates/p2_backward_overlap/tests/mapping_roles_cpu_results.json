@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checks": 15,
+  "details": [
+    "real_dual_C_both_preserved_with_all_FD_evidence:rack05os7",
+    "relocated_package_roots_same_content_identity:rack05os7",
+    "missing_classification_rejects_dual_C:rack05os7",
+    "unknown_third_same_basename_rejected:rack05os7",
+    "real_dual_C_both_preserved_with_all_FD_evidence:rack05os8",
+    "relocated_package_roots_same_content_identity:rack05os8",
+    "missing_classification_rejects_dual_C:rack05os8",
+    "unknown_third_same_basename_rejected:rack05os8",
+    "actual_two_hosts_same_content_roles_different_inodes",
+    "final_rejects_extension_replaced",
+    "final_rejects_extension_removed",
+    "only_new_stable_role_allowed_final",
+    "legacy_basename_schema_rejected",
+    "roots_from_actual_imported_module_file_not_basename_guess",
+    "actual_base_selected_core_exact_path_binding_preserved"
+  ],
+  "canonical_maps_digest": "baa09f199b243856d3eb601e28384862766e63eef36523491a2671a19f3bc100",
+  "source_archives": [
+    "C:\\Users\\z30064827\\Documents\\Codex\\2026-10-24\\new-chat\\outputs\\p2_qualification_deployment\\rack05os7\\collision-cpu.json",
+    "C:\\Users\\z30064827\\Documents\\Codex\\2026-10-24\\new-chat\\outputs\\p2_qualification_deployment\\rack05os8\\collision-cpu.json"
+  ],
+  "schema": "p2-training-2",
+  "scope": "Offline archived actual CPU fstat-map evidence and pure policy tests; no collector rerun/native import/NPU/PG. Root relocation is identity-model simulation, not a new FD capture."
+}

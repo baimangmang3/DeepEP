@@ -1,0 +1,47 @@
+{
+  "status": "Root algorithm design; normalized CPU model requested; no native implementation or device proof",
+  "source_review": "outputs/p4_xe_writer_tile_ready_review.json",
+  "source_review_sha256": "5bc7edaf41c7db493e025b9bbbe1d4af56d39ca6c811d8d9dff28bacda48cf86",
+  "goal": "Expose actual final-Xe tile availability to the compute wave without requiring final peer completion, while retaining existing outer completion and training lifetimes.",
+  "first_scope": {
+    "storage": "Keep canonical full expert-expanded BF16 Xe. Do not recycle its rows or introduce a ring buffer in this first implementation. Preserve saved GU, A and unweighted Z rounding and lifetime.",
+    "consumer_tile": "Expert-local128-row interval, clipped to the actual expert count. A tile may cross original-source segments and final writer domains.",
+    "not_implemented": "No actual Notify-to-plan extractor, device frontier transport, acquire primitive, mixed AIC/AIV scheduling or native publication has been implemented by this design."
+  },
+  "plan": [
+    "Enumerate each final expert occurrence exactly once from resolved primary destinations and final forward-list records. Assign the actual final writer domain; the original source rank alone is insufficient.",
+    "A domain includes epoch, writer rank, logical writer or independent ordered QP, and any independently ordered phase. A shared frontier is legal only when actual issue order and completion semantics prove a single order.",
+    "Static metadata defines the expected final occurrences and their writer domains, not a fixed issue sequence. ForwardPeer skips sources whose primary data is not ready and may carry batches across sources, so actual issue order changes with runtime arrival order.",
+    "Assign a strict issue sequence at actual submission within each domain. A complete logical write includes all rowbytes, even when the implementation splits them into multiple MTE operations or transport descriptors. Do not impose blocking source-order waits merely to obtain a static sequence.",
+    "For each consumer tile and domain, seal its watermark only after every statically expected occurrence has been assigned its actual issue sequence exactly once. The sealed watermark is the maximum of these sequences. Consumer readiness requires both the seal and completion frontier reaching the watermark; a large frontier alone cannot hide an unissued contribution.",
+    "This handles interleaved and noncontiguous destinations and different source arrival orders. It may wait for unrelated earlier writes, which is safe but can reduce overlap. The seal itself needs epoch-safe transport and visibility; that device protocol remains unimplemented.",
+    "Build logical expectations from persistent weight_return_meta plus local expert counts, cross-checked against original-source topk_idx/signed dst, primary pair tables and phase/QP membership, gateway forward-list primaryrow/targetrank/finalrow, and actual local range ownership. This avoids requiring temporary Notify meta/bases for the logical join. Per-expert counts alone remain insufficient; physical SQ aliases and actual submission order still require separate binding."
+  ],
+  "completion": [
+    "A producer frontier advances only through the contiguous prefix of writes whose complete rowbytes are retired and visible at the final destination. Submission, doorbell publication and metadata visibility are not payload completion.",
+    "Local MTE stores must complete with the applicable data-store ordering before frontier publication. Ordered network checkpoint completion must cover all payload WQEs before the checkpoint and must establish remote visibility before its frontier is made observable.",
+    "The existing UDMA SO/CQE/quiet and receiving-side memory-acquire semantics require separate source audit and device validation. No C++ release/acquire or memory-fence shorthand substitutes for that hardware contract.",
+    "Tile compute readiness is the conjunction of the expected domain frontiers reaching their watermarks in the same epoch. Intermediate primary arrival certifies only its own final occurrence; it never certifies dependent local expansion or secondary FM destinations.",
+    "Keep empty-rank control participation and all outer final completion/quiet protocols. An empty expert has no data tile and must not wait for nonexistent payload."
+  ],
+  "epoch_and_reclaim": [
+    "Key plan, producer notifications, tile state and buffer ownership by the full step/chunk/buffer epoch. Reject stale or unexpected epochs; duplicate notifications are idempotent and never increment completion counts.",
+    "A ready tile may still supply local expansion or outgoing remote-DMA reads. Compute-ready does not release these read leases.",
+    "For the first implementation, retain all Xe through both communication reader retirement and the last training backward consumer. Only then may the allocation and its epoch be retired; auxiliary weight completion and descriptor reuse also remain required.",
+    "A later ring-buffer implementation needs explicit acknowledgements from every actual reader and all training consumers before granting a new epoch. This is a separate change and separate validation."
+  ],
+  "progress_constraints": [
+    "Preserve the32 logical hidden communication roles and their original mutual helper/producer dependencies; do not emulate all roles serially on one worker.",
+    "Do not insert a blocking tile-ready wait into a role needed to produce that tile's dependencies. A future role assignment must show the event-loop and AIC/AIV dependency graph has no progress cycle.",
+    "The hidden-then-aux role reuse candidate has a source-level dependency argument only. It does not prove mixed-kernel hardware fairness or legality of the old64-AIV SyncAll in a32-role subset."
+  ],
+  "initial_ablation_order": [
+    "Validate the independent P4 GU/SwiGLU/Z native component with the already-reviewed small fixed-limit contract.",
+    "Validate normalized CPU dependency planning and adversarial completion/epoch schedules. This establishes logical invariants only.",
+    "Extract actual metadata and compare every final destination against existing canonical Notify/Dispatch mappings before adding device frontier publications.",
+    "Add the minimal audited publication/acquire protocol while retaining full Xe storage, whole-peer outer completion and existing gating semantics; validate complete forward/backward before timing.",
+    "Measure checkpoint granularity, producer ordering and tile wakeup cost with matched workloads. Introduce buffer reuse only as a later controlled change."
+  ],
+  "device_authorized": false,
+  "performance_qualified": false
+}

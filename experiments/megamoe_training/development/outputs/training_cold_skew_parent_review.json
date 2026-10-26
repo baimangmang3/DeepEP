@@ -1,0 +1,44 @@
+{
+  "decision": "Approve exactly one new original-P1 cold-skew shared FP32 control, immediately after fresh free16/own0 and existing source/library/listener/duplicate-run gates pass. This approval is not consumed by a busy read-only gate.",
+  "owner": "/root/environment, existing GPT-6.1-sol sole remote operator",
+  "user_authorization": "2026-10-26: 一旦环境空闲，立刻开始验证、调试。并行进行问题定位与优化点分析。",
+  "status": "single-run authorization consumed by20261026_0140_cold_skew_once after01:41 free16/own0; running, do not start again",
+  "deployment_manifest_sha256": "90e3adc6377d10715a65cae5917c9fc87aebbf1ee6ca2ec1dc572fc5a6594d22",
+  "controller_sha256": "f0680510ee609f0987750add62af746bca9fb12a85e195e3413421e354eafa17",
+  "launcher_sha256": "4e3588d2620de3140afed16cdc3475e81f196843f10a26dadd9df2b13cacfe98",
+  "capture_sha256": "361b6477f2d751bb0543fb4021b26c5110544768bc0c956a8f18a0721c0cdeb1",
+  "verifier_sha256": "729c353b95add8e503e01efe9a0b57e04efdf522b769a23d52a6ac22396bd769",
+  "scope": {
+    "world": 16,
+    "B": 32,
+    "H": 128,
+    "I": 128,
+    "E": 64,
+    "K": 8,
+    "shared": true,
+    "weight_dtype": "fp32",
+    "seed": 4317,
+    "cases": [
+      "skew",
+      "balanced",
+      "zero_gate",
+      "empty"
+    ],
+    "timeout_seconds": 600,
+    "timing": false
+  },
+  "reviewed_change": "Original frozen P1 host-v2 and original site-package DeepEP; no trace helper or trace flags; skew first instead of fourth. Original inputs/seed/oracle and native dependencies unchanged. CLI case order is preserved and bound in identity; each case independently reseeds and creates/closes its Session.",
+  "purpose": "First traced run passed all704 checks with consistent cross-rank metadata; test cold skew and original host execution after removing added diagnostic recording. This changes multiple factors and is not a single-variable causal experiment or a demonstrated repair.",
+  "launch_contract": [
+    "New unique RUN_TAG; never overwrite or rerun consumed markers.",
+    "Retain reviewed own-PID identity/rc/watchdog and foreign protection, actual live FD mappings and original DEBUG logs.",
+    "Confirm original P1/DeepEP import paths and report identities against pinned manifest; any discrepancy invalidates result and stops following stages.",
+    "Keep existing fixed numerical thresholds; audit all16 ranks, all4 routes and full11 metrics plus lifecycle.",
+    "On error stop successors, retain original evidence and review the next discriminating diagnostic; no automatic identical retry.",
+    "On completion confirm own workers/controllers released before archiving. No automatic successor queue."
+  ],
+  "source_review": "outputs/p1_cold_skew_preparation/minimal-entry-diff.patch",
+  "cpu_preflight": "outputs/p1_cold_skew_preparation/cpu-final-preflight.json",
+  "prior_completed_diagnostic": "20261026_0100_hosttrace_once",
+  "root_cause_proven": false
+}

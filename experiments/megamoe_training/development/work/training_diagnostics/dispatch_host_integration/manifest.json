@@ -1,0 +1,54 @@
+{
+  "state": "1431 error_hold; offline review candidate only, NOT installed/deployed/device-authorized",
+  "CPU_checks": 23,
+  "files_sha256": {
+    "build_patch.py": "f333c9a08d2bf4f7986e5f423e7efdb68f9df4ff4bbf3e89c6d79c2189ed501a",
+    "hooks.py": "413e029a98d586e21f799a75d8748f3a3d0beb4c3c1a771e425a80cae172ceb2",
+    "integration.patch": "d26c06e04e8f51d332e002876997468bcf35500a1a2ba05c08c6e1e7cfd2850b",
+    "recorder.py": "e1125b5e7f66b6613c0edbfe378c0dd07d27938c81b04a1ca0f2097f05bfb5b2",
+    "test_cpu.py": "3cab9c0eb48118d81ec48d44a14fcb41c3c81cca46e7c7b3751873a2832bc852",
+    "__init__.py": "f8064cc1ba75f937cad22ca5831c18b7ec73350c47010e7bb2ea84d4cc5ac039",
+    "candidate/p1_pointwise/training_adapter.py": "8b7d88fe7f1c24f820b0a0ed1887d28fcc16a344ce01e45e8b888fb57bdf8534",
+    "candidate/p1_pointwise/validate_training_p1.py": "5dc706b8a4c0c16345bf191a5c8dcb6d476efc3aa9930c92bbe20ddc5c40e13e",
+    "candidate/deep_ep/buffers/elastic.py": "5405b4079935f6ca34bb23e0795397db6616ceeea4b71136c091301166beda0f"
+  },
+  "source_inputs": {
+    "deep_ep/buffers/elastic.py": {
+      "original_sha256": "117b01651bc503839ff2aa681fca55308867b09c8bda399b5a0e47ca8b9b8c1c",
+      "candidate_sha256": "5405b4079935f6ca34bb23e0795397db6616ceeea4b71136c091301166beda0f"
+    },
+    "p1_pointwise/training_adapter.py": {
+      "original_sha256": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+      "candidate_sha256": "8b7d88fe7f1c24f820b0a0ed1887d28fcc16a344ce01e45e8b888fb57bdf8534"
+    },
+    "p1_pointwise/validate_training_p1.py": {
+      "original_sha256": "841f663ee336bb3c342c83de9bc4d19bf5b41cc685329bef141dcf5fbc0ac93c",
+      "candidate_sha256": "5dc706b8a4c0c16345bf191a5c8dcb6d476efc3aa9930c92bbe20ddc5c40e13e"
+    }
+  },
+  "patch": "integration.patch changes only isolated copies of elastic.py, P1 adapter and host-v2 validator; frozen files and native libraries untouched",
+  "mechanism": [
+    "Only diagnostic-bound buffer retains actual existing Notify rows/count_list as immutable tuple tied to native Session",
+    "Explicit method-local forward/backward ContextVar is entered inside actual routed method, including backward worker thread; validator supplies run/case/session tag",
+    "cached_handle captured at actual dispatch entry before Notify creates a handle; never inferred from phase",
+    "Only existing native.dispatch invocation is enclosed in recorder.label; original arguments/result/error unchanged",
+    "Trace install folded into existing identity collective_checked action; no additional collective call site",
+    "Any metadata/native/phase/old-session/binding error latches stop. Finally restores owned hook and follows existing host close/error/PG convergence",
+    "Diagnostic output rejects preexisting rank*.json; diagnostic_only=true and all_passed=false even if diagnostic_all_cases_passed=true; never performance qualification"
+  ],
+  "explicit_opt_in": [
+    "--dispatch-host-trace-dir NEW_DIRECTORY",
+    "--dispatch-trace-run-id EXPLICIT_RUN_ID",
+    "optional --dispatch-trace-process-start precollected per-worker identity; absent reads only own /proc/self/stat field22 and boot_id"
+  ],
+  "deployment_boundary": "No launcher, queue, SSH, native build or install prepared. Future reviewer/environment must create a complete isolated Python package tree with the same frozen dependencies and helper package on import path, apply reviewed patch there, and independently bind actual mapped libraries. Do not overwrite live/frozen packages.",
+  "remaining_review": [
+    "Full Notify device planner not simulated; only the actual existing host handle-construction region executed from supplied host summaries",
+    "Symbolic CPU full routed/HT dispatch tests are wiring checks, not numerical or real-autograd/native proofs",
+    "Distributed validator not executed; unchanged communication sites, exception/finally structure and diagnostic qualification rejection reviewed statically",
+    "Device heap translations/publication/visibility and process-contention evidence remain separate; host metadata alone will not prove a cause",
+    "Host logging/file flush changes submission overhead; no performance inference from diagnostic run"
+  ],
+  "test_result": "outputs\\dispatch_host_integration_cpu_review.json",
+  "encoding": "All new artifacts explicit UTF-8; no replacement characters"
+}

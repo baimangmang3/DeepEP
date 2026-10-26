@@ -1,0 +1,533 @@
+{
+  "timestamp_utc": "2026-10-26T01:10:13.6721468+00:00",
+  "phase": "Stopped by user: automation disabled and all pending automatic execution revoked; preparing private repository megaMoe_train source export.",
+  "completed_runs": {
+    "EP16_small": "0647",
+    "EP16_shared_fp32_small": "0653",
+    "EP16_target_bf16": "0658",
+    "EP16_target_shared_bf16": "0703",
+    "CANN_ai_cpu_small": "0710",
+    "CANN_ai_cpu_target": "0714",
+    "forward_pilot": "0721",
+    "full_training_debug": "0736",
+    "full_training_benchmark": "0742",
+    "full_training_profile": "0745",
+    "p2_ep2_overlap_0526": {
+      "audit": "outputs/training_results_20261026_0526_p2_overlap_once/p2-ep2-bf16-overlap/strict-accuracy-release-audit.json",
+      "passed_metrics": 56,
+      "node_rc": 0,
+      "supervisor_rc": 0,
+      "own_released": true,
+      "performance_qualified": false,
+      "qualification_scope": "EP2 routedBF16 small overlap only"
+    }
+  },
+  "baseline_report": "outputs/training_full_step_baseline.json",
+  "full_profile_analysis": "outputs/training_full_step_trace_analysis.json",
+  "optimization_plan": "outputs/training_optimization_plan.json",
+  "active_at_last_observation": null,
+  "candidate": {
+    "root": "work/training_candidates/p1_pointwise",
+    "state": "P1 native/small/cold704 and target routed112 have measured passes. Target shared0310 numerical176 passed but aborted recording chain leaves true rc null and incomplete qualification. P1 schema2 internal initial/final FD CPU preflight passed; no new P1 device or timing permission.",
+    "source_sha256": {
+      "native/pointwise.cpp": "ee58581acf370bdef4709b1dbe1e8ad61f27617899e76891a09ddd02029f97cc",
+      "pointwise.py": "d01a65729f61f947daf0b73a0639b12390eca230a8ca43a90c2669f21f0980e1",
+      "CMakeLists.txt": "cd992ddacc86d011efcafa10307a7f0d4272685699193fec509ad08ec0c4a318",
+      "test_pointwise_npu.py": "2b5e49ad02222946ad20865e371dbcce0a9d4738c5d4834a9a79e6290c293acb"
+    },
+    "validation": "outputs/p1_pointwise_unit_audit.json; source4/SO actual mappings/rc0/release confirmed, full-layer qualification separate",
+    "integration_contract": "work/p1_training_integration_contract.json",
+    "native_so_sha256": "e189f39a8448df078e082ba90b3147e593962bbcc374aa388d69344cfc125ca1",
+    "full_training_root": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-training/p1_pointwise"
+  },
+  "authorized_agent_queue": [],
+  "next_parent_work": "Private repository and source export only; no automatic NPU/compile execution.",
+  "cann_aiv": {
+    "up": "0753",
+    "report": "outputs/training_cann_aiv_support.json",
+    "performance_available": false,
+    "state": "Both raw native APIs reject aiv on current CANN9.2/PTA2.12.post2/950DT at parameter check; all16 evidence and releases verified",
+    "down": "0758"
+  },
+  "comparison_harness": {
+    "probe_sha256": "409d4df8fcdfce441be0669bad76453a32ddae63b49578bba311eb52afeb6488",
+    "scope": "full forward+backward+gradient clear; no optimizer/recompute; same host cleanup for P0/P1/CANN outside measured interval",
+    "cpu_gate_tests": 30,
+    "root": "work/training_candidates/p1_comparison_host_v2",
+    "gate_sha256": "a636d1b03fabb190680552ce7162600ec70c03df4617816bcb9b6cd7a063f3e4",
+    "cpu_host_tests": 14,
+    "requires": "All six new host-v2 qualification stages; exact target all16 current source/library/config/cleanup identity. Old P1 qualification cannot authorize timing.",
+    "host_sha256": "4cb6f73b1143474b8f6b57d05569ddce79772b9e249dc942c2eab9fde19d1ecf"
+  },
+  "ep_gmm_training_adapter": {
+    "isolation": "outputs/ep_gmm_training_cpu_review/isolation.json",
+    "world_limit": 8,
+    "scope": "actual wrapper bodies with simulated two-rank communications and independent segmented autograd; not NPU-qualified",
+    "cpu_cases_passed": 8,
+    "source_sha256": "2b3ec26b6d77763b12a45b0891e544b1659c82b4789d0f13e4375b49c0081b6c",
+    "root": "work/training_candidates/ep_gmm_training",
+    "report": "outputs/ep_gmm_training_cpu_review/cpu-results.json"
+  },
+  "ep16_patch": {
+    "remaining": "Actual16-peer UDMA capacity/init, queued/repeated/empty/skew/cleanup/full gradients; originalEP8 independent baseline first.",
+    "state": "Isolated11-file adapted native wheel compiled successfully rc0; immutable originalEP8 wheel archived separately. Neither installed nor NPU-qualified.",
+    "tiling": "up1024 rows2stage384MiB; down128 rows2stage48MiB; N6144 nominal copy32 effective10 under unchanged248KiB UB",
+    "candidate_files": 11,
+    "patch_sha256": "4dc5a3073a0dec8f45bd2f4c49d2a00ed6fea8d5f6c5fa49eb2535ba5747b839",
+    "abi": "25232B; peer/expert/segment offsets16/144/656",
+    "root": "work/ep_gmm_ep16_patch",
+    "parent_review": "Fixed omitted up host12880 staticassert to25232 and added cross-file ABI regression. Other pinned files unchanged.",
+    "cpu_checks": 1421
+  },
+  "current_failure": {
+    "release": "Both nodesrc1; all own PIDs gone with no signals;16free at08:37 and08:42 snapshots",
+    "root_cause": "Unresolved;0850 P0 runtime-only48 closes succeeded underDEBUG and host coordination, not proof0829 fixed. Host validator propagation gap patched and CPU14 checks passed; current full NPU requalification required.",
+    "logs": "outputs/training_results_20261025_0829/p1-ep16-bf16",
+    "error_propagation": "Confirmed validator close-result convergence gap permits successful rank to enter next HCCL oracle while failed rank tears down PG",
+    "run": "20261025_0829/p1-ep16-bf16",
+    "analysis": "outputs/training_failure_0829_analysis.json"
+  },
+  "lifecycle_diagnostic": {
+    "audit": "outputs/training_results_20261025_0850/p0-lifecycle-debug/lifecycle-diagnostic-audit.json",
+    "cycles_each": 3,
+    "released": true,
+    "root_cause_proven": false,
+    "node_rc": [
+      0,
+      0
+    ],
+    "ranks": 16
+  },
+  "p2_draft": {
+    "state": "CPU realTorch32math+4dW-failure tests36/36passed plus11 symbolic/lifecycle checks. NPU/PG never initialized, noUDMAimports. No NPU qualification or physical overlap proof.",
+    "design": "work/p2_backward_overlap_design.json",
+    "source": "work/training_candidates/p2_backward_overlap",
+    "results": "outputs/p2_training_math_cpu",
+    "adapter_sha256": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce"
+  },
+  "current_failure_0904": {
+    "rank": 10,
+    "root_cause": "Unresolved; not a P1 numerical result and not proof of0829 finalize recurrence",
+    "error": "RunAicpuIndOpThreadInit0x2a/E39999",
+    "qualification": "Host-v2 EP2 BF16/sharedFP32 passed; EP16 and main target still unqualified",
+    "next": "Read exact-own-PID logs, normal peers, runtime/device status and resource evidence before further NPU decision",
+    "stage": "first HCCL allreduce before identity or P1 constructor",
+    "release": "Both nodesrc1; all own PIDs exited. One verified own CPU torchrun PGID1722184 TERM only. No foreign intervention.",
+    "occupancy_after": "09:10:14/22 all16cards occupied by new foreign processes; not a free-environment result",
+    "resource_evidence": "Current384CPU,load14-15,available memory~2.2TB,/dev/shmempty. Not historical-pressure proof. Host28 prelaunch5 UDMA/URMA-110/-28 messages; ownership/causality unresolved.",
+    "report": "outputs/training_host_v2_failure_report.md",
+    "source_review": "work/hccl_init_0904_review.json"
+  },
+  "ep_gmm_pinned_build": {
+    "state": "CPU originalEP<=8 wheel builtrc0 with unmodifiedclean35fa7d and fixedclean dependencies; archived,not installed, no NPU qualification",
+    "report": "outputs/ep_gmm_pinned_ep8_build/README.md",
+    "wheel_sha256": "278e99bfd1f61faeea93463fc70a1e304cf94d5d2466ae7da851fbfa2da987f1",
+    "ep_gmm_so_sha256": "14fd98eb760be8c9d925d55c437177eef0edf004c2e6eeabf489a08d5f02505e"
+  },
+  "ep16_native_build": {
+    "base": "35fa7d91b321340c153b098bf166202645976a75",
+    "wheel_sha256": "4db259b8265d5978d14520eb1620565ada6c409572ddde85d4c52c4b0abdc885",
+    "patch_sha256": "4dc5a3073a0dec8f45bd2f4c49d2a00ed6fea8d5f6c5fa49eb2535ba5747b839",
+    "report": "outputs/ep_gmm_adapted_ep16_build/remote-final-build-state.json",
+    "status": "CPU wheel build passed rc0; no installation or NPU qualification"
+  },
+  "ep16_training_wrapper": {
+    "adapter_sha256": "3a7999c6cbf62285b8a7bb5bb39034fbdd4e2f14f4ad0a290e051532fa50718d",
+    "report": "work/training_candidates/ep_gmm_training_ep16/tests/cpu_constructor_results.json",
+    "status": "32 CPU constructor/negative/runtime/metadata checks passed; not device/native ABI/precision evidence",
+    "source": "work/training_candidates/ep_gmm_training_ep16"
+  },
+  "hccl_control_0933": {
+    "probe_sha256": "341141310b3b59e2a82ee90c03003f0dd2a4a82c6c7962945a8ed6a520831bd8",
+    "historical_controls": "0550 strict MIN failed;0638 MIN/SUM passed16;0642 MIN/SUM/AllGather passed16. No proven fix or deterministic reproducer.",
+    "result_dir": "outputs/training_results_20261025_0933/pure-hccl-control-once",
+    "status": "Passed all16 functional/host exit/source/maps dev-inode-hash audits; two real rc0/timeoutfalse and all own processes released. Not a proven root-cause fix.",
+    "audit": "outputs/training_results_20261025_0933/pure-hccl-control-once/pure-control-audit.json"
+  },
+  "p3_wave_contract": {
+    "training_saved_bf16_MiB": 2304,
+    "gate_MiB": 0.25,
+    "down_tiles": 96,
+    "candidate_wave_rows": 512,
+    "state": "Algorithm contract only; not native implementation or performance claim",
+    "up_tiles": 64,
+    "path": "work/p3_bf16_wave_contract.json",
+    "up_gate_up_pairs": 32
+  },
+  "current_failure_0950": {
+    "stage": "p1-host-v2-ep16-shared-fp32-small",
+    "point": "First report-directory int32 MIN; no identity, numerical case or P1 engine execution.",
+    "observed_error": "All16 ranks report RunAicpuIndOpThreadInit failure. Host-local earliest Runtime report rank2 on rack05os7, rank15 on rack05os8; not cross-host or physical root-cause ordering.",
+    "actual_worker_maps": "All16 matched selected host library inventories/hashes against successful0942; common11 libraries also match0933. No training/SHMEM/pointwise native SO present in failed worker raw maps.",
+    "missing": "No captured0950 direct device first error/threadArray null/context/deviceHandle/actual loader payload identity; earlier0403 null-pointer evidence cannot be silently reused as0950 evidence.",
+    "release": "Both node rc1; all recorded worker/torchrun/supervisor PIDs exited. Latest13:34:42/47CST read-only check: free16/foreign0/own0.",
+    "latest_occupancy": "outputs/training_occupancy_20261025_1334_readonly",
+    "evidence": "outputs/training_results_20261025_0950/p1-host-v2-ep16-shared-fp32-small",
+    "root_cause_proven": false,
+    "npu_retries_authorized": "Historical one-time sequence consumed by1431; no current retry authorization."
+  },
+  "p1_ep16_small_0942": {
+    "world": 16,
+    "cases": [
+      "balanced",
+      "zero_gate",
+      "empty",
+      "skew"
+    ],
+    "node_rc": [
+      0,
+      0
+    ],
+    "audit": "outputs/training_results_20261025_0942/p1-stage-accuracy-audit.json",
+    "complete": true,
+    "identity": "34bd20752b1d757cb9a38b0488680683326f9d5d7c715689bd8bd6e71e797e41",
+    "metrics": 7,
+    "own_pids_released": true
+  },
+  "ep_gmm_qualification_harness": {
+    "status": "Parent source review complete, including cached-module explicit-root guards. Offline only; no deployment/native identity collection or NPU qualification.",
+    "manifest": "work/ep_gmm_training_validation/manifest.json",
+    "cpu_checks": 35,
+    "archived_wheel_contracts": 2,
+    "validator_sha256": "135ad48794d9dc9a8b260f25ff72a7b831d6cef68920f5a10c4c9ca7f0296996",
+    "identity_sha256": "d142bd06ba439e6c9dbc5bff91e6178ebdfd0ae6dd00122663eb956662be0fe7"
+  },
+  "agent_recovery": {
+    "prior": "Environment agent interrupted by usage limit after0950 collection.",
+    "current": "One recovery follow-up succeeded; agent performed read-only checks at13:34CST. No model change or duplicate job."
+  },
+  "p3_compute_component": {
+    "status": "Built and standalone68 NPUcases passed including main65536 GU/A zero difference; actual mapped identity and rc0/release audited. Training adapter CPU16cases passed. Full distributed training not yet qualified.",
+    "source": "work/training_candidates/p3_up_swiglu/native/up_swiglu.cpp",
+    "source_sha256": "66f60053da1919d4c094ab6a973b060f93556ed5c8ce82cc37140dab700cc4ef",
+    "report": "outputs/p3_compute_component_status.json",
+    "scope": "Single MIX kernel: grouped BF16 W1 GEMM plus FP32 SwiGLU rounded to BF16; saves canonical rounded GU and A for backward. No communication, GMM2, row gating or backward fusion.",
+    "manifest_sha256": "7880e7444d6a296908cb75509486b1732b2dab690c61b1d5e0201ce525de2b1f",
+    "library_sha256": "4623d9abf673210f0e3e07473f9f02c541256d699e47ce0a2a2dd7229c8c856b",
+    "training_adapter": "work/training_candidates/p3_training; fused GU/A forward with inherited P1 backward, 16 CPU gradient cases passed; full distributed qualification remains pending.",
+    "standalone_audit": "outputs/training_results_20261025_1413/p3-up-swiglu-unit/unit-audit.json",
+    "cpu_training": "outputs/p3_training_math_cpu"
+  },
+  "instrumented_hccl_diagnostic": {
+    "authorization": "One diagnostic only, not training retry",
+    "baseline": "0933 pure HCCL exact three source files and MIN/AllGather sequence",
+    "env_delta": [
+      "ASCEND_GLOBAL_LOG_LEVEL=0",
+      "ASCEND_PROCESS_LOG_PATH=/home/zzy/<unique-run>/ascend-log"
+    ],
+    "reason": "Same selected host libs on success/failure; installed binary includes loader realPath logging but previous run omitted it and device first error",
+    "scope_limit": "Actual execution payload/context remains missing unless directly observed; no inference from disk candidate or one pass",
+    "next": "Complete rc0 on both hosts, all16 MIN/AllGather/maps audits pass, all owned processes released. No initialization root-cause fix proven.",
+    "controller": "outputs/training_round_20261025_1357/pure-hccl-debug-once-controller",
+    "new_evidence": {
+      "loader_lines": "outputs/training_results_20261025_1357/pure-hccl-debug-once/loader-lines.json",
+      "descriptor": "Actual HCCL loader logs reference official9.2 ccl_kernel.json with success",
+      "device": "InitThreads success and nonzero threadArray elements observed; elements are thread handles, not direct deviceHandle base pointer/H2D byte observations",
+      "aiv_boundary": "Bootstrap load of hccl_aiv_op_910_95.o does not establish officialAIV support for alltoallvGmm/gmmAlltoallv; native0753/0758 rejection conclusion unchanged",
+      "root_cause_proven": false
+    },
+    "audit": "outputs/training_results_20261025_1357/pure-hccl-debug-once/pure-control-audit.json",
+    "release": "outputs/training_occupancy_20261025_1405_debug_release"
+  },
+  "p3_qualification_entry": {
+    "status": "Parent reviewed;53CPUgates,16CPU fullgradients and68native unitcases passed; both-host CPU-only deployment/preflight complete. Full-layer NPU still pending.",
+    "validator_sha256": "4ee40fec5ee643ee1e449e416d9f029c3caa0eb5b37c1aec9172661a2aae6487",
+    "manifest_sha256": "0d7cd18912b239554039f22dee88fd46c1534cb054c5f40b424a1c67e69d2f2c",
+    "provenance_sha256": "2d18392c3f8f114ca8637b5425529ddf417e29e8678c9b784fc12a1766e7eb50",
+    "next": "STOP: previous conditional six-stage P3 device queue revoked after1431 failure. Offline deployment and standalone qualification remain valid within their recorded scope.",
+    "source": "work/training_candidates/p3_training",
+    "deployment": "outputs/p3_training_deployment/README.md",
+    "current_namespace_review": "Current P3 checked_maps/canonical map still uses basename; potential dual_C false rejection found by source review. Reference preparing offline fix/regressions, preserving unit68 actual path FD proof. Old training entry not approved for NPU."
+  },
+  "retry_policy": {
+    "conflict_recheck_delay_minutes": 30,
+    "automatic_restart_after_error": false,
+    "on_error": "Stop this attempt and dependent stages; preserve original logs/rc/ownership/identity; analyze and review the next discriminating diagnostic or fix.",
+    "restart_condition": "Latest20261026 human authorization: run a reviewed changed diagnostic immediately when free16/no own job; do not require a proven root cause before collecting evidence. Never repeat an unchanged failed command automatically.",
+    "cleanup_scope": "Verified own PID ledger only; never terminate foreign jobs."
+  },
+  "current_failure_1431": {
+    "run": "20261025_1431/p1-host-v2-debug-shared-fp32-small",
+    "state": "Unresolved historical failure; active diagnostic preparation replaces blanket error_hold.",
+    "observed_error": "skew Dispatch descriptor epoch/incoming timeout precedes507035; all16 Runtime faults bound to dispatch_kernel stream55/task49. Backward prelaunch sync surfaces an earlier asynchronous failure; exact task phase remains under review.",
+    "node_rc": [
+      1,
+      1
+    ],
+    "own_pids_gone": 22,
+    "cleanup_signals_sent": false,
+    "release_times_beijing": [
+      "2026-10-25 14:40:42",
+      "2026-10-25 14:40:43"
+    ],
+    "release": "Both hosts free: 16 cards, own0, foreign0 at release snapshots.",
+    "conflict_proven": false,
+    "conflict_excluded": false,
+    "ownership_limit": "Prelaunch and release snapshots are free; no snapshot at the failure instant. No direct foreign-entry evidence currently; transient competition remains unproven.",
+    "collector_error": "Collector rotation FileNotFound is separate; targeted all16 run/plog and device logs now supplemented:32files,28.3MB,SHA checked,no skips. Broad DEBUG completeness is not claimed.",
+    "evidence": "outputs/training_results_20261025_1431/p1-host-v2-debug-shared-fp32-small",
+    "root_cause_proven": false,
+    "failure_audit": "outputs/training_results_20261025_1431/p1-host-v2-debug-shared-fp32-small/failure-release-audit.json",
+    "protocol_review": "outputs/training_dispatch_1431_protocol_notes.json",
+    "current_readonly_occupancy": "2026-10-26 00:14:31/32CST: both hosts externally occupied,16cards/8foreign PIDs per host; own device/control/training0, npu-smi rc0.1431 error_hold and empty device queue retained; no launch/cleanup/retry.",
+    "static_review": "outputs/training_dispatch_1431_static_review.json",
+    "pc_review": "outputs/p1_1431_offline_pc_review/disassembly-results.json",
+    "pc_boundary": "Original final dispatch ELF0f3b00e55ef76773cf3fcc2933bec089e489ed6dbc5799832f53b078ec31955f: PC+0x2f24 is compare in a descriptor-wait-shaped loop, not TRAP. PC+0x1a554 is LD_IO; neighboring0x1a540/544 are traps. No debug_line, no direct exact-source-line attribution.",
+    "static_conclusion": "No proven static first-cause bug. Under correct Notify rank_rows, all ranks use global rows2048 and peer_book3210240; local_rows0 does not affect workspace offsets or skip epoch publication. Actual failing metadata/descriptor values remain missing.",
+    "observability_plan": "outputs/training_dispatch_observability_plan.json",
+    "launch_sequence_boundary": "Last two DEBUG windows start after each skew case_start. Each records one stream55/task49 dispatch, but missing earlier window prevents strict dynamic forward/backward attribution.",
+    "shmem_put128_source_review": "outputs/shmem_put128_descriptor_review/summary.json",
+    "shmem_initialization_log_review": "outputs/p1_1431_initialization_log_review/summary.json",
+    "initialization_evidence_boundary": "All16 skew initialization success logs follow checked update_device_state/control barrier in pinned source. This is indirect host return-chain evidence, not device context/table readback. First setter attempt precedes observed dispatch; second follows task error. No root cause proven.",
+    "current_occupancy_evidence": "outputs/training_occupancy_20261026_0013_readonly",
+    "next_diagnostic_result": "New instrumented run passes including zero-length rank5 output pointers and matching all-rank layouts; cannot backfill1431 runtime metadata or prove fix."
+  },
+  "dispatch_host_trace": {
+    "status": "Completed 20261026_0100_hosttrace_once:704 metrics passed,128 before/128 native_return,0native_error; not timing qualification. Both node/supervisor rc0, own processes released.",
+    "report": "outputs/dispatch_host_trace_cpu_review.json",
+    "cpu_checks": 33,
+    "source_sha256": "e1125b5e7f66b6613c0edbfe378c0dd07d27938c81b04a1ca0f2097f05bfb5b2",
+    "manifest_sha256": "f64ebac4d3096f42d35b79b36d1c8cd81748f168a67466b673f4ce4947c349fa",
+    "parent_review": "Corrected optional plan handling against actual peer_table ABI; native error now latches failed and prevents subsequent calls even if caught. No added tensor value reads/synchronization or changed native arguments.",
+    "remaining": "Fresh gate, execute one diagnostic if free; capture per-rank evidence and release. Unknown1431 root cause is not a bar to this diagnostic.",
+    "device_launch_authorized": "Previous single-run authorization consumed; next uninstrumented changed-case-order control is being reviewed.",
+    "integration_design": "outputs/training_dispatch_host_integration_design.json",
+    "parent_launch_review": "outputs/training_dispatch_diagnostic_parent_review.json",
+    "controller_report": "outputs/training_round_20261026_0100_hosttrace_once/dispatch-host-trace-shared-fp32-small-controller",
+    "analysis": "outputs/training_hosttrace_0100_analysis.json",
+    "candidate_identity": "247383561ece25abe80c338518d515bac1bdc61f7e5d180b70e2f67161b78221",
+    "root_cause_proven": false
+  },
+  "cold_skew_control": {
+    "automatic_successors": [],
+    "parent_review": "outputs/training_cold_skew_parent_review.json",
+    "status": "complete_passed_released",
+    "ownership_gate": "outputs/training_occupancy_20261026_0105_cold_skew_gate/summary.json",
+    "authorization_consumed": true,
+    "run_tag": "20261026_0140_cold_skew_once",
+    "release_boundary": "26 recorded own PIDs gone and both node/supervisor rc0. Final host27 free8; host28 npu-smi briefly listed4 non-ledger PIDs no longer in /proc, so not a verified free16 snapshot. New main launch must pass an independent fresh gate."
+  },
+  "heartbeat_20261026_0110": {
+    "agent_state": "Environment completed busy gate; reference_validation actively implementing P2 CPU qualification",
+    "new_occupancy_observation": false,
+    "occupancy_evidence": "outputs/training_occupancy_20261026_0105_cold_skew_gate/summary.json",
+    "observed_utc": "2026-10-25T17:10:40.803Z",
+    "action": "No duplicate remote check or device launch: latest01:05 foreign16 gate is less than30minutes old. Approved cold-skew permission remains unconsumed."
+  },
+  "p2_qualification_entry": {
+    "NPU_qualified": false,
+    "manifest_sha256": "04f47711bf5ac2e3328cd08f5626f0d8e0c4fa1dca0e93b52dadd1c643f70e03",
+    "parent_review": "outputs/p2_qualification_parent_review.json",
+    "state": "86 CPU gates plus real schema2 CPU import/identity preflight passed on both hosts rc0;6 plans and34 native maps each; no NPU/PG/SHMEM owner. CPU single permission consumed. Independent EP2 serial device contract pending.",
+    "evidence": "outputs/p2_qualification_deployment/collision-summary.json",
+    "CPU_preflight": "outputs/p2_qualification_schema2_deployment/cpu-preflight-summary.json",
+    "device_contract_draft": "work/p2_ep2_bf16_device_contract.json",
+    "device_launch_authorized": false
+  },
+  "p1_main_control": {
+    "parent_review": "outputs/p1_main_parent_review.json",
+    "status": "complete_passed_released_permission_consumed",
+    "authorization_consumed": true,
+    "run_tag": "20261026_0153_p1_main_routed_once",
+    "metric_checks": 112,
+    "full_live_native_FD_snapshot": false
+  },
+  "p1_main_shared_control": {
+    "status": "single_run_approved_waiting_foreign",
+    "authorization_consumed": false,
+    "parent_review": "outputs/p1_main_shared_parent_review.json",
+    "predecessor": "20261026_0153_p1_main_routed_once",
+    "last_gate_beijing": "2026-10-26 02:32:50/54",
+    "next_gate_not_before_beijing": "2026-10-26 03:02:54",
+    "gate_evidence": "outputs/training_round_20261026_0233_p1_shared_once/p1-host-v2-main-shared-bf16-balanced-controller/summary.json"
+  },
+  "p2_ep2_launcher_review": {
+    "status": "CPU_preparation_parent_review_complete_device_pending",
+    "device_authorized": false,
+    "report": "outputs/p2_ep2_serial_preparation",
+    "findings": [
+      "EP2 starts only host27; old parallel cleanup on host28 can fail writing absent RUN path and mask first error.",
+      "Prelaunch dependency pins must include existing34 actual CPU FD objects, retaining dynamic runtime identity with lazy additions."
+    ],
+    "old_controller_sha256": "be246d575609cb1247f1962a4d0af4c35e166f2974566df2729ec21d5bceb4bf",
+    "parent_review": "outputs/p2_ep2_serial_parent_review.json",
+    "controller_sha256": "a7428940d5014def8a3aa9a697d0eb447488e3eb91cf33327d751d3c67378f57",
+    "deployment_manifest_sha256": "ccae3a06fca29f13d4b3a54720088bdd9e67ac9f3f408e39a857f48e6cefa993"
+  },
+  "p1_shared_0310": {
+    "run": "20261026_0310_p1_shared_once",
+    "raw_metric_checks": 176,
+    "all_16_reports_all_passed": true,
+    "qualification": false,
+    "node_rc": [
+      null,
+      null
+    ],
+    "supervisor_rc": [
+      null,
+      null
+    ],
+    "all_own_released": true,
+    "own_ledger_count": 26,
+    "permit_consumed": true,
+    "automatic_retry": false,
+    "abort_release_audit": "outputs/training_results_20261026_0310_p1_shared_once/p1-host-v2-main-shared-bf16-balanced/operator-abort-release-audit.json",
+    "audit_sha256": "e85cb501787a9658c056f4e84becd8a0a020f291ead344ce999cb62da0d32b88",
+    "root_cause_1431_proven": false
+  },
+  "p3_schema2_cpu": {
+    "summary": "outputs/p3_schema2_cpu_deployment/cpu-summary.json",
+    "node_rc": [
+      0,
+      0
+    ],
+    "plans_each_host": 8,
+    "actual_FD_maps_each": 35,
+    "cross_host_identities_match": true,
+    "NPU_initialized": false,
+    "PG_initialized": false,
+    "ElasticBuffer_owner_exists": false,
+    "probe_sha256": "77b7a461a649cabab80216e255b8e9db916fe54d376c2e104a24a3b8d0e1288f",
+    "original68_bytes_unchanged": true,
+    "next": "Prepare concrete P3 EP2 precision-only entry offline, no automatic device successor."
+  },
+  "p1_final_identity_review": {
+    "review": "outputs/p1_final_identity_parent_review.json",
+    "root": "work/training_candidates/p1_qualification_review",
+    "schema": "p1-training-2",
+    "CPU_checks": 51,
+    "manifest_sha256": "a5b455f47b40efa6f08faae1c96855c4e335872558b33718af095aa794984129",
+    "deployed": true,
+    "NPU_authorized": false,
+    "CPU_preflight": {
+      "summary": "outputs/p1_schema2_cpu_deployment/cpu-summary.json",
+      "summary_sha256": "43ceb44b35c8c92beb9b9462c15ef1fc30d6f212e0a0f9358d7b65f2e1e79845",
+      "rc": [
+        0,
+        0
+      ],
+      "plans_each": 8,
+      "FD_maps_initial_and_final_each": 34,
+      "cross_host_mismatches": 0,
+      "before_after_initialized": false,
+      "owner": false
+    }
+  },
+  "launcher_exit_diagnosis": {
+    "source_review": "outputs/torch_elastic_exit_dns_review/README.md",
+    "finding": "Installed Torch event construction unconditionally calls getfqdn before null event handler; actual0310 signal stack is in this CPU launcher path. Duration and causality not established.",
+    "external_prelaunch_controller": "Unknown: exact foreign PPIDs disappeared before targeted read, no initial generic scheduler census saved.",
+    "CPU_DNS_probe": "Consumed once per host: host27 timed out at5s, exact own child killed/reaped rc-9; host28 getfqdn38.35ms rc0/reaped. No NPU or system configuration changed. Do not infer0310 duration.",
+    "next_control": "Independent P2 EP2 serial controller revised offline: child-first cancellation preserving recording parents, exact PID/start/PGID with signal timestamps, foreign-launcher preflight; requires parent review.",
+    "CPU_DNS_evidence": "outputs/torch_elastic_exit_dns_review/one-shot-resolution/results.json"
+  },
+  "p2_serial_hostname_control": {
+    "review": "outputs/p2_ep2_serial_parent_review.json",
+    "approved_once": true,
+    "controller_sha256": "79244132decd43be482d391a6d5681f99c6c7bdb720587ee2fa2813f578996af",
+    "manifest_sha256": "662589d416fe3258385d0167080bc9660f284fbebf7ced8f21b36c361284db51",
+    "preparation": "outputs/p2_ep2_serial_hostname_preparation",
+    "stage": "EP2 B32H128I128E8K4 BF16 routed serial 4cases/56metrics",
+    "no_timing": true,
+    "no_automatic_successor": true,
+    "sole_operator": "/root/environment",
+    "current_run": "Read latest device_progress, never duplicate",
+    "gate": "fresh free16 own0 and no recognized foreign launcher/pins/ports before launch",
+    "cleanup": "child-first verified own only, preserve recorders/real rc",
+    "old1431_root_cause_proven": false,
+    "consumed_run_tag": "20261026_0348_p2_serial_once",
+    "device_permission_remaining": false,
+    "result": "56/56 complete, initial/final35FD same digest bothrank, true node/supervisor0, no signals, own0/free16"
+  },
+  "p2_overlap_control": {
+    "review": "outputs/p2_ep2_overlap_parent_review.json",
+    "approved_once": true,
+    "controller_sha256": "53af4288397a65f7132e845a88fb3b12be82588935834045f0061d7738b4cf60",
+    "manifest_sha256": "e0c8aafefab26d353884e8d24815290466bd38f2c00d180963e4f6e4b6a45a15",
+    "stage": "EP2 same shape/routes/dtype, overlap schedule,56metrics,no timing",
+    "current": "0526 complete and accepted56/56, initial/final35FD digest0ff37c6c unchanged across ranks, true node/supervisor0, case-close/PG pass, all saved own PID-starts gone, own0. Post host27free8/host28foreign8; foreign arrival relative to training end unknown, not a proven training conflict.",
+    "automatic_successor": "Only exact conditional EP16 serial described in p2_ep16_parent_review.json after strict successful predecessor and a new fresh gate; not an unconditional queue.",
+    "last_guard": "outputs/training_round_20261026_0455_p2_overlap_once/p2-ep2-bf16-overlap-controller/summary.json",
+    "next_check_not_before_beijing": "2026-10-26T05:56:51.864556+08:00",
+    "permission_consumed": true,
+    "completed_run": "20261026_0526_p2_overlap_once",
+    "result_review": "outputs/p2_ep2_overlap_0526_parent_review.json"
+  },
+  "p2_ep16_controls": {
+    "review": "outputs/p2_ep16_parent_review.json",
+    "preparation": "outputs/p2_ep16_control_preparation_review.json",
+    "cpu_deployment_both_variants_both_hosts_passed": true,
+    "serial_manifest": "4908ff82d5b7396d9a6174ab2ad80c33ae8033ac4410ca893ad02a2b2b6a12d7",
+    "overlap_manifest": "1df3cfb0fe090f211ca611429af7430abe65f7172f20a7b622e48f3fb3c9a97c",
+    "serial_conditional_once": "Only after EP2 overlap56/identity/all exits/real rc0/release pass and new fresh16free/own0/no external launcher/ports/pins. Any predecessor failure revokes. No repeated root review needed for exact approved scope.",
+    "overlap_device_permission": false,
+    "prior_filter_bug": "world2 hardcode in copied EP16 external collector fixed before deployment;24 targetedCPU plus8 dualhost regression pass",
+    "uncertain_cleanup": "Missing remaining/cleanup_errors/true integer rc or summary_save_error remains active/unknown",
+    "NPU_started": false,
+    "predecessor_accepted": "outputs/p2_ep2_overlap_0526_parent_review.json",
+    "next_gate_not_before_CST": "2026-10-26T07:27:38.470502+08:00"
+  },
+  "p3_wave_integration_review": "outputs/p3_wave_integration_review.json",
+  "p4_compute_wave_offline": {
+    "source": "work/training_candidates/p4_wave_compute",
+    "owner": "/root/reference_validation",
+    "status": "v1 compile rc0, SOe96c58fe retained; independent v2 two-line uint16 loop-bound correction compiled rc0, SOeea6c53d, warning removed and remaining13 unchanged, both compiler PID-starts gone. No native load/NPU execution.",
+    "root_design": "outputs/p3_wave_integration_review.json",
+    "scope": "Up-SwiGLU-down compute wave, AIV0 full128 row activation and actual per-pair completion; AIV1 reserved; full BF16 GU/A/unweightedZ saves, noSHMEM/backward fusion claim",
+    "deployment_authorized": false,
+    "compile_authorized": false,
+    "device_authorized": false,
+    "parent_review": "outputs/p4_compute_wave_parent_review.json",
+    "source_manifest_sha256": "deec8aea2e29c9a365fbbc6ddbc51fe3a64328db4173f5b9b72f97ead3e3f9d9",
+    "consumed_compile_permissions": [
+      "outputs/p4_compute_wave_parent_review.json",
+      "outputs/p4_compute_wave_v2_parent_review.json"
+    ],
+    "v2_source": "work/training_candidates/p4_wave_compute_v2",
+    "v2_build": "outputs/p4_compute_wave_v2_build/CPU-build-audit.json",
+    "v2_SO_sha256": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+    "component_validation_review": "outputs/p4_component_validation_parent_review.json",
+    "component_cpu_preparation": "outputs/p4_component_validation_v2_deployment/CPU-deployment-audit.json",
+    "shmem_role_design": "outputs/p4_dispatch_role_integration_review.json",
+    "control_parent_review": "outputs/p4_component_control_parent_review.json",
+    "control_manifest_sha256": "04d326db4f19b535231ce15e4360658810003b25c06251b8f2d885f2ea7ce363",
+    "control_CPU_status": "Once CPU control deployment passed and consumed; exact two-host bytes/bash-n and host27 source/SO/default recording plans rc0, actual control interpreter scope retained. No P4 device launch.",
+    "parallel_algorithm_work": "9 wire decoder +13 logical-writer join checks accepted; no real device dump. Clos mailbox can identify state aliases only within owner/lane/current epoch. Actual SHMEM source confirms qp_quiet only polls registered CQEs; explicit SO boundaries, immutable notification sources and logical-row-to-WQE/CQ mapping remain necessary. Six current private installed headers equal pinned source and recorded build-info hashes; no actual runtime branch or visibility proof.",
+    "control_CPU_result": "outputs/p4_component_v2_control_deployment/CPU-deployment-summary.json",
+    "conditional_device_review": "outputs/p4_component_device_parent_review.json",
+    "conditional_device_permission": "Approved once after complete P2 EP16 serial448 and fresh all16 gate; not yet enabled or consumed. No automatic later successor.",
+    "tile_frontier_design": "outputs/p4_tile_frontier_protocol_design.json",
+    "tile_frontier_CPU_review": "outputs/p4_tile_readiness_model_cpu_review.json",
+    "tile_frontier_parent_review": "outputs/p4_tile_frontier_parent_review.json",
+    "transport_role_review": "outputs/p4_frontier_transport_role_review.json",
+    "metadata_wire_review": "outputs/p4_metadata_wire_schema_review.json",
+    "logical_writer_join_review": "outputs/p4_metadata_writer_join_parent_review.json",
+    "HBM_capacity_evidence": "outputs/training_hbm_capacity_snapshot_review.json",
+    "shmem_source_review": "outputs/p4_shmem_frontier_source_review.json",
+    "installed_header_evidence": "outputs/shmem_installed_header_evidence_20261026.json",
+    "mailbox_alias_review": "outputs/p4_clos_mailbox_alias_scope_review.json"
+  },
+  "p5_dispatch_logical_roles": {
+    "status": "native paired CPU object compile approved once and dispatched to original environment; inspect latest run before any repeat",
+    "review": "outputs/p5_dispatch_logical_roles_parent_review.json",
+    "source": "work/training_candidates/p5_dispatch_logical_roles",
+    "patch_sha256": "d74707491a22a5a8b08646bed0c5d3eaf50440baec60f836bf2f153cc97b6815",
+    "manifest_sha256": "b0e63246c9bc5d6bbd279a7e451abb62dbe23cf9823276a6e4bd4c9c0bd641eb",
+    "CPU_checks": 8,
+    "native_compile_authorized": true,
+    "device_authorized": false,
+    "performance_qualified": false,
+    "compile_preparation": "outputs/p5_identity64_compile_preparation.json",
+    "next_algorithm_design": "outputs/p5_phased32_integration_design.json",
+    "CPU_compile_review": "outputs/p5_identity64_cpu_compile_parent_review.json",
+    "current_CPU_run": "20261026_0708_p5_identity64_cpu_once"
+  },
+  "user_stop": {
+    "time": "2026-10-26T09:10:13.4818488+08:00",
+    "automation": "megamoe-16",
+    "status": "PAUSED",
+    "all_pending_run_permissions_revoked": true,
+    "last_CPU_result": "P5 0708 pre-compiler FileNotFoundError prepare_snapshots.py; program.rc1, runs empty, saved recorder/driver absent in last status",
+    "current_remote_state": "Not freshly queried during repository export"
+  }
+}

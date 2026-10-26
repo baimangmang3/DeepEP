@@ -1,0 +1,57 @@
+{
+  "pid": 1217257,
+  "files": [
+    {
+      "path": "/root/ascend/log/run/plog/plog-1217257_20261025054610063.log",
+      "local_path": "outputs\\training_results_20261025_0544\\hccl-pure-ready-ep16\\rack05os7\\pid-logs\\run-plog-plog-1217257_20261025054610063.log",
+      "sha256": "a3894409654d5104e5e2b76c246fd3f068010679e3b6c1a677e0653493c24847",
+      "selected": [
+        {
+          "line": 138,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:28.346.815 [base_config_legacy.cc:385][1217257][HCCL_ENV] HCCL_OP_EXPANSION_MODE set by default to [HcclAccelerator::AICPU_TS]"
+        },
+        {
+          "line": 253,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:30.160.294 [communicator_impl.cc:2905][1217257][CommunicatorImpl][SetAccelerator] env OpExpansionMode is [HcclAccelerator::AICPU_TS]"
+        },
+        {
+          "line": 287,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:30.219.778 [alg_env_config.cc:212] [1220677][InitEnvConfig] initialized: execTimeoutSet[0], execTimeoutSec[0.00], splitRatioSet[0], splitRatio[0], intraLinkConfigSupported[0], intraRoce[0], a3ConfigSupported[0], interHccsDisable[0], retryMask[0x0], inconsistentCheck[0], taskException[1], algoConfig[deferred-to-costmodel]."
+        },
+        {
+          "line": 300,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:30.291.394 [op_common.cc:1768] [1220677][HcclAllocAlgResourceAICPU] resource calculated: commName[group_name_0], algTag[AllReduce_group_name_0_AicpuAllReduceSoleNHR_device], algName[AicpuAllReduceSoleNHR], slaveThreadNum[1], notifyNumOnMainThread[1], channelNum[14], channelLevels[1]."
+        },
+        {
+          "line": 301,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:30.291.398 [op_common.cc:1772] [1220677][HcclAllocAlgResourceAICPU] start allocation: commName[group_name_0], algTag[AllReduce_group_name_0_AicpuAllReduceSoleNHR_device], algName[AicpuAllReduceSoleNHR]"
+        },
+        {
+          "line": 364,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.813.921 [op_common.cc:1437] [1220677][HcclGetAlgRes] engine[AICPU_TS], algTag[AllReduce_group_name_0_AicpuAllReduceSoleNHR_device], resource allocated: thread num[2], channel num per level[level0[14]], ccu kernel num[0], commName[group_name_0], userRank[0], ctxSize[6112]."
+        },
+        {
+          "line": 365,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.813.933 [inconsistent_check.cc:66] [1220677][CompareOpExchangeInfos] all exchangeInfos checked successfully. algTag[AllReduce_group_name_0_AicpuAllReduceSoleNHR_device]"
+        },
+        {
+          "line": 371,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.839.843 [op_common.cc:1768] [1220677][HcclAllocAlgResourceAICPU] resource calculated: commName[group_name_0], algTag[AllGather_group_name_0_AicpuAllGatherSoleNHR_device], algName[AicpuAllGatherSoleNHR], slaveThreadNum[3], notifyNumOnMainThread[3], channelNum[14], channelLevels[1]."
+        },
+        {
+          "line": 372,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.839.847 [op_common.cc:1772] [1220677][HcclAllocAlgResourceAICPU] start allocation: commName[group_name_0], algTag[AllGather_group_name_0_AicpuAllGatherSoleNHR_device], algName[AicpuAllGatherSoleNHR]"
+        },
+        {
+          "line": 401,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.883.955 [op_common.cc:1437] [1220677][HcclGetAlgRes] engine[AICPU_TS], algTag[AllGather_group_name_0_AicpuAllGatherSoleNHR_device], resource allocated: thread num[4], channel num per level[level0[14]], ccu kernel num[0], commName[group_name_0], userRank[0], ctxSize[6136]."
+        },
+        {
+          "line": 402,
+          "text": "[INFO] HCCL(1217257,python):2026-10-25-05:47:31.883.966 [inconsistent_check.cc:66] [1220677][CompareOpExchangeInfos] all exchangeInfos checked successfully. algTag[AllGather_group_name_0_AicpuAllGatherSoleNHR_device]"
+        }
+      ]
+    }
+  ],
+  "scope": "exact successful PID plog, no device action"
+}

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": 255,
+  "main": {
+    "jobs": 4096,
+    "nonempty_consumers": 8192,
+    "GU_elements": 268435456,
+    "A_elements": 134217728
+  },
+  "source_sha256": "de4e57e210f9209e1210e3c914685acb3d49e23da209d1dbe616785d7e2f0edc",
+  "limitations": [
+    "Static partition and fake-device wrapper only; no compiler/device/stream scheduler or cross-core visibility evidence",
+    "Concurrent fixture verifies allocation ownership, not physical concurrency correctness"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "status": "Algorithm contract for a future native implementation; not built, qualified or timed",
+  "purpose": "True SHMEM/CATLASS BF16 forward wave pipeline with training saves. P1 pointwise and P2 stream overlap remain separate controls.",
+  "source_basis": [
+    "experiments/megamoe_training/native/gemm.cpp: current qualified 128x256x256 L1 / 128x256x64 L0 BF16 GEMM",
+    "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_gmm1_activation.hpp: paired activation readiness patterns; existing quantized math is not reusable as BF16 training math",
+    "experiments/megamoe/csrc/kernels/mega_moe/stage/mega_moe_gmm2_combine.hpp: FIX completion before output ready and separate local send-buffer versus remote consumption completion",
+    "work/megamoe_training_fusion_reuse.json: source hashes and synchronization boundaries"
+  ],
+  "initial_target": {
+    "EP": 16,
+    "B": 8192,
+    "H": 6144,
+    "I": 2048,
+    "E": 64,
+    "K": 8,
+    "aic": 32,
+    "aiv": 64,
+    "required": "Query and verify resources. Initial specialization must reject different resources rather than silently reinterpret lane or flag indices."
+  },
+  "wave_candidate": {
+    "rows": 512,
+    "cube_tile_m": 128,
+    "cube_tile_n": 256,
+    "up_gate_up_pairs": 32,
+    "up_gemm_tiles": 64,
+    "down_gemm_tiles": 96,
+    "rationale": "At I2048/H6144 one 512-row wave gives 32 paired G/U tasks and 96 down tasks, divisible by 32 AIC. This is only an occupancy hypothesis; compare 128/256/512 rows after correctness and observe latency, communication progress, tails and resource contention.",
+    "canonical_layout": "Keep W1[E,2I,H] and GU[rows,2I]; each AIC computes matching gate N tile and up N tile at n+I. No hidden weight interleave or layout conversion.",
+    "assignment": "For a full wave, pair index c in [0,32) selects mTile=c//8,nTile=c%8. AIC c stores two canonical BF16 GU tiles. AIV0 c consumes that pair in bounded UB row batches. Down tile indices c,c+32,c+64 cover four M tiles times 24 N tiles.",
+    "tails": "Derive actual M/N sizes and expected producer counts from the expert count. Never wait for nonexistent padded producers; do not count padded arithmetic as useful FLOPs. Empty experts issue no compute/transport work."
+  },
+  "protocol": [
+    "Per step publish the complete local source input/routing payload under the existing SHMEM visibility and global input ownership protocol. No source buffer may be recycled before its proven consumer completion.",
+    "AIV1 dispatches exact source/expert rows into permanent canonical Xe and publishes per-row-wave readiness only after all required copies and their visibility fences complete. Keep exact row coverage, not a boolean from the first sender.",
+    "AIC computes both GU tiles for its assigned pair, rounds/stores BF16 GU, drains FIX stores, then publishes epoch-tagged pair completion. This signal never permits saved GU reuse.",
+    "AIV0 waits for both rounded GU tiles, evaluates the same FP32 SwiGLU sequence as the qualified path, stores BF16 A and completes its store fence before publishing activation completion for that pair.",
+    "Each AIC finishes all assigned G/U work for the wave before waiting on the complete actual activation producer set. Only then may it enter GMM2. This ordering avoids all AIC waiting for GMM1 work that they have not yet scheduled.",
+    "GMM2 stores rounded unweighted BF16 Z permanently. Publish output tile completion after FIX completion; AIV consumers gate FP32 Z*p then round each BF16 contribution exactly as P0 and send to deterministic source/topK slots.",
+    "Source reduction waits for all actual selected-expert contributions and preserves the qualified FP32 accumulation and final BF16 cast. Do not replace deterministic source reduction with unordered remote BF16/FP32 atomics.",
+    "AIV1 may dispatch the next wave while current AIC/AIV0 compute, but its combine obligations must remain progress-safe. Do not let waiting for a speculative dispatch credit prevent draining a current return that releases that credit.",
+    "Communication staging slots have distinct producer-ready, transport-local-complete and remote-consumed epochs. Reuse requires the relevant actual completion/ACK set; never infer it from a posted put or an arithmetic ready flag. Keep SHMEM/UDMA quiet and final cross-rank handshake semantics."
+  ],
+  "training_saves": {
+    "balanced_rank_bytes": {
+      "Xe_BF16": 805306368,
+      "GU_BF16": 536870912,
+      "A_BF16": 268435456,
+      "Z_unweighted_BF16": 805306368,
+      "gate_FP32": 262144
+    },
+    "allocation": "Allocate from actual received rows with checked 64-bit products and a separate memory cap; balanced 65536 is not a capacity bound for skewed routes. These saves are permanent through backward, separate from reusable communication staging.",
+    "backward": "First reuse the qualified staged backward against these exact saves, then P2 as a separate control. A forward fusion implementation alone must not be described as a fused backward implementation.",
+    "zero_gate": "Keep unweighted rounded Z even at p=0 so dp=sum(dE*Z) remains defined; never recover Z by dividing a weighted result."
+  },
+  "required_progress_proof": [
+    "Enumerate producer/consumer roles, wait-for dependencies and finite buffer credits before writing persistent device loops.",
+    "Prove tail/empty/skew completion counts and epoch reuse independently of cross-rank arrival order.",
+    "Never copy the inference quantized input width, MX scale layouts or epilogue into this BF16 path.",
+    "Validate all full gradients and shared behavior with the fixed oracle before any timing. Native implementation and its library hashes need a new identity."
+  ],
+  "ablation_contract": "Matched route and chunk payload for comm-only, compute-only, forced serial and fused modes. Measure raw per-rank and per-round max times with instrumentation disabled; use separate sampled traces to establish overlap and the critical path. Full step includes permanent saves, routing, gating, pack/unpack and any actual conversion."
+}

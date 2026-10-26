@@ -1,0 +1,221 @@
+--- a/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/runtime.py
++++ b/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/runtime.py
+@@ -129,7 +129,7 @@
+             requested = UdmaConfig(rank, world_size, init_method, heap_size, f"npu:{local_rank}")
+         valid = (
+             all(isinstance(v, int) and not isinstance(v, bool) for v in (rank, world_size, heap_size, local_rank))
+-            and 0 <= rank < world_size <= 8
++            and 0 <= rank < world_size <= 16
+             and local_rank >= 0
+             and _WORKSPACE_BYTES < heap_size < 1 << 63
+             and (_config is None or (requested == _config and group is _group_ref))
+--- a/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/ops.py
++++ b/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/ops.py
+@@ -30,7 +30,7 @@
+     return {"tiling": [profile[name] for name in TILING_FIELDS[operator]]}
+ 
+ 
+-_MOE_ROUTE_MAX_RANKS = 8
++_MOE_ROUTE_MAX_RANKS = 16
+ _MOE_ROUTE_MAX_LOCAL_EXPERTS = 64
+ _MOE_ROUTE_MAX_SEGMENTS = _MOE_ROUTE_MAX_RANKS * _MOE_ROUTE_MAX_LOCAL_EXPERTS
+ _MOE_ROUTE_HEADER_SIZE = 4 * 4
+@@ -122,7 +122,7 @@
+     """Pack CatCCOS route prefixes on the host and copy them to the NPU."""
+     local_expert_num = expert_num // ep_size
+     if ep_size > _MOE_ROUTE_MAX_RANKS:
+-        raise ValueError("route metadata supports at most 8 EP ranks")
++        raise ValueError("route metadata supports at most 16 EP ranks")
+     if local_expert_num > _MOE_ROUTE_MAX_LOCAL_EXPERTS:
+         raise ValueError("route metadata supports at most 64 local experts")
+ 
+--- a/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/_tiling.py
++++ b/experiments/ep_gmm_fused/python/deep_ep_experimental/ep_gmm_fused/_tiling.py
+@@ -118,8 +118,8 @@
+             _integer(name, value)
+     if m is not None:
+         _integer("m", m, 0 if operator == GROUPED_MATMUL else 1)
+-    if world_size is not None and world_size > 8:
+-        raise ValueError("world_size must not exceed 8")
++    if world_size is not None and world_size > 16:
++        raise ValueError("world_size must not exceed 16")
+     if aic_cores is not None and world_size is not None and aic_cores < world_size:
+         raise ValueError("at least one AI core per rank is required")
+     ub_capacity = min(_integer("ub_bytes", ub_bytes), UB_BYTES)
+@@ -214,6 +214,8 @@
+     export = case.get("output_all_to_allv", False)
+     if operator == ALL_TO_ALLV:
+         values = [128, 256, 256, 64, 1280, 2, 32, 1, 0, 1]
++        if case["world_size"] == 16:
++            values = [128, 256, 256, 64, 1024, 2, 32, 1, 0, 1]
+         if business and m == 131072 and k == 2048:
+             if n == 1024:
+                 values = (
+@@ -234,6 +236,10 @@
+             values = [256, 256, 256, 32, 2048, 2, 16, 1, 8, 4 if n == 6144 else 8]
+     elif operator == GROUPED_MATMUL:
+         values = [128, 256, 256, 10, 32, 0, 2, 1]
++        if case["world_size"] == 16:
++            # Explicit physical staging; nominal copy rows32 retain the default
++            # UB cap below (N6144 -> effective10). Explicit overrides are not capped.
++            values = [128, 256, 256, 12, 32, 128, 2, 1]
+         if business and n == 2048:
+             if k == 1024:
+                 values = [128, 256, 256, 10, 4, 0, 2, 1]
+--- a/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma.cpp
++++ b/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma.cpp
+@@ -33,7 +33,7 @@
+ constexpr uint64_t kSymmetricDataBytes = 200UL * 1024 * 1024 * sizeof(uint16_t);
+ constexpr uint32_t kMaxK0 = 256;
+ static_assert(sizeof(Catccos::DGemm::MoeRouteSegment) == 24, "unexpected MoeRouteSegment ABI");
+-static_assert(sizeof(Catccos::DGemm::MoeRouteMetadata) == 12880, "unexpected MoeRouteMetadata ABI");
++static_assert(sizeof(Catccos::DGemm::MoeRouteMetadata) == 25232, "unexpected MoeRouteMetadata ABI");
+ 
+ enum class KernelVariant {
+     kM0_128,
+@@ -70,6 +70,8 @@
+ };
+ 
+ constexpr TilingProfile kDefaultTiling{KernelVariant::kM0_128, 128, 256, 256, 10, 64, 64, 1, 16, 1280, 2, 32, 1, 0, 1};
++// EP16-only profile: K6144 uses384MiB of the unchanged400MiB data reserve.
++constexpr TilingProfile kEp16Tiling{KernelVariant::kM0_128, 128, 256, 256, 8, 64, 64, 1, 16, 1024, 2, 32, 1, 0, 1};
+ constexpr TilingProfile kM131072K2048N1024NonExportTiling{
+     KernelVariant::kM0_128, 128, 256, 256, 12, 128, 128, 4, 4, 1536, 2, 64, 1, 0, 1};
+ constexpr TilingProfile kM131072K2048N1024ExportTiling{
+@@ -99,6 +101,9 @@
+     // to a rank and may differ, so it must not participate in tiling selection.
+     // This operator requires the input M/K/N and the export mode to be
+     // rank-invariant; those values are therefore safe selection keys.
++    if (worldSize == 16) {
++        return kEp16Tiling;
++    }
+     const bool isFourRank28ExpertCase = worldSize == 4 && expertNum == 28;
+     if (isFourRank28ExpertCase && outputAllToAllV && m == 131072 && k == 3584) {
+         if (n == 6144) {
+@@ -176,7 +181,7 @@
+                 int64_t workspaceBytes)
+ {
+     CheckNpuTensor(deviceAnchor, "device_anchor", at::kByte);
+-    TORCH_CHECK(worldSize > 0 && worldSize <= 8 && rank >= 0 && rank < worldSize, "invalid UDMA topology");
++    TORCH_CHECK(worldSize > 0 && worldSize <= 16 && rank >= 0 && rank < worldSize, "invalid UDMA topology");
+     TORCH_CHECK(workspaceAddress > 0 && workspaceBytes > 0, "invalid public runtime workspace");
+     const c10::OptionalDeviceGuard guard(deviceAnchor.device());
+     UdmaRuntime::Instance().Attach(static_cast<int32_t>(rank), static_cast<int32_t>(worldSize),
+--- a/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/udma_runtime.cpp
++++ b/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/udma_runtime.cpp
+@@ -20,7 +20,7 @@
+ {
+     std::lock_guard<std::mutex> lock(mutex_);
+     TORCH_CHECK(rank >= 0 && rank < worldSize, "invalid UDMA rank ", rank, " for world size ", worldSize);
+-    TORCH_CHECK(worldSize > 0 && worldSize <= 8, "UDMA world size must be in [1, 8]");
++    TORCH_CHECK(worldSize > 0 && worldSize <= 16, "UDMA world size must be in [1, 16]");
+     TORCH_CHECK(!initialized_, "UDMA workspace is already attached");
+     TORCH_CHECK(workspace != 0 && workspaceBytes >= kKernelWorkspaceBytes, "invalid public runtime workspace");
+ 
+--- a/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma_device.hpp
++++ b/experiments/ep_gmm_fused/csrc/all_to_allv_grouped_mat_mul_udma/ascend950/all_to_allv_grouped_mat_mul_udma_device.hpp
+@@ -77,7 +77,7 @@
+     using BlockExport =
+         Catccos::Comm::Block::CommBlock<ExportDispatch, AType, AType, void, TileExportCopy, TileScheduler>;
+ 
+-    using MoeConstraints = Catccos::DGemm::MoeConstraints<1, 8, 64>;
++    using MoeConstraints = Catccos::DGemm::MoeConstraints<1, 16, 64>;
+     using BlockMmadScheduler = Catccos::DGemm::Block::BlockMmadSchedulerAllToAllVAllGather<MoeConstraints, MSplit>;
+     using BlockScheduler = Catccos::Comm::Block::BlockCommSchedulerAllToAllVAllGather<MoeConstraints>;
+     using ProblemShape = Catccos::DGemm::AllToAllVAllGatherProblemShape;
+--- a/experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma.cpp
++++ b/experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma.cpp
+@@ -53,6 +53,9 @@
+ };
+ 
+ constexpr TilingProfile kDefaultTiling{KernelVariant::kM0_128, 128, 256, 256, 10, 64, 64, 1, 16, 0, 2, 32, 1};
++// Explicit stageRows avoids deriving staging from32*AIC/EP and interval10.
++// Nominal copy rows32 keep the existing default UB cap: N6144 -> effective10.
++constexpr TilingProfile kEp16Tiling{KernelVariant::kM0_128, 128, 256, 256, 12, 64, 64, 1, 16, 128, 2, 32, 1};
+ // 2026-09-09 Ascend950DT_9582 search winners, with commTileM = 2 * local copy rows.
+ // K1024: f1d10672a756a4a9; K512: fdfb758ae9b102f9.
+ constexpr TilingProfile kK1024N2048Tiling{KernelVariant::kM0_128, 128, 256, 256, 10, 8, 64, 4, 4, 0, 2, 4, 1};
+@@ -71,6 +74,9 @@
+     // ranks under imbalanced routing. UDMA peers must nevertheless use the same
+     // M0 and communication schedule, so selection may only depend on topology
+     // and K/N, which are rank-invariant for one collective launch.
++    if (worldSize == 16) {
++        return kEp16Tiling;
++    }
+     const bool isFourRank28ExpertCase = worldSize == 4 && expertNum == 28;
+     if (isFourRank28ExpertCase && n == 3584) {
+         if (k == 3072) {
+--- a/experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma_device.hpp
++++ b/experiments/ep_gmm_fused/csrc/grouped_mat_mul_all_to_allv_udma/ascend950/grouped_mat_mul_all_to_allv_udma_device.hpp
+@@ -52,7 +52,7 @@
+     using BlockMmad = Catlass::Gemm::Block::BlockMmadTla<MmadDispatchPolicy, L1TileShape, L0TileShape, ElementA,
+                                                          ElementB, ElementC, void, TileCopy>;
+ 
+-    using MoeConstraints = Catccos::DGemm::MoeConstraints<1, 8, 32>;
++    using MoeConstraints = Catccos::DGemm::MoeConstraints<1, 16, 32>;
+     static constexpr bool kIsDynamic = true;
+     static constexpr uint32_t kUbStages = 2;
+     static constexpr uint64_t kSymmetricDataBytes = 200UL * 1024 * 1024 * sizeof(uint16_t);
+--- a/experiments/ep_gmm_fused/csrc/tiling_validation.hpp
++++ b/experiments/ep_gmm_fused/csrc/tiling_validation.hpp
+@@ -127,8 +127,8 @@
+ 
+ inline const char* CheckHardware(uint32_t worldSize, uint32_t coreCount, uint64_t ubBytes)
+ {
+-    if (worldSize == 0 || worldSize > 8 || coreCount < worldSize) {
+-        return "tiling requires world_size in [1, 8] and at least one AI core per rank";
++    if (worldSize == 0 || worldSize > 16 || coreCount < worldSize) {
++        return "tiling requires world_size in [1, 16] and at least one AI core per rank";
+     }
+     if (ubBytes <= kWqeScratchBytes) {
+         return "failed to query a usable device UB capacity";
+--- a/experiments/ep_gmm_fused/csrc/catccos_overlay/include/catccos/dgemm/moe_route_metadata.hpp
++++ b/experiments/ep_gmm_fused/csrc/catccos_overlay/include/catccos/dgemm/moe_route_metadata.hpp
+@@ -12,10 +12,11 @@
+ #define CATCCOS_DGEMM_MOE_ROUTE_METADATA_HPP
+ 
+ #include <cstdint>
++#include <cstddef>
+ 
+ namespace Catccos::DGemm {
+ 
+-inline constexpr uint32_t MOE_ROUTE_MAX_RANKS = 8;
++inline constexpr uint32_t MOE_ROUTE_MAX_RANKS = 16;
+ inline constexpr uint32_t MOE_ROUTE_MAX_LOCAL_EXPERTS = 64;
+ inline constexpr uint32_t MOE_ROUTE_MAX_SEGMENTS = MOE_ROUTE_MAX_RANKS * MOE_ROUTE_MAX_LOCAL_EXPERTS;
+ 
+@@ -43,6 +44,23 @@
+     MoeRouteSegment segments[MOE_ROUTE_MAX_SEGMENTS]{};
+ };
+ 
++// EP16 candidate ABI: Python ops.py and this SO must be deployed together.
++static_assert(sizeof(MoeRouteSegment) == 24, "route segment ABI");
++static_assert(offsetof(MoeRouteSegment, sourceRowOffset) == 0, "segment source offset");
++static_assert(offsetof(MoeRouteSegment, outputRowOffset) == 8, "segment output offset");
++static_assert(offsetof(MoeRouteSegment, rows) == 16, "segment rows offset");
++static_assert(offsetof(MoeRouteSegment, sourceRank) == 20, "segment rank offset");
++static_assert(offsetof(MoeRouteSegment, localExpert) == 22, "segment expert offset");
++static_assert(MOE_ROUTE_MAX_SEGMENTS == 1024, "route segment count");
++static_assert(offsetof(MoeRouteMetadata, rankSize) == 0, "header rank offset");
++static_assert(offsetof(MoeRouteMetadata, localExpertNum) == 4, "header expert offset");
++static_assert(offsetof(MoeRouteMetadata, segmentCount) == 8, "header segment offset");
++static_assert(offsetof(MoeRouteMetadata, reserved) == 12, "header reserved offset");
++static_assert(offsetof(MoeRouteMetadata, peerRows) == 16, "peer rows ABI");
++static_assert(offsetof(MoeRouteMetadata, expertRows) == 144, "expert rows ABI");
++static_assert(offsetof(MoeRouteMetadata, segments) == 656, "route segments ABI");
++static_assert(sizeof(MoeRouteMetadata) == 25232, "route metadata ABI");
++
+ }  // namespace Catccos::DGemm
+ 
+ #endif  // CATCCOS_DGEMM_MOE_ROUTE_METADATA_HPP
+--- a/csrc/runtime/session.cpp
++++ b/csrc/runtime/session.cpp
+@@ -237,7 +237,7 @@
+ std::unique_ptr<Session> Session::create_udma(int rank, int size, uint64_t heap_bytes, uint64_t workspace_bytes,
+                                               const std::string& endpoint, const std::vector<uint8_t>& uid_bytes)
+ {
+-    if (size < 1 || size > 8 || rank < 0 || rank >= size ||
++    if (size < 1 || size > 16 || rank < 0 || rank >= size ||
+         heap_bytes > uint64_t(std::numeric_limits<int64_t>::max()) || workspace_bytes == 0 ||
+         workspace_bytes > heap_bytes || (!uid_bytes.empty() && uid_bytes.size() != sizeof(aclshmemx_uniqueid_t)) ||
+         (uid_bytes.empty() && (endpoint.empty() || endpoint.size() >= ACLSHMEM_MAX_IP_PORT_LEN ||

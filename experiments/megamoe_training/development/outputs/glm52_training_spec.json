@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "status": "design_with_user_profiling_shapes",
+  "checked_date": "2026-10-24",
+  "model": {
+    "name": "GLM-5.2",
+    "source": "https://huggingface.co/zai-org/GLM-5.2/blob/cf457fa734ab149ffef225f80893eb38c6ff5cdc/config.json",
+    "revision": "cf457fa734ab149ffef225f80893eb38c6ff5cdc",
+    "config_sha256": "185f93ee6d12548e16a847e279dc0c3c90b1524c970b0866b42fb545747d859a",
+    "hidden_size": 6144,
+    "moe_intermediate_size": 2048,
+    "routed_experts": 256,
+    "top_k": 8,
+    "shared_experts": 1,
+    "hidden_layers": 78,
+    "dense_prefix_layers": 3,
+    "backbone_moe_layers": 75,
+    "nextn_predict_layers": 1,
+    "dtype": "bfloat16",
+    "router_dtype": "float32",
+    "scoring_func": "sigmoid",
+    "norm_topk_prob": true,
+    "routed_scaling_factor": 2.5,
+    "topk_method": "noaux_tc",
+    "max_position_embeddings": 1048576
+  },
+  "initial_operator_target": {
+    "hardware": "Ascend950DT",
+    "total_target_ranks": 64,
+    "ep_size_assumption": 64,
+    "local_experts_if_ep64": 4,
+    "local_experts_if_ep16": 16,
+    "local_experts_if_ep8": 32,
+    "logical_w1_layout": "[E_local,2*I,H] gate_then_up",
+    "logical_w2_layout": "[E_local,H,I]",
+    "activation": "silu_gate_times_up",
+    "forward_operand_dtype": "bfloat16",
+    "accumulation_dtype": "float32",
+    "weight_gradient_dtype": "float32",
+    "variable_tokens_per_rank": true,
+    "zero_token_rank": true,
+    "dropping_tokens": false,
+    "shared_expert_merge": "unweighted_sum",
+    "route_grad": true,
+    "checkpoint_modes": [
+      "save",
+      "strict_recompute",
+      "optional_fast_dp_requires_numerical_validation"
+    ],
+    "test_tokens_per_rank": [
+      0,
+      1,
+      127,
+      128,
+      129,
+      255,
+      256,
+      257,
+      1024,
+      4096,
+      8192
+    ]
+  },
+  "actual_resources": {
+    "hosts": [
+      "177.22.27.1",
+      "177.22.28.1"
+    ],
+    "npu_per_host": 8,
+    "total_npu": 16,
+    "memory_per_npu_reported_GB": 96,
+    "ep64_hardware_validation": "not_available_on_current_two_hosts"
+  },
+  "reference_code": {
+    "repository": "https://github.com/lueelu/DeepEP",
+    "head": "35fa7d91b321340c153b098bf166202645976a75",
+    "shmem": "4dd80e2129da42bd773982c2bb3758af1ed0bba8",
+    "catlass": "2b4bd7cbf7e67ebab23d7d5a99d472c83f90d9a1",
+    "transformers": "50e35cc0ca18ec19b80653690de553e6decf74f5"
+  },
+  "pending_fields": [
+    "training_framework",
+    "EP_TP_PP_DP_CP_EFTP_layout",
+    "source_tokens_range",
+    "optimizer_and_sharding",
+    "precision_contract",
+    "checkpoint_policy",
+    "router_aux_loss_and_bias_update",
+    "determinism",
+    "graph_capture",
+    "performance_targets"
+  ],
+  "user_profiling": {
+    "source": "user_supplied_ops_transformer_profiling_2026-10-24",
+    "alltoallv_gmm": {
+      "outputs": [
+        [
+          65536,
+          4096
+        ],
+        [
+          65536,
+          6144
+        ]
+      ],
+      "weight": [
+        4,
+        4096,
+        6144
+      ],
+      "x": [
+        65536,
+        6144
+      ]
+    },
+    "gmm_alltoallv": {
+      "outputs": [
+        [
+          65536,
+          6144
+        ]
+      ],
+      "weight": [
+        4,
+        6144,
+        2048
+      ],
+      "x": [
+        65536,
+        2048
+      ]
+    },
+    "grouped_rows_per_rank": 65536,
+    "local_experts": 4,
+    "assumed_second_output": "dispatched_X_e_pending_output_name_and_attributes",
+    "source_tokens_if_top8_expanded_no_padding_no_drop": 8192,
+    "rows_per_expert_if_balanced": 16384,
+    "dtype": "not_supplied_BF16_design_assumption",
+    "missing": [
+      "group_list_counts",
+      "transpose_attributes",
+      "physical_formats",
+      "output_names",
+      "actual_EP_TP_CP_groups"
+    ]
+  },
+  "resource_policy": {
+    "latest_check": "2026-10-24T19:37:45+08:00",
+    "conditional_retry_start": "2026-10-25T03:00:00+08:00",
+    "avoid_foreign_jobs": true,
+    "retry_interval_minutes": 10,
+    "deferred_automation_created": false,
+    "latest_check_result": "no_foreign_NPU_jobs",
+    "condition": "only_if_other_tasks_occupy_required_devices"
+  }
+}

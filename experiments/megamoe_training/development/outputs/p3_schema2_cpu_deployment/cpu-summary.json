@@ -1,0 +1,52 @@
+{
+  "177.22.27.1": {
+    "rc": 0,
+    "plans": 8,
+    "before": {
+      "npu_initialized": false,
+      "PG_initialized": false,
+      "ElasticBuffer_owner_exists": false
+    },
+    "after": {
+      "npu_initialized": false,
+      "PG_initialized": false,
+      "ElasticBuffer_owner_exists": false
+    },
+    "identities": [
+      "40bcadc9103202f7409264580dae1406eb2c16a752d16eef19fe086aedbf2872",
+      "83d63c7c2eb09f9e4e36d8690c7c2d42df82641850b2cc511253abdbd5f3f010",
+      "4d2cc0460c5a18834f0005a9960992b3a7ff4e40c5cb20905ca4a2ee8d5a71a8",
+      "87fd621da4de854202676791af3e29b2eca4742c9920f0baec2198899ee0d364",
+      "b143301759fdcfe2785e76ed64691457551eed647e2f08cdf075c1eb430dd7a6",
+      "ac54f3c79bea0ca4fe6a6367a4cdbfa9a0019427b12b69a707e811519c629fb9",
+      "49fedb49ff694464c2b9c785730d170a9da12a8437014f4959cc1800ce71442f",
+      "7dd596662bf8c95cce1577a8f063e8b1ab81303486f812c334733803ca5b8a0d"
+    ],
+    "repeat_collector_stable": true
+  },
+  "177.22.28.1": {
+    "rc": 0,
+    "plans": 8,
+    "before": {
+      "npu_initialized": false,
+      "PG_initialized": false,
+      "ElasticBuffer_owner_exists": false
+    },
+    "after": {
+      "npu_initialized": false,
+      "PG_initialized": false,
+      "ElasticBuffer_owner_exists": false
+    },
+    "identities": [
+      "40bcadc9103202f7409264580dae1406eb2c16a752d16eef19fe086aedbf2872",
+      "83d63c7c2eb09f9e4e36d8690c7c2d42df82641850b2cc511253abdbd5f3f010",
+      "4d2cc0460c5a18834f0005a9960992b3a7ff4e40c5cb20905ca4a2ee8d5a71a8",
+      "87fd621da4de854202676791af3e29b2eca4742c9920f0baec2198899ee0d364",
+      "b143301759fdcfe2785e76ed64691457551eed647e2f08cdf075c1eb430dd7a6",
+      "ac54f3c79bea0ca4fe6a6367a4cdbfa9a0019427b12b69a707e811519c629fb9",
+      "49fedb49ff694464c2b9c785730d170a9da12a8437014f4959cc1800ce71442f",
+      "7dd596662bf8c95cce1577a8f063e8b1ab81303486f812c334733803ca5b8a0d"
+    ],
+    "repeat_collector_stable": true
+  }
+}

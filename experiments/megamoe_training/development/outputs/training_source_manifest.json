@@ -1,0 +1,74 @@
+{
+  "source_zip_sha256": "d7df9794d10b8aa92a016b396d6db2ff1f85752f2ebce546a095191e3db801ba",
+  "native_library_sha256": "f26ddcb4ea287d10f9b45bdc7bc29b44d03c79304c530960abad46d750fecf32",
+  "base_commit": "35fa7d91b321340c153b098bf166202645976a75",
+  "npu_tests_executed": false,
+  "catlass_commit": "2b4bd7cbf7e67ebab23d7d5a99d472c83f90d9a1",
+  "files": [
+    {
+      "bytes": 8,
+      "sha256": "020c2606e8ed484089c2083e0be438b9d0736bee1558a6b76af0d58bd23f69cf",
+      "path": "experiments/megamoe_training/.gitignore"
+    },
+    {
+      "bytes": 1982,
+      "sha256": "3a22f9f786b192e0f5893e846d1f168ccf1400c61b5e199525bc916bb80cafd8",
+      "path": "experiments/megamoe_training/CMakeLists.txt"
+    },
+    {
+      "bytes": 4699,
+      "sha256": "64cac66030feba2b062c7b2616855b8f9426bb00a5083fbf48c0fc20c6dc8647",
+      "path": "experiments/megamoe_training/README.md"
+    },
+    {
+      "bytes": 61,
+      "sha256": "3111370b22bd6d61ebbfbd2bdc17ce98ed6bca80309d7e06576c439e59ab2c38",
+      "path": "experiments/megamoe_training/megamoe_training/__init__.py"
+    },
+    {
+      "bytes": 3535,
+      "sha256": "26171a5ceaa770adcdbcc9f8929e8a973370f8980680897a2239b23e5c75db2a",
+      "path": "experiments/megamoe_training/megamoe_training/gemm.py"
+    },
+    {
+      "bytes": 8325,
+      "sha256": "70b21733ca3756493801d29ed2a8a2302927e65dfe7522bb905908015729af11",
+      "path": "experiments/megamoe_training/megamoe_training/training.py"
+    },
+    {
+      "bytes": 2885,
+      "sha256": "a7c4363f9ce555436ef53b340a20f538e29f01e2560c1f5739c1fcd28f13e520",
+      "path": "experiments/megamoe_training/native/gemm.cpp"
+    },
+    {
+      "bytes": 15512,
+      "sha256": "7453f4362ea5f6503833dcefa66c27210a93db4a6e949cef0747be6341076ab3",
+      "path": "experiments/megamoe_training/tests/benchmark_compare.py"
+    },
+    {
+      "bytes": 7191,
+      "sha256": "229f7f7a112d8c1662c1dc6e76d896cd0bd2b3dcc853a60a4eec175772139368",
+      "path": "experiments/megamoe_training/tests/cann_baseline.py"
+    },
+    {
+      "bytes": 5757,
+      "sha256": "6dcca3800b82ae54e57e00a83098792302ad411a2a2cc0ce3299d54a0c9dbfad",
+      "path": "experiments/megamoe_training/tests/cann_training.py"
+    },
+    {
+      "bytes": 7632,
+      "sha256": "97cc87b6bf9f80fd47697b25f74897f2ea98f16304c0fabd6d6a33b5a4231993",
+      "path": "experiments/megamoe_training/tests/README.md"
+    },
+    {
+      "bytes": 2263,
+      "sha256": "0999f71f1b34d925a40add5fb215b262e40b4bf5b5a13911310b00375ccf3e0c",
+      "path": "experiments/megamoe_training/tests/test_native_gemm.py"
+    },
+    {
+      "bytes": 19121,
+      "sha256": "293f1954a4d31faed0016d969cb01848a7984c7f24baa463d5102ba6b32ba747",
+      "path": "experiments/megamoe_training/tests/validate_training_npu.py"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "status": "Native compiled rc0 in isolated build after reviewed interface-only fixes; standalone unit and training integration remain unqualified",
+  "scope": "Compute-only single MIX grouped W1+SwiGLU; not communication fusion or complete training qualification",
+  "source_sha256": {
+    "native/up_swiglu.cpp": "66f60053da1919d4c094ab6a973b060f93556ed5c8ce82cc37140dab700cc4ef",
+    "CMakeLists.txt": "9cc4a9d240160ec06a78612a2b36d639e24d7de1ded1a8655ea3ba2515f14b40",
+    "contract.py": "84bc8ef3f1bb6feb85d2e6d122beae2c0e1c9855dfb136d1b81f3cad2bc5cbea",
+    "up_swiglu.py": "809eaf46d6128d7b1895a246b538e7a775cc613c708bc50b9726eca9dce58f2b",
+    "mapped_identity.py": "a32d6aa19857bba98882457f722b3c4bc8a0911821ba5565e6f626b5eacfa16c",
+    "test_up_swiglu_npu.py": "813e098133422833d158915d08b830b55ef53d8f4ce262eb8e2262806d404809",
+    "test_contract_cpu.py": "0f33330de8455565845108acf4de27d772f5c82182857163dbb47f108e34b33f",
+    "source_review.json": "c76e9c17cf26ce2bf13702027aef8c3aadc374354e3ef6b41d53e0845f8e8fe3",
+    "cpu_results.json": "11052d65436a3cc242e6f786dc104ea2a880bdf9ac27a9c738bd0d719556b8fb",
+    "__init__.py": "254cdff38f53b27248eab783165109cbc610707307e1732c29d3cdcfeb085594"
+  },
+  "cpu_checks": {
+    "passed": true,
+    "checks": 255,
+    "main": {
+      "jobs": 4096,
+      "nonempty_consumers": 8192,
+      "GU_elements": 268435456,
+      "A_elements": 134217728
+    },
+    "source_sha256": "de4e57e210f9209e1210e3c914685acb3d49e23da209d1dbe616785d7e2f0edc",
+    "limitations": [
+      "Static partition and fake-device wrapper only; no compiler/device/stream scheduler or cross-core visibility evidence",
+      "Concurrent fixture verifies allocation ownership, not physical concurrency correctness"
+    ]
+  },
+  "default_plan": "python test_up_swiglu_npu.py (no Torch import)",
+  "future_accuracy_command": "python test_up_swiglu_npu.py --run-npu --device 0 --library /ABS/build/libmegamoe_up_swiglu.so --p0-source-root /ABS/qualified-p0/experiments/megamoe_training --catlass-library /ABS/qualified-p0/experiments/megamoe_training/build/libmegamoe_training.so --output /ABS/NEW_RUN/results.json",
+  "future_build_recipe": "cmake -S /ABS/p3_up_swiglu -B /ABS/NEW_BUILD -DCATLASS_ROOT=/ABS/qualified-p0/third-party/catlass -DASCEND_HOME_PATH=/ABS/official-CANN; cmake --build /ABS/NEW_BUILD",
+  "authorization": "One bounded standalone GU/A unit run approved after fresh all16-free check; no training/timing authorization from unit evidence",
+  "limits": {
+    "atol": 0.003,
+    "rtol": 0.03,
+    "rms_relative": 0.02
+  },
+  "npu_prepared_cases": 68,
+  "reference": "P0 CATLASS full BF16 GU, independent torch FP32 silu(G)*U rounded BF16 A; no clamp; no PyTorch full-training or timing claim",
+  "runtime_identity": "Initial/final fstat dev/inode-bound actual SO mappings with added/removed/changed difference, actual imported P0 init/gemm path+SHA, precision/hardware. Failure capture best effort preserves original exception; final identity mandatory for success. Standalone unit evidence only. Initially mapped library content changed or removed => reject; only lazy added mappings may pass.",
+  "isolation": "Only new P3 directory files added; native original source read-only; no frozen P0/P1/ep_gmm modifications",
+  "open_risks": [
+    "Compile MIX annotation/platform GetCoreNumAiv and CATLASS tile call against installed CANN/CATLASS; link-time success not established",
+    "Actual MIX GetBlockIdx/GetSubBlockNum mapping and cross-core FIX->bypass flag->S_MTE2 visibility require device validation",
+    "CATLASS partial M and N128 tails, immutable saved BF16 GU/A, zero/skew/repeat and two independent streams require device all-element precision tests",
+    "Raw C entry has no byte-budget/alias checks; strict wrapper is the supported test entry",
+    "Zero-row wrapper return is host-empty behavior and does not check native hardware",
+    "Standalone component has no autograd registration; complete training integration/identity/full-gradient qualification absent"
+  ],
+  "revision_note": {
+    "source_inventory": "Use parent/name; actual nested native path exercised on CPU",
+    "actual_P0_sources": "Validate/hash imported package __init__.py and gemm.py at initial and final identity",
+    "final_identity": "Always best-effort fstat-bound actual maps; preserve initial/final and added/removed/changed libraries. Success requires final validated identity; errors never replace original exception. This remains standalone component evidence. Initial mappings changed or removed fail closed; only lazy additions are allowed."
+  },
+  "native_build": {
+    "report": "outputs/p3_up_swiglu_build/build-result.json",
+    "library_sha256": "4623d9abf673210f0e3e07473f9f02c541256d699e47ce0a2a2dd7229c8c856b",
+    "interface_diff": "outputs/p3_up_swiglu_build/compile-interface-fix.patch",
+    "source_sha256": "66f60053da1919d4c094ab6a973b060f93556ed5c8ce82cc37140dab700cc4ef"
+  }
+}

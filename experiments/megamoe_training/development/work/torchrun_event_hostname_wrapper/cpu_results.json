@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": 7,
+  "items": [
+    "exact installed LF pin and only event metadata helper reference",
+    "both archived source copies LF normalize to installed raw SHA; runtime never normalizes",
+    "no DNS; one cached hostname; original argv/env and main return unchanged; events retained; restore",
+    "SystemExit code and original launcher exception identity propagate",
+    "raw hash mismatch stops before run import/event/worker path",
+    "preexisting function override rejected",
+    "reentrant active override rejected"
+  ],
+  "wrapper_sha256": "7e15cc8ebaf480b09ab7d53185b9ad8077990a3a163adac7b7281cb4bf299e4d",
+  "scope": "Offline pinned source AST and importer stubs only; no actual Torch import, DNS, worker/process-group/device or deployment"
+}

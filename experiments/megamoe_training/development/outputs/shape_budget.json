@@ -1,0 +1,312 @@
+{
+  "model": "GLM52 supplied dimensions",
+  "H": 6144,
+  "I": 2048,
+  "E": 256,
+  "K": 8,
+  "EP": 64,
+  "local_experts": 4,
+  "MoE_layers": 75,
+  "parameters_per_expert": 37748736,
+  "parameters_per_rank_per_layer": 150994944,
+  "bytes_per_parameter_breakdown": {
+    "BF16_weights": 2,
+    "FP32_gradients": 4,
+    "FP32_master_weights": 4,
+    "FP32_Adam_first_moment": 4,
+    "FP32_Adam_second_moment": 4
+  },
+  "total_bytes_per_parameter": 18,
+  "routed_expert_training_state_GiB_per_rank_per_layer": 2.53125,
+  "routed_expert_training_state_GiB_per_rank_75_layers": 189.84375,
+  "routed_expert_training_state_GiB_all_ranks_75_layers": 12150.0,
+  "activation_cases": [
+    {
+      "source_tokens_per_rank": 128,
+      "balanced_received_rows_per_rank": 1024,
+      "balanced_rows_per_expert": 256,
+      "saved_activation_bytes": {
+        "X_e": 12582912,
+        "G": 4194304,
+        "U": 4194304,
+        "A": 4194304,
+        "Z": 12582912
+      },
+      "saved_activation_total_MiB": 36.0,
+      "optional_fast_dp_without_Z_MiB": 24.0,
+      "strict_recompute_X_e_only_MiB": 12.0,
+      "optional_fast_dp_recompute_X_e_only_MiB": 12.0
+    },
+    {
+      "source_tokens_per_rank": 1024,
+      "balanced_received_rows_per_rank": 8192,
+      "balanced_rows_per_expert": 2048,
+      "saved_activation_bytes": {
+        "X_e": 100663296,
+        "G": 33554432,
+        "U": 33554432,
+        "A": 33554432,
+        "Z": 100663296
+      },
+      "saved_activation_total_MiB": 288.0,
+      "optional_fast_dp_without_Z_MiB": 192.0,
+      "strict_recompute_X_e_only_MiB": 96.0,
+      "optional_fast_dp_recompute_X_e_only_MiB": 96.0
+    },
+    {
+      "source_tokens_per_rank": 4096,
+      "balanced_received_rows_per_rank": 32768,
+      "balanced_rows_per_expert": 8192,
+      "saved_activation_bytes": {
+        "X_e": 402653184,
+        "G": 134217728,
+        "U": 134217728,
+        "A": 134217728,
+        "Z": 402653184
+      },
+      "saved_activation_total_MiB": 1152.0,
+      "optional_fast_dp_without_Z_MiB": 768.0,
+      "strict_recompute_X_e_only_MiB": 384.0,
+      "optional_fast_dp_recompute_X_e_only_MiB": 384.0
+    },
+    {
+      "source_tokens_per_rank": 8192,
+      "balanced_received_rows_per_rank": 65536,
+      "balanced_rows_per_expert": 16384,
+      "saved_activation_bytes": {
+        "X_e": 805306368,
+        "G": 268435456,
+        "U": 268435456,
+        "A": 268435456,
+        "Z": 805306368
+      },
+      "saved_activation_total_MiB": 2304.0,
+      "optional_fast_dp_without_Z_MiB": 1536.0,
+      "strict_recompute_X_e_only_MiB": 768.0,
+      "optional_fast_dp_recompute_X_e_only_MiB": 768.0
+    }
+  ],
+  "user_profiling_shape_analysis": {
+    "provenance": "User-supplied profiling shapes; bytes assume BF16 and do not establish actual dtype or tensor lifetime.",
+    "tensors": {
+      "alltoallvGmm_x": {
+        "shape": [
+          65536,
+          6144
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 805306368,
+        "MiB": 768.0
+      },
+      "alltoallvGmm_W": {
+        "shape": [
+          4,
+          4096,
+          6144
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 201326592,
+        "MiB": 192.0
+      },
+      "alltoallvGmm_output_0": {
+        "shape": [
+          65536,
+          4096
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 536870912,
+        "MiB": 512.0
+      },
+      "alltoallvGmm_output_1": {
+        "shape": [
+          65536,
+          6144
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 805306368,
+        "MiB": 768.0
+      },
+      "gmmAlltoallv_x": {
+        "shape": [
+          65536,
+          2048
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 268435456,
+        "MiB": 256.0
+      },
+      "gmmAlltoallv_W": {
+        "shape": [
+          4,
+          6144,
+          2048
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 100663296,
+        "MiB": 96.0
+      },
+      "gmmAlltoallv_output": {
+        "shape": [
+          65536,
+          6144
+        ],
+        "assumed_dtype": "BF16",
+        "bytes": 805306368,
+        "MiB": 768.0
+      }
+    },
+    "conditional_source_B": 8192,
+    "conditional_source_B_derivation": "65536/8, only if the observed M is source top-8-expanded assignments with no padding or dropping. Observed shapes alone do not establish B or balance.",
+    "balanced_expert_M": 16384,
+    "balanced_expert_M_derivation": "65536/4; assumes received expert rows are perfectly balanced across 4 local experts. Per-expert counts were not observed.",
+    "GEMMs": [
+      {
+        "name": "forward_GMM1",
+        "lhs_per_expert": [
+          16384,
+          6144
+        ],
+        "rhs_per_expert": [
+          6144,
+          4096
+        ],
+        "output_per_expert": [
+          16384,
+          4096
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 824633720832,
+        "FLOPs_per_rank": 3298534883328,
+        "TFLOPs_per_rank": 3.298534883328
+      },
+      {
+        "name": "forward_GMM2",
+        "lhs_per_expert": [
+          16384,
+          2048
+        ],
+        "rhs_per_expert": [
+          2048,
+          6144
+        ],
+        "output_per_expert": [
+          16384,
+          6144
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 412316860416,
+        "FLOPs_per_rank": 1649267441664,
+        "TFLOPs_per_rank": 1.649267441664
+      },
+      {
+        "name": "backward_dA",
+        "lhs_per_expert": [
+          16384,
+          6144
+        ],
+        "rhs_per_expert": [
+          6144,
+          2048
+        ],
+        "output_per_expert": [
+          16384,
+          2048
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 412316860416,
+        "FLOPs_per_rank": 1649267441664,
+        "TFLOPs_per_rank": 1.649267441664
+      },
+      {
+        "name": "backward_dX",
+        "lhs_per_expert": [
+          16384,
+          4096
+        ],
+        "rhs_per_expert": [
+          4096,
+          6144
+        ],
+        "output_per_expert": [
+          16384,
+          6144
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 824633720832,
+        "FLOPs_per_rank": 3298534883328,
+        "TFLOPs_per_rank": 3.298534883328
+      },
+      {
+        "name": "backward_dW2",
+        "lhs_per_expert": [
+          6144,
+          16384
+        ],
+        "rhs_per_expert": [
+          16384,
+          2048
+        ],
+        "output_per_expert": [
+          6144,
+          2048
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 412316860416,
+        "FLOPs_per_rank": 1649267441664,
+        "TFLOPs_per_rank": 1.649267441664
+      },
+      {
+        "name": "backward_dW1",
+        "lhs_per_expert": [
+          4096,
+          16384
+        ],
+        "rhs_per_expert": [
+          16384,
+          6144
+        ],
+        "output_per_expert": [
+          4096,
+          6144
+        ],
+        "experts_per_rank": 4,
+        "FLOPs_per_expert": 824633720832,
+        "FLOPs_per_rank": 3298534883328,
+        "TFLOPs_per_rank": 3.298534883328
+      }
+    ],
+    "forward_FLOPs_per_rank": 4947802324992,
+    "backward_FLOPs_per_rank": 9895604649984,
+    "forward_backward_FLOPs_per_rank": 14843406974976,
+    "forward_backward_TFLOPs_per_rank": 14.843406974976,
+    "FLOP_convention": "One multiply-add = 2 FLOPs; GEMMs only, excludes activation, router, communication, optimizer and checkpoint recomputation.",
+    "FP32_weight_gradients": {
+      "dW1_shape": [
+        4,
+        4096,
+        6144
+      ],
+      "dW1_MiB": 384,
+      "dW2_shape": [
+        4,
+        6144,
+        2048
+      ],
+      "dW2_MiB": 192,
+      "total_bytes": 603979776,
+      "total_MiB": 576.0,
+      "layout": "PyTorch weight layout; four local experts; unsharded gradients."
+    },
+    "tensor_lifetime_note": "Listed profiling tensors may alias or describe different operator stages. Do not sum them as peak live memory."
+  },
+  "assumptions": [
+    "Equal source B on every rank; perfectly balanced expert routing; no capacity padding.",
+    "All sizes use binary MiB/GiB; BF16 saved activations; router and numerical verification use float64 only in the CPU reference.",
+    "Memory estimates exclude shared experts, dense layers, router parameters, optimizer sharding, allocator overhead, gradients of activations, communication buffers and GEMM workspace.",
+    "Unequal rank B, skew, peak liveness and recomputation scheduling require a separate calculation.",
+    "Strict baseline retains forward Z for dp, or stores X_e and recomputes GMM1, SiLU/multiply AND GMM2 to reproduce forward Z, including its BF16 rounding. Exact agreement additionally requires matching kernel arithmetic and determinism.",
+    "Optional fast dp mode uses sum((dY@W2)*A) without p and omits Z; X_e-only fast mode recomputes GMM1 and SiLU/multiply. It is algebraically equivalent in real arithmetic/float64, but not guaranteed equal to PyTorch dp after forward Z is rounded to BF16. Independently calibrate router gradients; this is not a strictly lossless mode.",
+    "Do not use weighted dA in the optional fast dp expression, especially at p=0. Numerical checks in this reference cover float64 only, not BF16 rounding equivalence.",
+    "Listed activations are one layer per rank; total training activation memory depends on checkpointing and concurrently retained layers."
+  ]
+}

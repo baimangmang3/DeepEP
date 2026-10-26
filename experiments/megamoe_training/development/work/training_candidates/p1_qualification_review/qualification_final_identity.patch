@@ -1,0 +1,380 @@
+--- a/p1_pointwise/candidate_provenance.py
++++ b/p1_pointwise/candidate_provenance.py
+@@ -1,10 +1,11 @@
+ """P1-only content/config identity. Stdlib import; never accepts P0 identity."""
+ import hashlib
+ import json
++import sys
+ from pathlib import Path
+ 
+ SOURCES=('__init__.py','training_adapter.py','pointwise.py','native/pointwise.cpp',
+-         'CMakeLists.txt','test_pointwise_npu.py','candidate_provenance.py','validate_training_p1.py')
++         'CMakeLists.txt','test_pointwise_npu.py','candidate_provenance.py','validate_training_p1.py','mapped_identity.py')
+ FIXED={'candidate':'P1_native_pointwise_v1','backend':'shmem_catlass_pointwise_p1',
+        'vector_cores':64,'gemm_cores':32,'schedule':'serial','recompute':False}
+ 
+@@ -14,7 +15,7 @@
+ 
+ 
+ def validate_identity(identity,base):
+-    if not isinstance(identity,dict) or identity.get('schema')!='p1-training-1':
++    if not isinstance(identity,dict) or identity.get('schema')!='p1-training-2':
+         raise ValueError('P1 identity required; old P0 reports cannot qualify P1')
+     content=identity.get('content',{})
+     if identity.get('content_digest')!=digest(content):raise ValueError('Candidate digest mismatch')
+@@ -44,10 +45,16 @@
+                 or not isinstance(item['sha256'],str) or len(item['sha256'])!=64
+                 or any(c not in '0123456789abcdef' for c in item['sha256'])):
+             raise ValueError('Invalid candidate file identity')
++    maps=content.get('mapped_libraries')
++    if not isinstance(maps,dict) or not maps:raise ValueError('Missing reliable FD canonical mappings')
++    for role,item in maps.items():
++        if (not valid_map_role(role) or set(item)!={'sha256','bytes'} or type(item['bytes']) is not int or item['bytes']<=0 or
++            not isinstance(item['sha256'],str) or len(item['sha256'])!=64 or any(c not in '0123456789abcdef' for c in item['sha256'])):
++            raise ValueError('Malformed reliable mapped library role/content')
+     return identity['content_digest']
+ 
+ 
+-def build_identity(base_identity,files,execution,base):
++def build_identity(base_identity,files,execution,base,mapped):
+     base.validate_identity(base_identity)
+     # Strip diagnostic host paths from nested identity before hashing.
+     bound_base={k:base_identity[k] for k in ('schema','content','content_digest')}
+@@ -56,8 +63,8 @@
+         path=Path(path).resolve(strict=True)
+         manifest.append(dict(role=role,bytes=path.stat().st_size,sha256=base.sha256_file(path)))
+         paths[role]=str(path)
+-    content=dict(base_identity=bound_base,candidate_files=manifest,execution=execution)
+-    result=dict(schema='p1-training-1',content=content,content_digest=digest(content),diagnostic_paths=paths)
++    content=dict(base_identity=bound_base,candidate_files=manifest,execution=execution,mapped_libraries=canonical_maps(mapped))
++    result=dict(schema='p1-training-2',content=content,content_digest=digest(content),diagnostic_paths=paths)
+     validate_identity(result,base)
+     return result
+ 
+@@ -72,14 +79,32 @@
+     from p1_pointwise.pointwise import TrainingPointwise
+     pointwise=TrainingPointwise(library,vector_cores=64)
+     base_identity=base.collect_runtime_identity()
+-    mapped=base.mapped_libraries();selected=Path(pointwise.path).resolve(strict=True)
+-    if selected not in mapped:raise ValueError('Selected pointwise SO is not actually mapped')
+-    for path in mapped:
+-        if path.name==selected.name and base.sha256_file(path)!=base.sha256_file(selected):
+-            raise ValueError('Ambiguous mapped pointwise SO contents')
+-    files={'source/'+name:Path(root)/name for name in SOURCES}
+-    files['native.pointwise']=selected
+-    return build_identity(base_identity,files,execution,base),pointwise
++    from p1_pointwise.mapped_identity import mapped_libraries
++    import p1_pointwise.mapped_identity as fd_helper
++    if Path(fd_helper.__file__).resolve()!=Path(root).resolve()/'mapped_identity.py':
++        raise ValueError('FD helper escaped explicit candidate root')
++    package_roots=imported_package_roots();raw=mapped_libraries();mapped=checked_maps(raw,package_roots)
++    selected=Path(pointwise.path).resolve(strict=True)
++    files={'source/'+name:Path(root)/name for name in SOURCES};files['native.pointwise']=selected
++    identity=build_identity(base_identity,files,execution,base,mapped)
++    bind_selected_maps(identity,base_identity,selected,mapped)
++    identity.update(actual_maps=list(mapped.values()),raw_mapping_result=raw,
++                    diagnostic_package_roots={k:str(v) for k,v in package_roots.items()})
++    return identity,pointwise
++
++
++def bind_selected_maps(identity,base_identity,pointwise_path,mapped):
++    """All base native/dependency roles and selected pointwise must match exact mapped FD."""
++    base_items={v['role']:v for v in base_identity['content']['files']}
++    paths=base_identity.get('diagnostic_paths',{})
++    required={role for role in base_items if role.startswith(('native.','loaded_dependency/'))}
++    if not required<=paths.keys():raise ValueError('Base loader exact paths missing')
++    roles={role:(paths[role],base_items[role]) for role in required}
++    roles['native.pointwise']=(str(pointwise_path),next(v for v in identity['content']['candidate_files'] if v['role']=='native.pointwise'))
++    for role,(path,expected) in roles.items():
++        if path not in mapped or any(mapped[path][k]!=expected[k] for k in ('sha256','bytes')):
++            raise ValueError('Selected native/dependency not exact-path FD bound: '+role)
++
+ 
+ 
+ def collective_checked(torch,dist,action,label):
+@@ -90,3 +115,85 @@
+     dist.all_reduce(flag,op=dist.ReduceOp.MIN)
+     if not flag.item():raise RuntimeError(label+': '+(error or 'another rank failed; no SHMEM engine may be entered'))
+     return value
++
++
++def final_identity(initial,current,base):
++    """Immutable implementation/config/old dependencies; only lazy dependencies may add."""
++    validate_identity(initial,base);validate_identity(current,base)
++    a,b=initial['content'],current['content']
++    if set(a)!=set(b) or any(a[k]!=b[k] for k in a if k not in ('base_identity','mapped_libraries')):
++        raise ValueError('P1 candidate source/native/execution changed during run')
++    old,new=a['base_identity']['content'],b['base_identity']['content']
++    if set(old)!=set(new) or any(old[k]!=new[k] for k in old if k!='files'):
++        raise ValueError('P1 base version/precision/config changed during run')
++    af={v['role']:v for v in old['files']};bf={v['role']:v for v in new['files']}
++    if any(k not in bf or bf[k]!=v for k,v in af.items()):
++        raise ValueError('P1 initial source/native/dependency changed or removed')
++    added=bf.keys()-af.keys()
++    if any(not k.startswith('loaded_dependency/') for k in added):
++        raise ValueError('P1 non-dependency role added during run')
++    am,bm=a['mapped_libraries'],b['mapped_libraries']
++    if any(k not in bm or bm[k]!=v for k,v in am.items()):raise ValueError('P1 actual mapped library changed/removed')
++    return dict(added={k:bf[k] for k in sorted(added)},mapped_added={k:bm[k] for k in bm.keys()-am.keys()},changed={},removed={})
++
++
++def finish_identity_host(host,report,collector,initial,base):
++    """Host-only final observation; never hide a first local collector error."""
++    error=None;current=None
++    try:
++        current=collector();report['identity_final']=current
++        report['identity_difference']=final_identity(initial,current,base)
++    except Exception as exc:
++        import traceback
++        error=exc;report.update(all_passed=False,final_identity_error=repr(exc),final_identity_traceback=traceback.format_exc())
++    try:
++        peers=host.all_gather(dict(rank=host.rank(),error=None if error is None else repr(error),
++            digest=current['content_digest'] if current is not None else None),'P1/final-identity')
++        report['final_identity_peer_status']=peers
++        if (current is None or [v.get('rank') for v in peers]!=list(range(host.size())) or
++            any(v.get('error') is not None for v in peers) or
++            any(v.get('digest')!=current['content_digest'] for v in peers)):
++            raise RuntimeError('A peer failed final P1 identity or ranks differ')
++    except Exception as exc:
++        report.update(all_passed=False,final_identity_host_error=repr(exc))
++        return error or exc
++    return error
++
++
++def valid_map_role(role):
++    if not isinstance(role,str) or '\\' in role:return False
++    parts=role.split('/')
++    if any(x in ('','.','..') for x in parts):return False
++    return (len(parts)==2 and parts[0]=='loaded') or (len(parts)>=3 and parts[:2] in (['package','deep_ep'],['package','torch_npu']))
++
++def imported_package_roots():
++    roots={}
++    for name in ('deep_ep','torch_npu'):
++        module=sys.modules.get(name)
++        if module is None or not getattr(module,'__file__',None):raise ValueError('Missing actual imported package '+name)
++        roots[name]=Path(module.__file__).resolve(strict=True).parent
++    return roots
++
++def checked_maps(result,package_roots=None):
++    if result.get('errors'):raise ValueError('Actual mapped dev/inode evidence failed: '+repr(result['errors']))
++    roots={} if package_roots is None else {k:Path(v) for k,v in package_roots.items()}
++    if roots and set(roots)!={'deep_ep','torch_npu'}:raise ValueError('Both actual package roots required')
++    values=list(roots.values())
++    if len(values)==2 and any(a==b or a.is_relative_to(b) or b.is_relative_to(a) for a,b in ((values[0],values[1]),)):
++        raise ValueError('Actual package roots overlap')
++    paths={};roles={};names={}
++    for v in result.get('libraries',[]):
++        if v.get('map_inode',0)<=0 or v.get('inode')!=v['map_inode'] or not v.get('map_entries'):raise ValueError('Mapped object missing bound inode/segments')
++        path=Path(v['path']);name=path.name;role='loaded/'+name
++        for package,root in roots.items():
++            if path.is_relative_to(root):role='package/'+package+'/'+path.relative_to(root).as_posix();break
++        if not valid_map_role(role) or role in roles or v['path'] in paths:raise ValueError('Duplicate/ambiguous actual mapped logical object')
++        roles[role]=v['path'];names.setdefault(name,[]).append(role)
++        paths[v['path']]=dict(v,logical_role=role) # Retain every FD/dev/inode/segment object, not only its basename.
++    if any(len(group)>1 and any(not role.startswith('package/') for role in group) for group in names.values()):
++        raise ValueError('Unclassified same-basename mappings; explicit stable package roles required')
++    if not paths:raise ValueError('Mapped library set empty')
++    return paths
++
++def canonical_maps(paths):
++    return {v['logical_role']:{k:v[k] for k in ('bytes','sha256')} for v in paths.values()}
+--- a/p1_pointwise/validate_training_p1.py
++++ b/p1_pointwise/validate_training_p1.py
+@@ -12,7 +12,7 @@
+ import os
+ from pathlib import Path
+ import sys
+-from candidate_provenance import FIXED,collect_identity,collective_checked
++from candidate_provenance import FIXED,collect_identity,collective_checked,finish_identity_host
+ 
+ 
+ def roots_overlap(frozen,root):
+@@ -182,6 +182,20 @@
+     if errors:raise RuntimeError('Host/PG cleanup failed; inspect cleanup_errors')
+ 
+ 
++
++def finish_validation_host(host,report,dist,save,collector,initial,base,prior_error=None):
++    """Final identity and host cleanup run even after body failure; first error wins."""
++    final_error=finish_identity_host(host,report,collector,initial,base)
++    first=prior_error or final_error
++    if first is not None:
++        report['all_passed']=False;report.setdefault('error',repr(first))
++    try:finish_host_report(host,report,dist,save,first)
++    except Exception as exc:
++        # finish_host_report already attempts all host/PG cleanup and final save.
++        return first or exc
++    return first
++
++
+ def main():
+     args=parse_args()
+     if not args.run_npu:
+@@ -201,6 +215,7 @@
+     phase('host_connect_after',rank,world=world)
+     local_rank=int(os.environ['LOCAL_RANK'])
+     report={'rank':rank,'world':world,'backend':FIXED['backend'],'all_passed':False,'cases':[]}
++    identity=None;base=None
+     try:
+         phase('set_device_before',rank,device=local_rank)
+         torch.npu.set_device(local_rank)
+@@ -282,8 +297,14 @@
+     except Exception as exc:
+         report['error']=repr(exc);raise
+     finally:
+-        finish_host_report(host,report,dist,
+-            lambda:(args.output/f'rank{rank}.json').write_text(json.dumps(report,indent=2)),sys.exc_info()[1])
++        original=sys.exc_info()[1]
++        def collect_final():
++            if identity is None:raise RuntimeError('Initial P1 identity missing; final qualification unavailable')
++            return collect_identity(root,args.pointwise_library,execution,base)[0]
++        terminal=finish_validation_host(host,report,dist,
++            lambda:(args.output/f'rank{rank}.json').write_text(json.dumps(report,indent=2)),
++            collect_final,identity,base,original)
++        if original is None and terminal is not None:raise terminal
+ 
+ 
+ if __name__=='__main__':main()
+--- a/comparison/gate.py
++++ b/comparison/gate.py
+@@ -11,7 +11,7 @@
+ def require_p1_host_cleanup(report,world,rank,current_identity):
+     """Only new P1 source/config identity plus complete successful host exit."""
+     content=current_identity.get('content',{})
+-    if current_identity.get('schema')!='p1-training-1':raise ValueError('P1 expanded identity required')
++    if current_identity.get('schema')!='p1-training-2':raise ValueError('P1 expanded identity required')
+     files={item['role']:item for item in content.get('candidate_files',[])}
+     if 'source/validate_training_p1.py' not in files:raise ValueError('Current P1 validator identity missing')
+     execution=content.get('execution',{})
+@@ -50,6 +50,30 @@
+     return counts
+ 
+ 
++
++def require_p1_final_identity(report,current,validate_identity,world):
++    """Old initial-only reports cannot authorize this new P1 performance scope."""
++    initial=report.get('identity');final=report.get('identity_final')
++    validate_identity(initial);validate_identity(final)
++    a,b=initial['content'],final['content']
++    if set(a)!=set(b) or any(a[k]!=b[k] for k in a if k not in ('base_identity','mapped_libraries')):
++        raise ValueError('P1 initial/final candidate source/native/execution changed')
++    old,new=a['base_identity']['content'],b['base_identity']['content']
++    if set(old)!=set(new) or any(old[k]!=new[k] for k in old if k!='files'):
++        raise ValueError('P1 initial/final version/precision/config changed')
++    af={v['role']:v for v in old['files']};bf={v['role']:v for v in new['files']}
++    if any(k not in bf or bf[k]!=v for k,v in af.items()) or any(not k.startswith('loaded_dependency/') for k in bf.keys()-af.keys()):
++        raise ValueError('P1 initial source/native/dependency changed/removed or invalid new role')
++    am,bm=a['mapped_libraries'],b['mapped_libraries']
++    if any(k not in bm or bm[k]!=v for k,v in am.items()):raise ValueError('P1 actual FD map changed/removed')
++    if validate_identity(final)!=validate_identity(current):raise ValueError('P1 final identity differs from current')
++    peers=report.get('final_identity_peer_status',[])
++    if (len(peers)!=world or [v.get('rank') for v in peers]!=list(range(world)) or
++        any(v.get('error','missing') is not None or v.get('digest')!=final['content_digest'] for v in peers) or
++        report.get('final_identity_error') is not None or report.get('final_identity_host_error') is not None):
++        raise ValueError('P1 final identity host agreement missing/failed')
++
++
+ def qualify(directory,backend,world,shape,seed,shared,identity,limits,validate_identity):
+     if backend not in ('shmem_catlass','shmem_catlass_pointwise_p1','cann_ai_cpu') or (shared and backend=='cann_ai_cpu'):
+         raise ValueError('Unsupported backend/shared combination')
+@@ -69,10 +93,11 @@
+                   'backend':backend,'weight_dtype':'torch.bfloat16','all_passed':True,'limits':limits}
+         if any(key not in report or report[key]!=value for key,value in expected.items()):
+             raise ValueError(f'{backend} qualification contract mismatch: {path}')
+-        if validate_identity(report.get('identity'))!=digest:
++        if backend=='shmem_catlass_pointwise_p1':
++            require_p1_final_identity(report,identity,validate_identity,world)
++            require_p1_host_cleanup(report,world,rank,identity)
++        elif validate_identity(report.get('identity'))!=digest:
+             raise ValueError(f'{backend} stale implementation/runtime identity: {path}')
+-        if backend=='shmem_catlass_pointwise_p1':
+-            require_p1_host_cleanup(report,world,rank,identity)
+         balanced=[case for case in report.get('cases',[]) if case.get('case')=='balanced']
+         if len(balanced)!=1:raise ValueError(f'Expected exactly one balanced case: {path}')
+         case=balanced[0];lc=counts[rank*local:(rank+1)*local];recv=sum(lc)
+--- /dev/null
++++ b/p1_pointwise/mapped_identity.py
+@@ -0,0 +1,83 @@
++"""Actual-map dev/inode/fstat-bound native hashing; stdlib only."""
++import hashlib,os
++from pathlib import Path
++_HASH_CACHE={}
++def sha(path):
++    h = hashlib.sha256()
++    with Path(path).open('rb') as stream:
++        for block in iter(lambda: stream.read(8 << 20), b''):
++            h.update(block)
++    return h.hexdigest()
++
++def mapped_libraries(maps_path=Path('/proc/self/maps')):
++    """Record actual mappings; never search disk/install prefixes for missing SOs."""
++    result = {'maps_path': str(maps_path), 'libraries': [], 'errors': []}
++    try:
++        lines = maps_path.read_text().splitlines()
++    except OSError as exc:
++        result['errors'].append(repr(exc))
++        return result
++    mappings = {}
++    blocked = set()
++    for line_number, line in enumerate(lines, 1):
++        fields = line.split(maxsplit=5)
++        if len(fields) < 6 or not fields[5].startswith('/'):
++            continue
++        raw = fields[5].replace('\\040', ' ')
++        name = Path(raw).name.lower()
++        if '.so' not in name or not (any((v in name for v in ('hccl', 'hcomm', 'runtime', 'ascendcl', 'opapi', 'shmem', 'kernels', 'torch_npu', 'megamoe', 'platform', 'tiling_api', 'register', 'graph_base'))) or any(v in raw for v in ('/torch_npu/', '/deep_ep/', '/ep_gmm_fused/'))):
++            continue
++        if raw.endswith(' (deleted)'):
++            result['errors'].append('Deleted actual mapping: ' + raw)
++            continue
++        try:
++            major, minor = (int(v, 16) for v in fields[3].split(':'))
++            inode = int(fields[4])
++            if major < 0 or minor < 0:
++                raise ValueError('Mapped device major/minor must be nonnegative')
++            if inode <= 0:
++                raise ValueError('Mapped inode must be positive')
++            mappings.setdefault(raw, []).append(dict(line=line_number, address_range=fields[0], permissions=fields[1], offset=fields[2], device=fields[3], device_major=major, device_minor=minor, inode=inode))
++        except (ValueError, TypeError) as exc:
++            blocked.add(raw)
++            result['errors'].append(f'Invalid maps identity {raw}: {exc!r}')
++    for raw, entries in sorted(mappings.items()):
++        if raw in blocked:
++            continue
++        identities = {(row['device_major'], row['device_minor'], row['inode']) for row in entries}
++        if len(identities) != 1:
++            result['errors'].append('Same mapped path has inconsistent dev/inode: ' + raw)
++            continue
++        major, minor, inode = next(iter(identities))
++        path = Path(raw)
++
++        def signature(st):
++            return (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns)
++        try:
++            if not hasattr(os, 'major') or not hasattr(os, 'minor'):
++                raise OSError('POSIX dev major/minor decoder unavailable; cannot bind maps identity')
++            with path.open('rb') as stream:
++                before = os.fstat(stream.fileno())
++                if (os.major(before.st_dev), os.minor(before.st_dev), before.st_ino) != (major, minor, inode):
++                    raise OSError('Opened file fstat dev/inode does not match mapped object')
++                if before.st_size <= 0:
++                    raise OSError('Mapped library is not a nonempty readable file')
++                key = (major, minor, inode, *signature(before), before.st_ctime_ns)
++                digest = _HASH_CACHE.get(key)
++                if digest is None:
++                    h = hashlib.sha256()
++                    for block in iter(lambda: stream.read(8 << 20), b''):
++                        h.update(block)
++                    digest = h.hexdigest()
++                after = os.fstat(stream.fileno())
++                resolved = path.resolve(strict=True)
++                if signature(before) != signature(after) or before.st_ctime_ns != after.st_ctime_ns or signature(path.stat()) != signature(after) or (signature(resolved.stat()) != signature(after)):
++                    raise OSError('Mapped library descriptor/path changed during hashing')
++                _HASH_CACHE[key] = digest
++            result['libraries'].append(dict(path=str(resolved), mapped_path=raw, sha256=digest, bytes=after.st_size, device=after.st_dev, inode=after.st_ino, map_device_major=major, map_device_minor=minor, map_inode=inode, map_entries=entries))
++        except (OSError, ValueError) as exc:
++            result['errors'].append(f'Mapped file verification {raw}: {exc!r}')
++    names = [Path(item['path']).name for item in result['libraries']]
++    result['present'] = {role: any((check(name) for name in names)) for role, check in {'hccl_or_hcomm': lambda n: 'hccl' in n or 'hcomm' in n, 'runtime': lambda n: 'runtime' in n, 'ascendcl': lambda n: 'ascendcl' in n, 'torch_npu': lambda n: 'torch_npu' in n or any(('/torch_npu/' in p['path'] for p in result['libraries']))}.items()}
++    result['missing_roles_are_diagnostic'] = 'Lazy/unmapped is recorded, not guessed or explicitly CDLL-loaded; this is not a qualification identity.'
++    return result

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checks": 15,
+  "items": [
+    "two actual archived ELF hashes/machine4137 and original readelf FUNC evidence verified offline",
+    "separate matching device ELFs satisfy union with per-symbol provenance",
+    "host ELF, undefined FUNC, metadata OBJECT and substring cannot supply device symbol",
+    "new.d root-contained unbound file rejects; bound actual source mutation rejects",
+    "ok recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "nonzero recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "timeout recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "kill recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "unknown recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "startup recorder: actual wait rc, child-first cleanup, timeout first cause, unknown release fail-closed",
+    "body_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+    "scan_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+    "save_exception afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+    "exited_child afterspawn: unified exact child-first cleanup or preserve unknown driver; first error/real rc retained",
+    "reused driver PID/session without original birth stays unknown and is never adopted as owned"
+  ],
+  "real_compiler_or_readelf_executed": false,
+  "native_or_NPU": false
+}

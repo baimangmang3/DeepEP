@@ -1,0 +1,99 @@
+{
+  "scope": "CPU NumPy float64 mathematical and routing-index validation only; not an NPU training implementation or hardware benchmark",
+  "seed": 713,
+  "finite_difference_epsilon": 1e-06,
+  "shapes": {
+    "N": 3,
+    "H": 3,
+    "I": 2,
+    "E": 4,
+    "K": 2
+  },
+  "shared_expert": "unweighted; independent weights; input gradient added to routed input gradients",
+  "checks": {
+    "finite_difference_x": {
+      "elements": 9,
+      "max_abs_error": 1.0612795364739469e-11,
+      "max_scaled_error": 1.0612795364739469e-11,
+      "passed": true
+    },
+    "finite_difference_w1": {
+      "elements": 48,
+      "max_abs_error": 2.9632999613143918e-12,
+      "max_scaled_error": 2.9632999613143918e-12,
+      "passed": true
+    },
+    "finite_difference_w2": {
+      "elements": 24,
+      "max_abs_error": 2.1371793224034263e-12,
+      "max_scaled_error": 2.1371793224034263e-12,
+      "passed": true
+    },
+    "finite_difference_sw1": {
+      "elements": 12,
+      "max_abs_error": 4.607619841223709e-12,
+      "max_scaled_error": 4.607619841223709e-12,
+      "passed": true
+    },
+    "finite_difference_sw2": {
+      "elements": 6,
+      "max_abs_error": 2.4957449301643564e-12,
+      "max_scaled_error": 2.4957449301643564e-12,
+      "passed": true
+    },
+    "finite_difference_p": {
+      "elements": 6,
+      "max_abs_error": 4.055500726907191e-12,
+      "max_scaled_error": 4.055500726907191e-12,
+      "passed": true
+    },
+    "dp_without_z_unweighted_da": {
+      "elements": 6,
+      "max_abs_error": 6.938893903907228e-18,
+      "max_scaled_error": 6.938893903907228e-18,
+      "passed": true
+    },
+    "empty_expert_weights": {
+      "elements": 18,
+      "max_abs_error": 0.0,
+      "max_scaled_error": 0.0,
+      "passed": true
+    },
+    "zero_p_keeps_dp": {
+      "passed": true,
+      "dp_at_zero_p": -0.03433117717121265
+    },
+    "fixed_topk_sigmoid_router_logits": {
+      "elements": 12,
+      "max_abs_error": 4.708030948603892e-12,
+      "max_scaled_error": 4.708030948603892e-12,
+      "passed": true
+    },
+    "unselected_router_logits_zero": {
+      "elements": 6,
+      "max_abs_error": 0.0,
+      "max_scaled_error": 0.0,
+      "passed": true
+    },
+    "zero_token_batch": {
+      "passed": true
+    },
+    "unequal_rank_route_roundtrip": {
+      "source_tokens_per_rank": [
+        2,
+        0,
+        3
+      ],
+      "received_rows_per_rank": [
+        4,
+        3,
+        3
+      ],
+      "assignment_count": 10,
+      "identity": "(source_rank, source_token, topk_slot, expert_id)",
+      "passed": true,
+      "max_abs_error": 0.0
+    }
+  },
+  "all_passed": true
+}

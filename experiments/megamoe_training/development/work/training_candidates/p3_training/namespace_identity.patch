@@ -1,0 +1,274 @@
+--- a/candidate_provenance.py
++++ b/candidate_provenance.py
+@@ -3,7 +3,7 @@
+ from collections import Counter
+ from pathlib import Path
+ 
+-SCHEMA='p3-training-1'
++SCHEMA='p3-training-2'
+ FIXED=dict(candidate='P3_grouped_up_swiglu_v1',backend='shmem_catlass_grouped_up_swiglu_p3',
+     vector_cores=64,gemm_cores=32,schedule='serial',recompute=False,local_experts=4,mix_ratio=[1,2],fresh_flags=True)
+ P3=('__init__.py','training_adapter.py','candidate_provenance.py','validate_training_p3.py','host_store.py','mapped_identity.py')
+@@ -70,17 +70,64 @@
+     for v in files:
+         if set(v)!={'role','bytes','sha256'} or type(v['bytes']) is not int or v['bytes']<=0 or not isinstance(v['sha256'],str) or len(v['sha256'])!=64 or any(ch not in '0123456789abcdef' for ch in v['sha256']):raise ValueError('Malformed P3 content item')
+     if not c.get('standalone',{}).get('report_sha256') or not c.get('mapped_libraries'):raise ValueError('Missing standalone/mapped evidence')
++    for role,item in c['mapped_libraries'].items():
++        if not valid_map_role(role) or set(item)!={'sha256','bytes'} or type(item['bytes']) is not int or item['bytes']<=0 or not isinstance(item['sha256'],str) or len(item['sha256'])!=64 or any(ch not in '0123456789abcdef' for ch in item['sha256']):raise ValueError('Malformed P3 namespace mapped content')
+     return value['content_digest']
+ 
+-def checked_maps(mapped):
+-    if mapped.get('errors'):raise ValueError('Actual mapped evidence failed: '+repr(mapped['errors']))
+-    libraries=mapped.get('libraries',[]);names={};result={}
+-    for v in libraries:
+-        if v.get('map_inode',0)<=0 or v.get('inode')!=v['map_inode'] or not v.get('map_entries'):raise ValueError('Unbound map inode evidence')
+-        name=Path(v['path']).name
+-        if name in names and names[name]!=v['sha256']:raise ValueError('Ambiguous same-basename mapped content')
+-        names[name]=v['sha256'];result[v['path']]=v
+-    return result
++def valid_map_role(role):
++    if not isinstance(role,str) or '\\' in role:return False
++    parts=role.split('/')
++    if any(x in ('','.','..') for x in parts):return False
++    return (len(parts)==2 and parts[0]=='loaded') or (len(parts)>=3 and parts[:2] in (['package','deep_ep'],['package','torch_npu']))
++
++def imported_package_roots():
++    roots={}
++    for name in ('deep_ep','torch_npu'):
++        module=sys.modules.get(name)
++        if module is None or not getattr(module,'__file__',None):raise ValueError('Missing actual imported package '+name)
++        roots[name]=Path(module.__file__).resolve(strict=True).parent
++    return roots
++
++def checked_maps(result,package_roots=None):
++    if result.get('errors'):raise ValueError('Actual mapped dev/inode evidence failed: '+repr(result['errors']))
++    roots={} if package_roots is None else {k:Path(v) for k,v in package_roots.items()}
++    if roots and set(roots)!={'deep_ep','torch_npu'}:raise ValueError('Both actual package roots required')
++    values=list(roots.values())
++    if len(values)==2 and any(a==b or a.is_relative_to(b) or b.is_relative_to(a) for a,b in ((values[0],values[1]),)):
++        raise ValueError('Actual package roots overlap')
++    paths={};roles={};names={}
++    for v in result.get('libraries',[]):
++        if v.get('map_inode',0)<=0 or v.get('inode')!=v['map_inode'] or not v.get('map_entries'):raise ValueError('Mapped object missing bound inode/segments')
++        path=Path(v['path']);name=path.name;role='loaded/'+name
++        for package,root in roots.items():
++            if path.is_relative_to(root):role='package/'+package+'/'+path.relative_to(root).as_posix();break
++        if not valid_map_role(role) or role in roles or v['path'] in paths:raise ValueError('Duplicate/ambiguous actual mapped logical object')
++        roles[role]=v['path'];names.setdefault(name,[]).append(role)
++        paths[v['path']]=dict(v,logical_role=role) # Retain every FD/dev/inode/segment object, not only its basename.
++    if any(len(group)>1 and any(not role.startswith('package/') for role in group) for group in names.values()):
++        raise ValueError('Unclassified same-basename mappings; explicit stable package roles required')
++    if not paths:raise ValueError('Mapped library set empty')
++    return paths
++
++def canonical_maps(paths):
++    return {v['logical_role']:{k:v[k] for k in ('bytes','sha256')} for v in paths.values()}
++
++def historical_maps(result):
++    """Archived standalone FD snapshots: exact absolute paths only, no inferred package roots."""
++    if result.get('errors'):raise ValueError('Historical actual FD mapping errors')
++    paths={}
++    for v in result.get('libraries',[]):
++        if v.get('map_inode',0)<=0 or v.get('inode')!=v['map_inode'] or not v.get('map_entries') or v['path'] in paths:
++            raise ValueError('Historical FD map missing inode/segments or duplicate exact path')
++        paths[v['path']]=v
++    return paths
++
++
++def historical_selected(paths,basename,sha256):
++    values=[v for p,v in paths.items() if Path(p).name==basename]
++    if len(values)!=1 or values[0]['sha256']!=sha256:raise ValueError('Historical selected native mapping missing/ambiguous/mismatched: '+basename)
++    return values[0]
++
+ 
+ def require_standalone(report,up_root,up_sha,catlass_sha,execution):
+     if not isinstance(report,dict) or report.get('all_passed') is not True or report.get('error') or report.get('identity_final_error'):raise ValueError('Standalone GU/A qualification absent or failed')
+@@ -88,12 +135,12 @@
+     if report.get('identity_difference',{}).get('changed') or report.get('identity_difference',{}).get('removed'):raise ValueError('Standalone mapping changed during run')
+     expected={f:sha(Path(up_root)/f) for f in UP}
+     if report.get('source_sha256')!=expected:raise ValueError('Standalone current component source mismatch')
+-    final=report.get('identity_final',{});mapped=checked_maps(final.get('mapped',{}))
+-    initial=checked_maps(report.get('identity_initial',{}).get('mapped',{}))
++    final=report.get('identity_final',{});mapped=historical_maps(final.get('mapped',{}))
++    initial=historical_maps(report.get('identity_initial',{}).get('mapped',{}))
+     if not initial or not mapped:raise ValueError('Standalone initial/final actual identity missing')
+-    if any(p not in mapped or mapped[p]['sha256']!=v['sha256'] for p,v in initial.items()):raise ValueError('Standalone initial mapped content changed/removed')
+-    if not any(v['sha256']==up_sha and Path(p).name=='libmegamoe_up_swiglu.so' for p,v in mapped.items()):raise ValueError('Standalone actual P3 SO mismatch')
+-    if not any(v['sha256']==catlass_sha and Path(p).name=='libmegamoe_training.so' for p,v in mapped.items()):raise ValueError('Standalone actual CATLASS SO mismatch')
++    if any(p not in mapped or any(mapped[p][k]!=v[k] for k in ('sha256','bytes')) for p,v in initial.items()):raise ValueError('Standalone initial mapped content changed/removed')
++    historical_selected(mapped,'libmegamoe_up_swiglu.so',up_sha)
++    historical_selected(mapped,'libmegamoe_training.so',catlass_sha)
+     cases=report.get('cases',[])
+     def key(v):return (tuple(v['counts']),v['H'],v['I'],v['pattern'],v['concurrent_streams'])
+     expected=[dict(counts=[n,0,1 if n else 0,n//3],H=h,I=i,pattern='random',concurrent_streams=False)
+@@ -135,6 +182,9 @@
+     for stage in ('identity_initial','identity_final'):
+         item=audit.get('maps',{}).get(stage,{}).get('candidate_library',{})
+         if item.get('sha256')!=up_sha or item.get('map_inode',0)<=0 or item.get('inode')!=item['map_inode'] or not item.get('map_entries'):raise ValueError('Audit candidate actual mapping mismatch')
++        selected=historical_selected(historical_maps(report[stage]['mapped']),'libmegamoe_up_swiglu.so',up_sha)
++        if any(item.get(k)!=selected.get(k) for k in ('path','sha256','bytes','device','inode','map_device_major','map_device_minor','map_inode')):
++            raise ValueError('Audit selected candidate does not match historical exact-path FD object')
+     return dict(report_sha256=audit['report_sha256'],audit_sha256=digest(audit),process_rc=0,reaped=True,all_own_released=True,component_so_sha256=up_sha)
+ 
+ def collect_identity(args,root,execution,base):
+@@ -143,7 +193,8 @@
+     from p3_up_swiglu.up_swiglu import GroupedUpSwiGLU
+     from p3_training.mapped_identity import mapped_libraries
+     pointwise=TrainingPointwise(args.pointwise_library,vector_cores=64);up=GroupedUpSwiGLU(args.up_swiglu_library)
+-    b=base.collect_runtime_identity();mapped=checked_maps(mapped_libraries())
++    b=base.collect_runtime_identity();package_roots=imported_package_roots()
++    mapped=checked_maps(mapped_libraries(),package_roots)
+     selected=dict(pointwise=Path(pointwise.path).resolve(),up_swiglu=Path(up.path).resolve(),catlass=Path(b['diagnostic_paths']['native.catlass']).resolve())
+     for path in selected.values():
+         if str(path) not in mapped:raise ValueError('Required selected native library not actually mapped: '+str(path))
+@@ -164,10 +215,10 @@
+     files={f'{prefix}/{f}':Path(folder)/f for prefix,folder,items in (('p3',root,P3),('p1',args.p1_source_root,P1),('up',args.component_source_root,UP_PACKAGE)) for f in items}
+     manifest=[dict(role=role,bytes=p.stat().st_size,sha256=sha(p)) for role,p in sorted(files.items())]
+     manifest.extend(dict(role='native.'+role,bytes=mapped[str(path)]['bytes'],sha256=mapped[str(path)]['sha256']) for role,path in selected.items())
+-    canonical_maps={Path(path).name:dict(sha256=v['sha256'],bytes=v['bytes']) for path,v in mapped.items()}
++    canonical=canonical_maps(mapped)
+     content=dict(base_identity={k:b[k] for k in ('schema','content','content_digest')},files=manifest,execution=execution,
+-        standalone=standalone,mapped_libraries=canonical_maps)
+-    value=dict(schema=SCHEMA,content=content,content_digest=digest(content),diagnostic_import_paths={n:str(p) for n,p in paths.items()},actual_maps=list(mapped.values()))
++        standalone=standalone,mapped_libraries=canonical)
++    value=dict(schema=SCHEMA,content=content,content_digest=digest(content),diagnostic_import_paths={n:str(p) for n,p in paths.items()},actual_maps=list(mapped.values()),diagnostic_package_roots={k:str(v) for k,v in package_roots.items()})
+     validate_identity(value,base);return value,(pointwise,up)
+ 
+ def final_identity(initial,current,base):
+--- a/tests/test_qualification_cpu.py
++++ b/tests/test_qualification_cpu.py
+@@ -20,10 +20,10 @@
+     roles={f'{prefix}/{f}' for prefix,files in (('p3',P.P3),('p1',P.P1),('up',P.UP_PACKAGE)) for f in files}|{'native.catlass','native.pointwise','native.up_swiglu'}
+     b=dict(schema=1,content=dict(files=[dict(role='source.training',sha256='a'*64,bytes=1)],versions={'torch':'x','torch_npu':'x'},precision={'hf32':False}),content_digest='b'*64)
+     content=dict(base_identity=b,execution=execution,files=[dict(role=r,sha256='a'*64,bytes=1) for r in sorted(roles)],
+-        standalone=dict(report_sha256='a'*64),mapped_libraries={'libx.so':dict(sha256='a'*64,bytes=1)})
++        standalone=dict(report_sha256='a'*64),mapped_libraries={'loaded/libx.so':dict(sha256='a'*64,bytes=1)})
+     def identity(c):return dict(schema=P.SCHEMA,content=c,content_digest=P.digest(c))
+     current=identity(content);ok('independent_P3_identity_valid',lambda:P.validate_identity(current,base))
+-    for schema in (1,'p1-training-1',None):
++    for schema in (1,'p1-training-1',None,'p3-training-1'):
+         x=copy.deepcopy(current);x['schema']=schema;ok('old_schema_rejected',lambda x=x:rejects(lambda:P.validate_identity(x,base)))
+     for key,value in (('world',8),('schedule','overlap'),('shared',1),('local_experts',8),('gemm_cores',32.0)):
+         x=copy.deepcopy(content);x['execution'][key]=value
+@@ -36,19 +36,19 @@
+         z=identity(x)
+         if change=='digest':z['content_digest']='0'*64
+         ok(change,lambda z=z:rejects(lambda:P.validate_identity(z,base)))
+-    x=copy.deepcopy(content);x['mapped_libraries']['lazy.so']=dict(sha256='c'*64,bytes=1)
++    x=copy.deepcopy(content);x['mapped_libraries']['loaded/lazy.so']=dict(sha256='c'*64,bytes=1)
+     x['base_identity']['content']['files'].append(dict(role='loaded_dependency/lazy.so',sha256='c'*64,bytes=1))
+     ok('final_only_lazy_added',lambda:P.final_identity(current,identity(x),base))
+     for change in ('changed','removed','source'):
+         x=copy.deepcopy(content)
+-        if change=='changed':x['mapped_libraries']['libx.so']['sha256']='b'*64
++        if change=='changed':x['mapped_libraries']['loaded/libx.so']['sha256']='b'*64
+         elif change=='removed':x['mapped_libraries']={}
+         else:x['files'][0]['sha256']='b'*64
+         ok('final_'+change,lambda x=x:rejects(lambda:P.final_identity(current,identity(x),base)))
+     ok('final_missing_identity',lambda:rejects(lambda:P.final_identity(None,current,base)))
+     actual=WORK.parent/'outputs/training_results_20261025_1413/p3-up-swiglu-unit/rack05os7/up-swiglu-results.json'
+     report=json.loads(actual.read_text());up=ROOT.parent/'p3_up_swiglu'
+-    maps=P.checked_maps(report['identity_final']['mapped'])
++    maps=P.historical_maps(report['identity_final']['mapped'])
+     native=next(v['sha256'] for p,v in maps.items() if Path(p).name=='libmegamoe_up_swiglu.so')
+     catlass=next(v['sha256'] for p,v in maps.items() if Path(p).name=='libmegamoe_training.so')
+     ok('real_archived_68_component_source_SO_metrics',lambda:P.require_standalone(report,up,native,catlass,execution))
+--- /dev/null
++++ b/tests/test_mapping_roles_cpu.py
+@@ -0,0 +1,96 @@
++"""Current package namespace vs historical standalone exact-path evidence; no native import."""
++import ast,copy,importlib.util,json,sys
++from pathlib import Path
++ROOT=Path(__file__).resolve().parents[1];WORK=ROOT.parents[1]
++sys.path.insert(0,str(ROOT))
++import candidate_provenance as P
++
++def run():
++    checks=[];maps_by_host=[];artifacts=[]
++    def reject(fn):
++        try:fn()
++        except ValueError:return
++        raise AssertionError('Expected rejection')
++    for host in ('rack05os7','rack05os8'):
++        file=WORK.parent/'outputs/p2_qualification_deployment'/host/'collision-cpu.json'
++        data=json.loads(file.read_bytes().decode('utf-8'));raw=data['raw_mapping_result'];before=copy.deepcopy(raw)
++        group=next(iter(data['collision_groups'].values()));roots={Path(v['path']).parent.name:Path(v['path']).parent for v in group}
++        paths=P.checked_maps(raw,roots);canonical=P.canonical_maps(paths)
++        assert len(paths)==len(raw['libraries']) and raw==before
++        for item in group:
++            package=Path(item['path']).parent.name;role=f"package/{package}/{Path(item['path']).name}"
++            assert canonical[role]=={k:item[k] for k in ('bytes','sha256')}
++            assert all(paths[item['path']][k]==item[k] for k in ('path','device','inode','map_inode','map_entries'))
++        maps_by_host.append(canonical);artifacts.append(str(file))
++        checks.append('real_dual_C_complete_FD_preserved:'+host)
++        moved=copy.deepcopy(raw);newroots={name:Path('/other-host/python')/name for name in roots}
++        for v in moved['libraries']:
++            for name,old in roots.items():
++                if Path(v['path']).is_relative_to(old):v['path']=str(newroots[name]/Path(v['path']).relative_to(old));break
++        assert P.canonical_maps(P.checked_maps(moved,newroots))==canonical
++        checks.append('current_package_roots_relocated_same_content:'+host)
++        reject(lambda:P.checked_maps(raw));checks.append('current_unknown_dual_C_without_roots_reject:'+host)
++        unknown=copy.deepcopy(raw);item=copy.deepcopy(group[0]);item['path']='/unclassified/'+Path(item['path']).name;unknown['libraries'].append(item)
++        reject(lambda:P.checked_maps(unknown,roots));checks.append('current_unknown_third_C_reject:'+host)
++        historical=P.historical_maps(raw)
++        assert len(historical)==len(raw['libraries']) and all('logical_role' not in v for v in historical.values())
++        checks.append('historical_reader_keeps_absolute_FD_objects_without_inventing_roots:'+host)
++        selected=data['base_identity']['diagnostic_paths']['native.deepep_core']
++        assert paths[selected]['logical_role'].startswith('package/deep_ep/')
++    assert maps_by_host[0]==maps_by_host[1];checks.append('real_hosts_same_canonical_maps_different_physical_inodes')
++    # Original reviewed P3 standalone report remains valid with no package-root metadata.
++    unit_path=WORK.parent/'outputs/training_results_20261025_1413/p3-up-swiglu-unit/rack05os7/up-swiglu-results.json'
++    unit=json.loads(unit_path.read_bytes().decode('utf-8'));audit=json.loads((unit_path.parent.parent/'unit-audit.json').read_bytes().decode('utf-8'))
++    historical=P.historical_maps(unit['identity_final']['mapped'])
++    up=next(v['sha256'] for name,v in historical.items() if Path(name).name=='libmegamoe_up_swiglu.so')
++    cat=next(v['sha256'] for name,v in historical.items() if Path(name).name=='libmegamoe_training.so')
++    e=dict(P.FIXED,world=16,shape=dict(B=8192,H=6144,I=2048,E=64,K=8),seed=4317,shared=False,
++        weight_dtype='torch.bfloat16',cases=['balanced'],oracle_chunk=1024,max_reference_gib=12.,limits=P.LIMITS)
++    assert all('diagnostic_package_roots' not in unit[stage] for stage in ('identity_initial','identity_final'))
++    P.require_standalone(unit,ROOT.parent/'p3_up_swiglu',up,cat,e);P.require_standalone_audit(audit,unit_path,up)
++    checks.append('real_legacy68_and_exact_path_release_audit_accepted_no_roots')
++    changed=copy.deepcopy(audit);changed['maps']['identity_final']['candidate_library']['path']='/wrong/path/libmegamoe_up_swiglu.so'
++    reject(lambda:P.require_standalone_audit(changed,unit_path,up));checks.append('historical_audit_wrong_selected_exact_path_reject')
++    for basename in ('libmegamoe_up_swiglu.so','libmegamoe_training.so'):
++        changed=copy.deepcopy(unit)
++        for stage in ('identity_initial','identity_final'):
++            entries=changed[stage]['mapped']['libraries'];item=copy.deepcopy(next(v for v in entries if Path(v['path']).name==basename))
++            item['path']='/ambiguous/'+basename;entries.append(item)
++        reject(lambda:P.require_standalone(changed,ROOT.parent/'p3_up_swiglu',up,cat,e))
++        checks.append('historical_selected_same_basename_ambiguity_reject:'+basename)
++    # New full-layer final identity uses stable roles, independently of the old raw report representation.
++    spec=importlib.util.spec_from_file_location('frozen_base_for_p3_namespace',WORK/'DeepEP/experiments/megamoe_training/tests/provenance.py')
++    base=importlib.util.module_from_spec(spec);spec.loader.exec_module(base)
++    bc=dict(files=[dict(role=r,bytes=1,sha256='a'*64) for r in sorted(base.REQUIRED_ROLES)],
++        versions=dict(torch='fixture',torch_npu='fixture'),precision=dict(matmul_allow_hf32=False,allow_internal_format=False))
++    b=dict(schema=1,content=bc,content_digest=base.canonical_digest(bc))
++    roles={f'{prefix}/{name}' for prefix,files in (('p3',P.P3),('p1',P.P1),('up',P.UP_PACKAGE)) for name in files}|{'native.catlass','native.pointwise','native.up_swiglu'}
++    c=dict(base_identity=b,execution=e,files=[dict(role=r,bytes=1,sha256='a'*64) for r in sorted(roles)],standalone=dict(report_sha256='a'*64),mapped_libraries=maps_by_host[0])
++    def sealed(c):return dict(schema=P.SCHEMA,content=c,content_digest=P.digest(c))
++    initial=sealed(copy.deepcopy(c));P.validate_identity(initial,base)
++    target=next(k for k in c['mapped_libraries'] if k.startswith('package/torch_npu/') and '/_C.' in k)
++    for change in ('replaced','removed'):
++        final=copy.deepcopy(c)
++        if change=='replaced':final['mapped_libraries'][target]['sha256']='b'*64
++        else:final['mapped_libraries'].pop(target)
++        reject(lambda:P.final_identity(initial,sealed(final),base));checks.append('full_final_extension_'+change+'_reject')
++    final=copy.deepcopy(c);final['mapped_libraries']['loaded/liblazy.so']=dict(sha256='b'*64,bytes=7)
++    final['base_identity']['content']['files'].append(dict(role='loaded_dependency/liblazy.so',sha256='b'*64,bytes=7))
++    final['base_identity']['content_digest']=base.canonical_digest(final['base_identity']['content'])
++    P.final_identity(initial,sealed(final),base);checks.append('full_final_only_lazy_added_accept')
++    old=copy.deepcopy(initial);old['schema']='p3-training-1'
++    reject(lambda:P.validate_identity(old,base));checks.append('old_full_training_schema_reject')
++    # The actual policy bodies were copied, not imported at runtime from P2.
++    p2=ast.parse((ROOT.parent/'p2_backward_overlap/candidate_provenance.py').read_text(encoding='utf-8'))
++    p3=ast.parse((ROOT/'candidate_provenance.py').read_text(encoding='utf-8'))
++    for name in ('valid_map_role','imported_package_roots','checked_maps','canonical_maps'):
++        a=next(n for n in p2.body if isinstance(n,ast.FunctionDef) and n.name==name);b=next(n for n in p3.body if isinstance(n,ast.FunctionDef) and n.name==name)
++        assert ast.dump(a,include_attributes=False)==ast.dump(b,include_attributes=False)
++    checks.append('current_namespace_policy_matches_reviewed_P2_without_runtime_import')
++    assert not any(n=='torch' or n.startswith(('torch.','torch_npu','deep_ep')) for n in sys.modules)
++    return dict(passed=True,checks=len(checks),details=checks,schema=P.SCHEMA,archives=artifacts,
++        scope='Offline archived FD fixtures and identity policy only; no native collector/import/device/68case or CPU16 math rerun',
++        limitation='Historical standalone exact paths remain historical evidence; no actual package roots inferred or supplied to that report. Revised full-layer collection still needs separate CPU import preflight.')
++
++if __name__=='__main__':
++    result=run();(ROOT/'tests/mapping_roles_cpu_results.json').write_bytes((json.dumps(result,indent=2)+'\n').encode('utf-8'));print(json.dumps(result))

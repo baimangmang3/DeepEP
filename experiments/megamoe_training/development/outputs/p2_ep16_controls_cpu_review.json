@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": 8,
+  "items": [
+    "first host failed/no exact marker: no second host or guessed cleanup",
+    "only first host confirmed: cleanup only that host",
+    "second response lost after exact marker: recover both started hosts",
+    "cleanup first host fails: still cleanup peer, retain original launch error",
+    "known first-peer failure revokes unstarted host successor",
+    "both confirmed hosts get independent child-first cleanup, no duplicate cleanup",
+    "serial default plan + two-node argv/own-node cleanup + unchanged wrapper static checks",
+    "overlap default plan + two-node argv/own-node cleanup + unchanged wrapper static checks"
+  ],
+  "scope": "Only new dual-host failure models and local default/static checks. No remote/device/CPU strategy matrix rerun."
+}

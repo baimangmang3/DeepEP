@@ -1,0 +1,361 @@
+{
+  "scope": "Independent P1 pointwise candidate build/test tools; no production P0/qualification changes, no CANN compilation or NPU/remote run",
+  "artifact": "libmegamoe_pointwise.so",
+  "native_sources": [
+    "native/pointwise.cpp"
+  ],
+  "build_commands": [
+    "cmake -S /ABS/p1_pointwise -B /ABS/p1_pointwise/build -DASCEND_HOME_PATH=\"$ASCEND_HOME_PATH\"",
+    "cmake --build /ABS/p1_pointwise/build -j2"
+  ],
+  "test_command": "python /ABS/p1_pointwise/test_pointwise_npu.py --run-npu --library /ABS/p1_pointwise/build/libmegamoe_pointwise.so --device 0 --vector-cores 64 --output /ABS/NEW_RESERVED_RUN/pointwise_results.json",
+  "default_behavior": "Plan only before importing Torch; --run-npu is required. --small-only cannot qualify main shapes.",
+  "limits": {
+    "atol": 0.003,
+    "rtol": 0.03,
+    "rms_relative": 0.02
+  },
+  "small_rows": [
+    0,
+    1,
+    7,
+    8,
+    9,
+    17
+  ],
+  "widths": [
+    128,
+    256,
+    384,
+    2048,
+    6144
+  ],
+  "main_shapes": {
+    "activation_and_grad": {
+      "M": 65536,
+      "I": 2048
+    },
+    "gate": {
+      "M": 65536,
+      "H": 6144
+    }
+  },
+  "checks": "BF16 random G (normal*2) plus eight sentinel columns [-20,-4,-1,0,1,4,20,-1.28], random U/dA; signed/zero gates; all elements fixed precision gates and input immutability; one small stream/allocator control. Each failed recorded check immediately aborts, report persists in finally. Accuracy only.",
+  "static_CPU_status": {
+    "py_compile": true,
+    "default_plan_without_Torch": true,
+    "native_width_and_noPad_source_assertions": true,
+    "tile_partition_cases": [
+      {
+        "M": 0,
+        "width": 128,
+        "tile_count": 0,
+        "last_rows": 0,
+        "last_cols": 128,
+        "covered_elements": 0,
+        "passed": true
+      },
+      {
+        "M": 0,
+        "width": 256,
+        "tile_count": 0,
+        "last_rows": 0,
+        "last_cols": 256,
+        "covered_elements": 0,
+        "passed": true
+      },
+      {
+        "M": 0,
+        "width": 384,
+        "tile_count": 0,
+        "last_rows": 0,
+        "last_cols": 128,
+        "covered_elements": 0,
+        "passed": true
+      },
+      {
+        "M": 0,
+        "width": 2048,
+        "tile_count": 0,
+        "last_rows": 0,
+        "last_cols": 256,
+        "covered_elements": 0,
+        "passed": true
+      },
+      {
+        "M": 0,
+        "width": 6144,
+        "tile_count": 0,
+        "last_rows": 0,
+        "last_cols": 256,
+        "covered_elements": 0,
+        "passed": true
+      },
+      {
+        "M": 1,
+        "width": 128,
+        "tile_count": 1,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 128,
+        "passed": true
+      },
+      {
+        "M": 1,
+        "width": 256,
+        "tile_count": 1,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 256,
+        "passed": true
+      },
+      {
+        "M": 1,
+        "width": 384,
+        "tile_count": 2,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 384,
+        "passed": true
+      },
+      {
+        "M": 1,
+        "width": 2048,
+        "tile_count": 8,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 2048,
+        "passed": true
+      },
+      {
+        "M": 1,
+        "width": 6144,
+        "tile_count": 24,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 6144,
+        "passed": true
+      },
+      {
+        "M": 7,
+        "width": 128,
+        "tile_count": 1,
+        "last_rows": 7,
+        "last_cols": 128,
+        "covered_elements": 896,
+        "passed": true
+      },
+      {
+        "M": 7,
+        "width": 256,
+        "tile_count": 1,
+        "last_rows": 7,
+        "last_cols": 256,
+        "covered_elements": 1792,
+        "passed": true
+      },
+      {
+        "M": 7,
+        "width": 384,
+        "tile_count": 2,
+        "last_rows": 7,
+        "last_cols": 128,
+        "covered_elements": 2688,
+        "passed": true
+      },
+      {
+        "M": 7,
+        "width": 2048,
+        "tile_count": 8,
+        "last_rows": 7,
+        "last_cols": 256,
+        "covered_elements": 14336,
+        "passed": true
+      },
+      {
+        "M": 7,
+        "width": 6144,
+        "tile_count": 24,
+        "last_rows": 7,
+        "last_cols": 256,
+        "covered_elements": 43008,
+        "passed": true
+      },
+      {
+        "M": 8,
+        "width": 128,
+        "tile_count": 1,
+        "last_rows": 8,
+        "last_cols": 128,
+        "covered_elements": 1024,
+        "passed": true
+      },
+      {
+        "M": 8,
+        "width": 256,
+        "tile_count": 1,
+        "last_rows": 8,
+        "last_cols": 256,
+        "covered_elements": 2048,
+        "passed": true
+      },
+      {
+        "M": 8,
+        "width": 384,
+        "tile_count": 2,
+        "last_rows": 8,
+        "last_cols": 128,
+        "covered_elements": 3072,
+        "passed": true
+      },
+      {
+        "M": 8,
+        "width": 2048,
+        "tile_count": 8,
+        "last_rows": 8,
+        "last_cols": 256,
+        "covered_elements": 16384,
+        "passed": true
+      },
+      {
+        "M": 8,
+        "width": 6144,
+        "tile_count": 24,
+        "last_rows": 8,
+        "last_cols": 256,
+        "covered_elements": 49152,
+        "passed": true
+      },
+      {
+        "M": 9,
+        "width": 128,
+        "tile_count": 2,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 1152,
+        "passed": true
+      },
+      {
+        "M": 9,
+        "width": 256,
+        "tile_count": 2,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 2304,
+        "passed": true
+      },
+      {
+        "M": 9,
+        "width": 384,
+        "tile_count": 4,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 3456,
+        "passed": true
+      },
+      {
+        "M": 9,
+        "width": 2048,
+        "tile_count": 16,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 18432,
+        "passed": true
+      },
+      {
+        "M": 9,
+        "width": 6144,
+        "tile_count": 48,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 55296,
+        "passed": true
+      },
+      {
+        "M": 17,
+        "width": 128,
+        "tile_count": 3,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 2176,
+        "passed": true
+      },
+      {
+        "M": 17,
+        "width": 256,
+        "tile_count": 3,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 4352,
+        "passed": true
+      },
+      {
+        "M": 17,
+        "width": 384,
+        "tile_count": 6,
+        "last_rows": 1,
+        "last_cols": 128,
+        "covered_elements": 6528,
+        "passed": true
+      },
+      {
+        "M": 17,
+        "width": 2048,
+        "tile_count": 24,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 34816,
+        "passed": true
+      },
+      {
+        "M": 17,
+        "width": 6144,
+        "tile_count": 72,
+        "last_rows": 1,
+        "last_cols": 256,
+        "covered_elements": 104448,
+        "passed": true
+      },
+      {
+        "M": 65536,
+        "width": 2048,
+        "tile_count": 65536,
+        "last_rows": 8,
+        "last_cols": 256,
+        "covered_elements": 134217728,
+        "passed": true
+      },
+      {
+        "M": 65536,
+        "width": 6144,
+        "tile_count": 196608,
+        "last_rows": 8,
+        "last_cols": 256,
+        "covered_elements": 402653184,
+        "passed": true
+      }
+    ],
+    "record_failure_appended_and_raises": true,
+    "all_four_randn_use_current_device_generator": true,
+    "no_all_device_seed": true
+  },
+  "qualification_boundary": "Native algorithm unchanged. Compile, numeric rounding, Stream/Event APIs, allocator pressure and device cases remain UNVERIFIED until environment executes. No communication or GEMM fusion/performance claim.",
+  "files_sha256": {
+    "native/pointwise.cpp": "ee58581acf370bdef4709b1dbe1e8ad61f27617899e76891a09ddd02029f97cc",
+    "pointwise.py": "d01a65729f61f947daf0b73a0639b12390eca230a8ca43a90c2669f21f0980e1",
+    "CMakeLists.txt": "cd992ddacc86d011efcafa10307a7f0d4272685699193fec509ad08ec0c4a318",
+    "test_pointwise_npu.py": "2b5e49ad02222946ad20865e371dbcce0a9d4738c5d4834a9a79e6290c293acb"
+  },
+  "runtime_evidence": "Four source SHAs; actual /proc/self/maps pointwise/CANN ACL/runtime/libopapi*/PTA mappings and file SHAs; torch/torch_npu versions and git version where exposed; current device name/properties; precision settings. Missing required mapping fails. Sole current-device Generator, no all-device seeding.",
+  "precision_getter_fix": "Parent corrected PTA setter-only config attribute read: _C._npu_getOption(ALLOW_INTERNAL_FORMAT), decode and require disable; require matmul allow_hf32=False. CPU py_compile/default plan passed after correction; NPU unrun.",
+  "approved_compile_annotation_fix": "Parent-approved compatibility-only changes: [[bisheng::core_ratio(0,1)]] __global__ __aicore__ global entry and basic_api/reg_compute/kernel_reg_compute_intf.h include. No algorithm or threshold change.",
+  "compile_state": {
+    "attempt": 3,
+    "returncode": 0,
+    "library_sha256": "e189f39a8448df078e082ba90b3147e593962bbcc374aa388d69344cfc125ca1",
+    "evidence": "outputs/p1_pointwise_build/binary-distribution.json",
+    "standalone_accuracy": "63 checks running under environment agent",
+    "full_layer_accuracy": "UNVALIDATED; separate authorization after standalone pass required"
+  },
+  "status": "attempt3 build rc0; standalone accuracy in progress; integrated full-layer accuracy unvalidated"
+}

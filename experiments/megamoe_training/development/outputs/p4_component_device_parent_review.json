@@ -1,0 +1,44 @@
+{
+  "decision": "One conditional P4 component device validation approved by root after reviewed CPU preparation; no repeated parent approval required when all conditions pass",
+  "owner": "/root/environment",
+  "count": 1,
+  "consumed": false,
+  "run_tag": "20261026_p4_component_v2_once",
+  "controller_review": "outputs/p4_component_control_parent_review.json",
+  "CPU_deployment_result": "outputs/p4_component_v2_control_deployment/CPU-deployment-summary.json",
+  "CPU_deployment_result_sha256": "36bc00e08a9bd054899c8af7a97bccea573530670a52dfa050b738b4abf3f7bf",
+  "local_root": "work/training_diagnostics/p4_component_v2_control",
+  "remote_root": "/home/zzy/deploy/megamoe-20261024/training/validation-p4-component-v2-control-20261026",
+  "manifest_sha256": "04d326db4f19b535231ce15e4360658810003b25c06251b8f2d885f2ea7ce363",
+  "controller_sha256": "c9f86760c319a818cc209179fb93a390f0a5f2bed3982106a7192cd2c9247da4",
+  "component_contract_sha256": "a896cec62f6838e5a24ca1121d4512c48e8daab1a6f1c1599a40e0f8b9f29bf0",
+  "SO": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+  "local_backend_sha256": "0b094cbc4938ee681bbfd8d63cb5c6007719fbcf6bddd3401c9b6adead20837a",
+  "conditions": [
+    "Existing unique P2 EP16 serial permit runs first. Its complete448 fixed-limit metrics,16rank initial/final actual FD/source/native identities, all four case closes and PG exits, both real node and both real supervisor rc0, no timeout/abort/new error, and exact own release must pass and be saved in a strict audit. A failure revokes this conditional successor until root designs and reviews the next diagnostic.",
+    "No other own device/control job is running or pending execution concurrently. Confirm the exact P4 RUN has not already launched or completed; reuse neither consumed permissions nor prior RUN directories.",
+    "After predecessor release, a new both-host gate must show all16 devices free, own0, no recognized foreign launcher or unresolved ownership. A known post-run external job blocks the fresh gate and imposes30minutes before recheck; it is not retroactively a proven predecessor conflict.",
+    "Exact local controller/manifest/backend and deployed control/package/native/activation bytes match their reviewed pins. Do not rebuild or repeat consumed CPU qualification as preparation.",
+    "Only then may environment create the local exact authorization JSON with device_authorized=true plus run_tag,manifest_sha256,controller_sha256,component_contract_sha256 and SO from this review, and execute the existing local controller once. The controller independently verifies deployments and fresh resources before launching. No credential is written to this JSON or any file."
+  ],
+  "scope": {
+    "device": "177.22.27.1 physical0 only; both hosts/all16 remain required by the resource gate",
+    "program": "Existing v2 component validator, direct one worker, no torchrun or process group",
+    "configuration": "Exact manifest eight small cases and two invocations each, BF16 GU/A/Z, seed4317 with specified case offsets, hf32=false/internal_format=disable, no shared and no recomputation",
+    "metrics": "48 summaries =42 native plus6 host-empty;14 native invocations plus2 empty host paths. Do not report48 native checks.",
+    "limits": {"atol": 0.003, "rtol": 0.03, "rms_relative": 0.02},
+    "timing": false,
+    "bounds": "Worker180s, TERM30/KILL10, recorder harvest40, controller360; cleanup remote200/channel215. Preserve actual worker/recorder/supervisor statuses."
+  },
+  "acceptance": [
+    "All48 metrics finite, badcount0 and fixed RMS limits; exact configuration/counts/shapes/dtype/inputs/flags/independent stream checks pass.",
+    "Global and per-case initial/final worker-internal actual FD identity matches the exact source/config/native and current PTA/CANN records; immutable initial libraries remain unchanged, permitted lazy additions are explicit.",
+    "Actual worker, recorder and supervisor rc are integers0; no timeout or cleanup error; retain phase evidence and first error if any.",
+    "Confirm all exact own PID-start markers are gone or record unknown honestly. Preserve raw outputs, device samples and controller receipt windows; clocks remain uncalibrated. Release may be free or known post-busy, never inferred from missing proc data."
+  ],
+  "busy": "No worker launch means permission remains unconsumed. Stop and retain evidence. Check again at least30minutes later via the sole environment agent; do not loop unchanged commands.",
+  "failure": "Any new error stops this run and all dependent stages. Save original error, real exit statuses, PID-start ownership, source/loaded-library identity and raw evidence. Only the reviewed child-first exact-own cleanup is allowed; unknown/live worker preserves recording parents. Never signal external processes or rerun unchanged failure.",
+  "permission_consumption": "Consume when launch is attempted or its outcome is unknown; recover exact markers before further action. A prelaunch busy gate alone does not consume. A local output directory from a busy attempt is preserved; a future attempt needs an explicit new run_tag amendment in this review, not silent overwrite.",
+  "after": "No automatic device successor. Root reviews actual results. This grants only component accuracy/identity/lifecycle validation, not full training, SHMEM fusion, physical overlap or performance qualification.",
+  "performance_authorized": false
+}

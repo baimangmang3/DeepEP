@@ -1,0 +1,50 @@
+{
+  "updated_date": "2026-10-25",
+  "automation_id": "megamoe-16",
+  "existing_automation_updated": true,
+  "target_thread_unchanged": true,
+  "conflict_recheck_minutes": 30,
+  "saved_schedule_and_prompt_readback_verified": true,
+  "automatic_restart_on_error": false,
+  "rules": [
+    "环境占用或已证实的冲突中断，30分钟后只复查归属；不干预外部任务。",
+    "任何报错立即停止后续阶段，保留首错日志、真实退出码和PID归属/时间线。",
+    "先排查进程冲突、资源、通信协议及算子等可能原因；不将错误自动归因于冲突。",
+    "空闲或定时到期不触发失败命令重跑；须经证据支持的处置和主代理复核后，才安排必要的单次验证。",
+    "先核对现有代理、控制进程和结果，避免重复启动；仅清理已确认属于本次任务的PID。"
+  ],
+  "current_state": "First diagnostic passed704/704 and released; original cold-skew control approved but pending free16 after01:05 foreign16/own0 gate.",
+  "current_failure": {
+    "run": "20261025_1431/p1-host-v2-debug-shared-fp32-small",
+    "all_dependent_P1_P3_launches_stopped": true,
+    "node_exit_codes": [
+      1,
+      1
+    ],
+    "owned_pids_exited": 22,
+    "cleanup_signals_sent": false,
+    "release_snapshot_beijing": [
+      "2026-10-25 14:40:42",
+      "2026-10-25 14:40:43"
+    ],
+    "release_snapshot": "16 cards free; own0; foreign0",
+    "first_visible_failure": "skew阶段Dispatch incoming/receive timeout，generation1；随后在backward调用的复用前stream同步暴露错误，再出现507035及退出清理错误。",
+    "peer_pattern": "其他15个rank均等待peer5 lane3 generation1；rank5等待其余15个peer且incoming ready0。该模式是定位线索，不证明rank5为根因。",
+    "source_reading": "本地未修改的csrc/ops/dispatch.cpp:178在dispatch_kernel_do之前同步旧stream；completion.hpp:28与completion_wait.hpp:47的timeout分支主动trap。须继续绑定实际加载库与task，不能据backward栈认定反向kernel已经执行。",
+    "process_conflict_proven": false,
+    "process_conflict_excluded": false,
+    "ownership_limit": "启动和释放时均空闲；没有故障瞬间占用快照，无直接中途foreign进入证据，不能排除瞬态竞争。",
+    "root_cause_proven": false,
+    "evidence": "outputs/training_results_20261025_1431/p1-host-v2-debug-shared-fp32-small",
+    "next": "GPT-6.1-sol定向提取已有精确worker PID的run/plog与device首错，主代理审查协议及异步边界；不新启动NPU作业。"
+  },
+  "latest_user_authorization": "2026-10-26: 一旦环境空闲，立刻开始验证、调试。并行进行问题定位与优化点分析。",
+  "current_policy": {
+    "conflict_recheck_delay_minutes": 30,
+    "automatic_restart_after_error": false,
+    "on_error": "Stop this attempt and dependent stages; preserve original logs/rc/ownership/identity; analyze and review the next discriminating diagnostic or fix.",
+    "restart_condition": "Latest20261026 human authorization: run a reviewed changed diagnostic immediately when free16/no own job; do not require a proven root cause before collecting evidence. Never repeat an unchanged failed command automatically.",
+    "cleanup_scope": "Verified own PID ledger only; never terminate foreign jobs."
+  },
+  "historical_rules_notice": "Older error_hold statements below describe the previous policy; latest_user_authorization and current_policy take precedence."
+}

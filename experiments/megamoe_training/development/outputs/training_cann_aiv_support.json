@@ -1,0 +1,70 @@
+{
+  "conclusion": "Current deployed CANN9.2/PTA2.12.0.post2 on Ascend950DT_9582 rejects comm_mode=aiv for both native fused APIs before kernel execution. Official CANN AIV performance is unavailable for this tested environment.",
+  "scope": "Exact tested platform and mapped binaries only; no claim about every version/device or future support.",
+  "positive_control": "CANN ai_cpu same EP16 BF16 small shapes/counts qualified in0710; target full gradients in0714; actual AICPU kernels observed in0721 and0745 profiler traces.",
+  "not_measured": [
+    "No CANN AIV kernel was executed or timed.",
+    "CCU was not used as a replacement for AIV.",
+    "DeepEP UDMA/AIV communication is a separate backend."
+  ],
+  "operations": [
+    {
+      "api": "aclnnAlltoAllvGroupedMatMulV2",
+      "world": 16,
+      "ranks_with_same_rejection": 16,
+      "error_code": 161002,
+      "error_category": "EZ1001 parameter validation",
+      "rejection": "commMode aiv is unsupported on the current platform",
+      "actual_mapped_library_sha256": {
+        "libhccl.so": "b58e2401309864b31599102af6bd26767fd94de81afcf41cdba4f3d707b30cab",
+        "libhccl_alg.so": "31fa7cdf5b0ce54e4c7d38f79845184fd07d8753f0ab7fbbb2db74e4f24253db",
+        "libhccl_compat.so": "a8c12718df4c8bebb3b248858d0d913425cf0d71c72ad78dda2dd8b0628cfc61",
+        "libhccl_legacy.so": "741553bb23c5b8b62394df532b448f6f5e30d711e99afd47a1ab06a1a3284a58",
+        "libhccl_plf.so": "1e99f7025f0eeb7095b485088dc8af58ea7bbb36a6d11875f51e6e8a0a63d953",
+        "libhccl_v2.so": "831113526b474a5e6e04dedbccde7c283c78cc74b48402a34183c4b1ab6cce33",
+        "libhcomm.so": "a84d76e3d408cfcdbff2662823cd3b049b7ea638eb8ed421f22f052efb46d6c8",
+        "libopapi_cv.so": "77f63ae189f81383bf791703f53838ca33ef96873afe624e7492ceef4b73b455",
+        "libopapi_math.so": "20ee30c376b094ba2ec71bbc9ea35799eb0624912ef25c1c8333e62185018e36",
+        "libopapi_nn.so": "41f4ea67ac5cfc7761b271d200318fbb31e953fa1c4d6578cf7c4e36e52b20bd",
+        "libopapi_oam.so": "e497c33b023f2d7239d2a1d24c7116ec9e18fd5f5b4827968a77f64e632ff529",
+        "libopapi_transformer.so": "7835dc7c97f459ccc3238b77e4e551d0e1e829b7521fd7be20385b48bc4a23ca",
+        "libtorch_npu.so": "b8dbe2eadae0f7ae5d4bafc2a5617d65fc84172daf5fff6a1d25efe2dd970e48"
+      },
+      "raw_evidence": "outputs\\training_results_20261025_0753\\aiv-probe-evidence.json",
+      "raw_evidence_sha256": "d5de1acd67fc51da8bfceaf099cb15acf0a7d5e215995dd612a636b1f9636846",
+      "diagnostic_node_rc": {
+        "rack05os7": 0,
+        "rack05os8": 0
+      }
+    },
+    {
+      "api": "aclnnGroupedMatMulAlltoAllvV2",
+      "world": 16,
+      "ranks_with_same_rejection": 16,
+      "error_code": 161002,
+      "error_category": "EZ1001 parameter validation",
+      "rejection": "commMode only support 'ccu', 'ai_cpu', but got aiv",
+      "actual_mapped_library_sha256": {
+        "libhccl.so": "b58e2401309864b31599102af6bd26767fd94de81afcf41cdba4f3d707b30cab",
+        "libhccl_alg.so": "31fa7cdf5b0ce54e4c7d38f79845184fd07d8753f0ab7fbbb2db74e4f24253db",
+        "libhccl_compat.so": "a8c12718df4c8bebb3b248858d0d913425cf0d71c72ad78dda2dd8b0628cfc61",
+        "libhccl_legacy.so": "741553bb23c5b8b62394df532b448f6f5e30d711e99afd47a1ab06a1a3284a58",
+        "libhccl_plf.so": "1e99f7025f0eeb7095b485088dc8af58ea7bbb36a6d11875f51e6e8a0a63d953",
+        "libhccl_v2.so": "831113526b474a5e6e04dedbccde7c283c78cc74b48402a34183c4b1ab6cce33",
+        "libhcomm.so": "a84d76e3d408cfcdbff2662823cd3b049b7ea638eb8ed421f22f052efb46d6c8",
+        "libopapi_cv.so": "77f63ae189f81383bf791703f53838ca33ef96873afe624e7492ceef4b73b455",
+        "libopapi_math.so": "20ee30c376b094ba2ec71bbc9ea35799eb0624912ef25c1c8333e62185018e36",
+        "libopapi_nn.so": "41f4ea67ac5cfc7761b271d200318fbb31e953fa1c4d6578cf7c4e36e52b20bd",
+        "libopapi_oam.so": "e497c33b023f2d7239d2a1d24c7116ec9e18fd5f5b4827968a77f64e632ff529",
+        "libopapi_transformer.so": "7835dc7c97f459ccc3238b77e4e551d0e1e829b7521fd7be20385b48bc4a23ca",
+        "libtorch_npu.so": "b8dbe2eadae0f7ae5d4bafc2a5617d65fc84172daf5fff6a1d25efe2dd970e48"
+      },
+      "raw_evidence": "outputs\\training_results_20261025_0758\\aiv-probe-evidence.json",
+      "raw_evidence_sha256": "68ed07592e9bd782987fd9a5cd5da3bd6a997abef3e5adceb899a17e787492ca",
+      "diagnostic_node_rc": {
+        "rack05os7": 0,
+        "rack05os8": 0
+      }
+    }
+  ]
+}

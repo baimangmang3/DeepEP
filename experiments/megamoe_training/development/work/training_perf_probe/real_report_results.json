@@ -1,0 +1,57 @@
+{
+  "scope": "CPU gate acceptance of recovered real numerical reports, not a new NPU run",
+  "passed": true,
+  "positive": [
+    {
+      "tag": "0658_P0_routed",
+      "backend": "shmem_catlass",
+      "shared": false,
+      "ranks_passed": 16,
+      "identity_digest": "15399c4d3624b1e6fd5f5789e81e80b4d4c62bc73d98fa3be9874fb1613c6015",
+      "passed": true
+    },
+    {
+      "tag": "0703_P0_shared",
+      "backend": "shmem_catlass",
+      "shared": true,
+      "ranks_passed": 16,
+      "identity_digest": "15399c4d3624b1e6fd5f5789e81e80b4d4c62bc73d98fa3be9874fb1613c6015",
+      "passed": true
+    },
+    {
+      "tag": "0714_CANN_routed",
+      "backend": "cann_ai_cpu",
+      "shared": false,
+      "ranks_passed": 16,
+      "identity_digest": "15399c4d3624b1e6fd5f5789e81e80b4d4c62bc73d98fa3be9874fb1613c6015",
+      "passed": true
+    }
+  ],
+  "negative": [
+    {
+      "source_reports": "0703_P0_shared",
+      "requested_contract": "0658_P0_routed",
+      "rejected": true,
+      "error": "shmem_catlass qualification contract mismatch"
+    },
+    {
+      "source_reports": "0658_P0_routed",
+      "requested_contract": "0703_P0_shared",
+      "rejected": true,
+      "error": "shmem_catlass qualification contract mismatch"
+    },
+    {
+      "source_reports": "0714_CANN_routed",
+      "requested_contract": "0658_P0_routed",
+      "rejected": true,
+      "error": "shmem_catlass qualification contract mismatch"
+    },
+    {
+      "source_reports": "0703_P0_shared",
+      "requested_contract": "0714_CANN_routed",
+      "rejected": true,
+      "error": "cann_ai_cpu qualification contract mismatch"
+    }
+  ],
+  "frozen_helper_sha256": "7fda215ad138256d2157020a40180cc75476875e7f54ef9aecbe5b4ccc2d3755"
+}

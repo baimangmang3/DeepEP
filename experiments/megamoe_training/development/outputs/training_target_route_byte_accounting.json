@@ -1,0 +1,185 @@
+{
+  "status": "Offline route arithmetic; not observed payload, bandwidth, or hardware-counter evidence",
+  "scope": {
+    "B": 8192,
+    "H": 6144,
+    "E": 64,
+    "K": 8,
+    "world": 16,
+    "ranksPerHost": 8,
+    "elementBytes": 2,
+    "operation": "one forward X dispatch",
+    "route": "(token+rank*B+slot*(E/K))%E",
+    "reference_source": "work/DeepEP/experiments/megamoe_training/tests/validate_training_npu.py:143",
+    "reference_sha256": "14a50376f11453036fb58bfe713e2d219ba380ebc1cffb3837cf9501df1c5363"
+  },
+  "perRank": [
+    {
+      "rank": 0,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 1,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 2,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 3,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 4,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 5,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 6,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 7,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 8,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 9,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 10,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 11,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 12,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 13,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 14,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    },
+    {
+      "rank": 15,
+      "expertAssignments": 65536,
+      "distinctDestinationRankRows": 65536,
+      "selfRankRows": 4096,
+      "otherSameHostRankRows": 28672,
+      "otherHostRankRows": 32768,
+      "distinctForeignHostTokenRows": 8192
+    }
+  ],
+  "perRankHiddenByteBaselines": {
+    "expertExpanded": 805306368,
+    "rankDeduplicatedIncludingSelf": 805306368,
+    "selfRank": 50331648,
+    "otherSameHostRank": 352321536,
+    "otherHostRank": 402653184,
+    "rankDeduplicatedExcludingSelf": 754974720,
+    "idealOneCopyPerForeignHost": 100663296
+  },
+  "interpretation": [
+    "For this exact balanced routing there is one slot per destination rank: rank-level dedup saves no hidden rows versus expert assignments. This does not preclude host-level dedup.",
+    "Logical remote-rank hidden bytes per source rank are 336 MiB to other ranks on the same host and 384 MiB to ranks on the other host; self-rank contribution is 48 MiB. These are endpoint accounting, not link measurements.",
+    "The ideal one-copy-per-foreign-host hidden baseline is 96 MiB per source rank. It is conditional on actual host aggregation and excludes forwarding, replication, staging, metadata, padding, completion traffic and retries. Do not label it measured wire payload.",
+    "All values count one source transmission direction only; summing source and destination counts would double-count a transfer. Bidirectional or domain aggregates require an explicit normalization.",
+    "Forward combine, backward dispatch and dXe/dp combine need independent accounting from actual reduction/return slots and selected transport. Do not multiply one dispatch value into a full training-byte claim."
+  ],
+  "requiredRuntimeEvidence": [
+    "Bind source and loaded DeepEP/SHMEM SO identity, actual transport/aggregation branch and rank-to-host mapping.",
+    "Record token/chunk/peer or host grouping, real submitted WQE lengths and completions, metadata and padded tail lengths separately. Retain per-rank counters.",
+    "Use a same-clock transfer interval and separately collected link TX/RX counters with units and counter semantics. Subtract or bound background traffic; do not infer traffic from stage duration.",
+    "First assess instrumentation perturbation and completion/recycling invariants; official performance uses an instrumentation-off build."
+  ],
+  "changes": "No source, runtime, NPU, instrumentation or timing changes."
+}

@@ -1,0 +1,94 @@
+{
+  "date_beijing": "2026-10-26",
+  "status": "completed_once_56_passed_parent_accepted",
+  "decision": "Approve one P2 EP2 routed BF16 serial accuracy run with the reviewed isolated hostname/child-first controller. Fresh both-host free16/own0, no recognized foreign launcher, pins and ports must pass immediately before launch. No overlap or timing successor. Historical1431 remains unproven.",
+  "device_authorized": false,
+  "owner": "/root/environment, existing GPT-6.1-sol sole remote operator",
+  "contract": "work/p2_ep2_bf16_device_contract.json",
+  "contract_sha256": "07cfad0e860ffdfd49b515774e7f8196f661ee58ecc57e39fd42ee7839ae9496",
+  "controller_sha256": "79244132decd43be482d391a6d5681f99c6c7bdb720587ee2fa2813f578996af",
+  "launcher_sha256": "1f2f941e911f00ebf9ecd9aa355441fb93378e1a8616906036dda6aafc1f0ab9",
+  "collector_sha256": "d9c671cd8c3243ce0e7bfc778d410e316e75540ab3d1673325d7c5695427d9fb",
+  "deployment_manifest_sha256": "662589d416fe3258385d0167080bc9660f284fbebf7ced8f21b36c361284db51",
+  "source_manifest_sha256": "04f47711bf5ac2e3328cd08f5626f0d8e0c4fa1dca0e93b52dadd1c643f70e03",
+  "scope": {
+    "host": "177.22.27.1",
+    "physical_devices": [
+      0,
+      1
+    ],
+    "world": 2,
+    "B": 32,
+    "H": 128,
+    "I": 128,
+    "E": 8,
+    "K": 4,
+    "weight_dtype": "bf16",
+    "shared": false,
+    "backward_schedule": "serial",
+    "cases": [
+      "balanced",
+      "zero_gate",
+      "empty",
+      "skew"
+    ],
+    "required_full_gradient_metrics": 56,
+    "seed": 4317,
+    "oracle_chunk": 1024,
+    "max_reference_gib": 12,
+    "all16_fresh_gate_required": true,
+    "ports": [
+      29946,
+      27794
+    ],
+    "timeout_seconds": 600,
+    "kill_after_seconds": 30,
+    "timing": false
+  },
+  "review": [
+    "Read full controller/launcher and minimal diff. Only host27 launches two workers; source/port/own-process and all16-card gates remain on both hosts. Unique RUN markers, max-restarts0, actual node and supervisor rc are retained.",
+    "Fixed copied dual-host cleanup: only the launch host is considered. Cleanup exceptions are stored separately; first launch/startup failure survives and finally saves the summary. A CPU fault injection exercised actual controller orchestration with mocked SSH/signal backend and verified six invariants.",
+    "Pinned49 source files and all34 exact path/bytes/SHA objects from the successful schema2 CPU FD inventory. Root independently compared both host inventories against the new manifest with no mismatch. Runtime FD identity is still required; NPU final digest need not equal CPU digest because valid lazy additions may occur.",
+    "Collector matches the actual P2 validator, output directory, RUN_TAG, world2 and rank0/1; records PID/start, visibility, restart count, raw maps and both package _C objects. Captured mappings are host FD evidence, not device payload proof.",
+    "Both hosts passed stdlib deployment verification and shell syntax checks; no-Torch serial plan matches the exact small shape and four routes. No NPU/PG/SHMEM session was created by preparation.",
+    "The CPU test harness first encountered Windows WinError32 when cleaning its temporary cwd; restoring cwd fixed that harness failure. Original note retained; this was not a controller or device failure. No unchanged NPU retry occurred."
+  ],
+  "evidence": "outputs/p2_ep2_serial_preparation/",
+  "runtime_acceptance_required": [
+    "All2 ranks/all4 cases/full7 metrics each at the original fixed thresholds, exact shapes/dtypes/counts and serial schedule identity.",
+    "Actual source/import/native FD evidence, current selected loader paths, initial-to-final immutable roles and final full identity checks; valid lazy additions recorded separately.",
+    "All case-close and PG/host exits, true node and supervisor rc0 without watchdog, all exact owned PID-start records released, and original per-rank logs retained."
+  ],
+  "overlap_automatic_successor": false,
+  "physical_overlap_proven": false,
+  "performance_qualification": false,
+  "root_cause_of_1431_proven": false,
+  "shared0310_disposition": {
+    "reviewed": true,
+    "strict_numerical_checks_passed": 176,
+    "full_qualification": false,
+    "node_supervisor_rc_missing": true,
+    "own_released": 26,
+    "observed_foreign_overlap": true,
+    "root_cause_1431_proven": false,
+    "next": "Independent P2 EP2 routed serial precision diagnostic remains a valid next optimization step. Review a changed controller that preserves real rc and strengthens external-launcher detection; no need to wait for proof of historical1431 root cause. This record still grants no device execution."
+  },
+  "latest_control_review": {
+    "reviewed_at": "2026-10-26T03:47:36.080313+08:00",
+    "remote_root": "/home/zzy/deploy/megamoe-20261024/training/validation-p2-ep2-serial-hostname-20261026",
+    "wrapper_sha256": "7e15cc8ebaf480b09ab7d53185b9ad8077990a3a163adac7b7281cb4bf299e4d",
+    "torch_elastic_api_sha256": "8184afa022897c622de9ff1b76504e2210550fa772ccbc2fba44279c913bc1fe",
+    "source_pins": 50,
+    "actual_library_pins": 34,
+    "evidence": "outputs/p2_ep2_serial_hostname_preparation",
+    "reviewed": "Full child-first policy/ProcIO/external gate/controller and wrapper read; minimal integration diff and exact hashes independently verified. CPU both-host --help outer rc0 without NPU/PG; host27 stdlib1worker rc0 and PID-start released, pre-worker inner recognition and foreign/own classification passed. Original training math,56 metrics, all argv after wrapper, fixed thresholds unchanged.",
+    "cleanup": "Only exact own PID-start/RUN groups. Child-first preserving node/outer recorders. Preserve first error and real rc; missing remains null. Never signal foreign/mixed/reused groups.",
+    "stop": "Any error or foreign contention stops attempt/dependencies; preserve logs and diagnose. No automatic unchanged retry.",
+    "permission": "one device launch only, consumed at launch; busy keeps pending; no automatic overlap",
+    "scope": "Accuracy/lifecycle diagnostic only, no performance or physical-overlap claim"
+  },
+  "consumed_run_tag": "20261026_0348_p2_serial_once",
+  "latest_state": "Completed normal node/supervisor rc0, own0/free16; consumed permit cannot be reused. Independent overlap approved separately.",
+  "actual_audit": "outputs/training_results_20261026_0348_p2_serial_once/p2-ep2-bf16-serial/strict-accuracy-release-audit.json",
+  "qualification_scope": "This exact EP2 routed serial56 accuracy/identity/lifecycle only; no timing or physical-overlap claim"
+}

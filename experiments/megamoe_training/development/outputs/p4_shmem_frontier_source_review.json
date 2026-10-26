@@ -1,0 +1,93 @@
+{
+  "scope": "Root inspection of selected SHMEM files copied read-only from the task installation/source tree; no new device test or hardware memory-model proof",
+  "selected_inventory": "work/shmem_runtime_header_review_20261026/selected-files.json",
+  "source_commit_reported": "4dd80e2129da42bd773982c2bb3758af1ed0bba8",
+  "findings": [
+    {
+      "file": "work/shmem_runtime_header_review_20261026/headers/source_udma.hpp",
+      "sha256": "b3a52aa082bd4c72341270a22d5fc2356f475370675ad4cc77642831ed4138df",
+      "lines": [
+        161,
+        171,
+        184,
+        219,
+        1260,
+        1279
+      ],
+      "finding": "qp_quiet reads the selected SQ state and calls poll_cq with state->cqe_cnt. It does not append a fresh signaled ordering operation. poll_cq returns immediately for idx0 or an already-retired target; otherwise it checks owner/status/substatus and updates CQ/SQ tails. Unsignaled RO data therefore still needs the existing explicit SO completion boundary before quiet can cover it."
+    },
+    {
+      "file": "work/shmem_runtime_header_review_20261026/headers/source_udma.hpp",
+      "lines": [
+        157,
+        161,
+        215
+      ],
+      "finding": "CQE entry_idx is unwrapped as a16-bit next-WQE basic-block counter relative to the previous SQ tail. It is neither a row index nor a logical final-write sequence. New tile protocol must retain an explicit checkpoint-to-logical-write-prefix mapping, including control WQEs and any multi-descriptor logical writes."
+    },
+    {
+      "file": "work/shmem_runtime_header_review_20261026/headers/source_udma.hpp",
+      "lines": [
+        741,
+        748,
+        1260
+      ],
+      "finding": "compute_slot is compile-time gated: direct returns pe; relay returns pe*rank_count+relay. QP-specific quiet rejects the relay-supported branch. Source branch definitions alone do not prove the actual binary's selected compile-time branch; maintain build/config binding and actual state-alias evidence."
+    },
+    {
+      "file": "work/shmem_runtime_header_review_20261026/headers/installed_udma.h",
+      "sha256": "3cfee9f5228dca6cab4511f8a9d0d8d01fb6a1a7ad6629ef3af0e7489512c772",
+      "lines": [
+        25,
+        30,
+        31,
+        33,
+        44
+      ],
+      "finding": "Ordering configuration explicitly distinguishes NO, RO and SO; SO uses0b110. Declaring that field selects a WQE ordering mode but does not by itself provide an independent proof of receiver cache visibility or a new mixed-kernel acquire protocol."
+    },
+    {
+      "file": "work/shmem_runtime_header_review_20261026/headers/source_simt_mte.hpp",
+      "sha256": "d6ea26f6b5234190b62053b13913a241c5a60ccce0e1e676163f0c626644e6c5",
+      "finding": "The selected SIMT put helper translates to peer heap and assigns elements in a threadgroup-strided loop. put128 is instantiated with int4 in source_simt_rma.hpp. A count of2 is two128-bit elements; this source does not promise atomic32-byte descriptor visibility. Existing target-platform assumptions remain separate from a future explicit seal/epoch commit protocol."
+    }
+  ],
+  "implications": [
+    "Preserve SO/checkpoint/quiet and helper-owned CQ snapshot lifetimes. Do not delete completion operations merely because a new ready flag is present.",
+    "Use immutable per-checkpoint source payload until true transport retirement; a changing scalar backing several asynchronous notifications can expose a later value too early.",
+    "Treat logical write sequence, SQ BB head/tail, CQ ordinal/ticket and descriptor epoch as distinct values with explicit associations.",
+    "Actual native domain identity includes issuing rank/context and the real ordered SQ state alias, not just logical peer/QP. Clos mailbox gives only scoped equality classes; FM and cross-owner/lane relations remain unresolved.",
+    "The historical1431 failure is not attributed to any of these source-level hazards. No new failure has been reproduced or causally explained by this review."
+  ],
+  "provenance_limits": [
+    "Root reviewed final shmem_installed_header_evidence_20261026.json (SHA ccb66af30f4c5a35eff2ce7da9723b4711dd55c71166246859a7798fb2e719e0). Eight header copies match recorded build-info hashes; six private installed/src files were separately read and match repository source copies.",
+    "Existing flags name installed/src. Existing dispatch.o.d does not enumerate these private headers, so the selected preprocessed relay/template branch is not proven. Current disk SO hashes match the historical0526 initial/final mapped FD hashes, but this collection is not a new live-process observation.",
+    "No runtime CQ/SQ state, trace, memory-order litmus or new NPU result was produced. This narrows the implementation contract; it does not qualify a fused pipeline or performance."
+  ],
+  "device_authorized": false,
+  "performance_qualified": false,
+  "final_collection_review": "outputs/shmem_installed_header_evidence_20261026.json",
+  "immediate_signal_candidate": {
+    "source": "work/shmem_runtime_header_review_20261026/headers/source_udma.hpp",
+    "lines": [
+      65,
+      359,
+      381,
+      781,
+      881,
+      1093,
+      1163,
+      2006,
+      2026
+    ],
+    "finding": "The installed-source selected-QP put_signal_nbi builds WRITE_WITH_NOTIFY with params.signal stored directly in the WQE notify payload (including wrapped multi-BB path), rather than reading the signal value later from a changing GM scalar. This is a concrete alternative to per-notification GM signal-value slots for a future frontier design.",
+    "constraints": [
+      "This operation consumes2 WQE basic blocks and the standalone scalar/MTE3 APIs require CONFIG.cqe!=0. It cannot be inserted as an assumed one-BB/unsignaled operation into the existing two-outstanding-CQ/helper-ACK pipeline.",
+      "The selected-QP API rejects ACLSHMEM_RELAY_SUPPORTED. Valid runtime QP count, actual queue-state alias and actual compiled branch still need binding.",
+      "The data SGE still reads a source address and requires its original lifetime through completion. Immediate notification does not free the attached data source.",
+      "A signal value embedded in the WQE does not prove receiver visibility/order/atomic acquire or previous-RO coverage; a reviewed SO configuration, epoch/sequence encoding, payload and flag visibility diagnostic are still required. No zero-byte special case or unsupported mode is assumed."
+    ],
+    "implemented": false,
+    "device_authorized": false
+  }
+}

@@ -1,0 +1,18 @@
+--- a/csrc/kernels/dispatch/peer_address.hpp
++++ b/csrc/kernels/dispatch/peer_address.hpp
+@@ -19,12 +19,12 @@
+     asc_threadfence();
+ }
+ 
+-__aicore__ inline void PublishPeerAddresses(GM_ADDR workspace, const DispatchTiling& t,
++__aicore__ inline void PublishPeerAddresses(GM_ADDR workspace, const DispatchTiling& t, uint32_t logical_role,
+                                             TBuf<QuePosition::VECCALC>& scratch, TBuf<QuePosition::VECCALC>& slots)
+ {
+     // Only Clos cores prefetch. AIV0 can publish concurrently with their loads.
+-    CacheClosDirectories(t, slots);
+-    if (GetBlockIdx() == 0U) {
++    CacheClosDirectories(t, logical_role, slots);
++    if (logical_role == 0U) {
+         auto descriptor = scratch.Get<uint64_t>();
+         descriptor.SetValue(0U, t.output_address);
+         descriptor.SetValue(1U, t.output_weights_address);

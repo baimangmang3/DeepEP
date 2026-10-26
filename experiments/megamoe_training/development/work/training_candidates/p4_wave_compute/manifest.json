@@ -1,0 +1,35 @@
+{
+  "candidate": "P4_compute_wave512_GU_A_Z_v1_UNQUALIFIED",
+  "status": "Source/wrapper/CPUmodel only; NOT native-built/deployed/loaded/timed/device-qualified.",
+  "source_inventory": {
+    "__init__.py": {
+      "bytes": 144,
+      "sha256": "c14946881b02b3e7a7d35c25e2c8fc00237e1f584b118685df4080bb825237bb"
+    },
+    "contract.py": {
+      "bytes": 2698,
+      "sha256": "51fd3dc1c8d1a6b25cd71baf3b86b1847726fdeaba241941a34a9233ae4148ee"
+    },
+    "wave_compute.py": {
+      "bytes": 3074,
+      "sha256": "cdc882b29d04182a81f4304b8b6b85f00ff34db1d67c057095ca3de8b919ab39"
+    },
+    "native/wave_compute.cpp": {
+      "bytes": 12160,
+      "sha256": "fd605673edab709f39e4d8399af3c157f42688ccfba04275d27b1b2a21974a61"
+    },
+    "CMakeLists.txt": {
+      "bytes": 2044,
+      "sha256": "b8c094edf054190f4794284f612fa53ec56264136eca5feac98a8eeec24c1a52"
+    },
+    "tests/test_layout_cpu.py": {
+      "bytes": 7409,
+      "sha256": "690627cdf9b6fce3bd9632d054ebbdbe44e8b68336ab1635c347bd88be294997"
+    }
+  },
+  "source_content_digest": "7fc111af56b2c3de7d738e7f0369e5a243a1a4612ac3832e2b3ec5e1204ee31d",
+  "review_sha256": "7c600fb6559dde5dee64087d62e65afe1584ff4032b237a0bfcc2d572770717c",
+  "CPU_results_sha256": "0ee12511d6a06eeb350711a1587a0dfdb11eca29482ef31f950eca9e406ec2b4",
+  "native_SO": null,
+  "qualification": false
+}

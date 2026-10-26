@@ -1,0 +1,34 @@
+{
+  "status": "host-v2 explicit host cleanup; new qualification required",
+  "backend": "shmem_catlass_pointwise_p1",
+  "AST_review": "adapter_ast_review.json: five methods exactly equal after allowed substitutions",
+  "CPU_evidence": "training_cpu_checks.json: 12 synthetic gates passed, py_compile and no-Torch plan passed; submitted four files unchanged",
+  "sources_sha256": {
+    "__init__.py": "a27577c65738ea52e5902c9056eb7657af51a898f381ca17ce49462223892d1a",
+    "training_adapter.py": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+    "pointwise.py": "d01a65729f61f947daf0b73a0639b12390eca230a8ca43a90c2669f21f0980e1",
+    "native/pointwise.cpp": "ee58581acf370bdef4709b1dbe1e8ad61f27617899e76891a09ddd02029f97cc",
+    "CMakeLists.txt": "cd992ddacc86d011efcafa10307a7f0d4272685699193fec509ad08ec0c4a318",
+    "test_pointwise_npu.py": "2b5e49ad02222946ad20865e371dbcce0a9d4738c5d4834a9a79e6290c293acb",
+    "candidate_provenance.py": "f1bfd202a641a064eeb8a298d58119f646b1bc4e5bec0ffa6def6bfce0eab6d5",
+    "validate_training_p1.py": "841f663ee336bb3c342c83de9bc4d19bf5b41cc685329bef141dcf5fbc0ac93c"
+  },
+  "identity": "Nested frozen P0 content identity plus 8 candidate source roles and actual mapped pointwise SO; content-only digest excludes host paths; fixed vector64/gemm32/serial/no-recompute and all execution options including limits bound. Old P0 identity rejected. Config/import/load status exchanged before engine creates SHMEM. Cross-rank identity equality required.",
+  "reuse": "Frozen inputs/independent_oracle/shared_reference/statistics/LIMITS/reference_memory_reservation/shared_precision_shape_allowed; no copied mathematical reference and no performance code.",
+  "validation": "All Y/dx/dp/FP32 dW/leaf dW/shared dW full-element metrics, counts and every saved forward shape; all-rank MIN before next case. BF16 and FP32 masters supported; same shared shape reservation cap as frozen P0.",
+  "roots": "Set TRAINING_SOURCE_ROOT to frozen P0 experiment root; CANDIDATE_SOURCE_ROOT to actual p1_pointwise directory, both explicit. Import candidate as p1_pointwise; no monkeypatch.",
+  "example_arguments": "--run-npu --world-size 16 --B 8192 --H 6144 --I 2048 --E 64 --K 8 --cases balanced --pointwise-library /ABS/p1_pointwise/build/libmegamoe_pointwise.so --output /ABS/NEW_PRECISION_DIR [--shared]",
+  "remaining": "Actual compile/standalone pointwise success first, then separately authorized full-layer qualification. Python syntax and synthetic identity tests do not establish NPU correctness or distributed liveness.",
+  "publication_refinements": "32-byte uint8 tensor all_gather identity equality; PG cleanup precedes final save and failure forces false/nonzero; explicit routed/shared/leaf dtype gate; source-root overlap rejected in both directions.",
+  "publication_CPU_checks": 9,
+  "approved_compile_annotation_fix": "Parent-approved compatibility-only changes: [[bisheng::core_ratio(0,1)]] __global__ __aicore__ global entry and basic_api/reg_compute/kernel_reg_compute_intf.h include. No algorithm or threshold change.",
+  "compile_state": {
+    "attempt": 3,
+    "returncode": 0,
+    "library_sha256": "e189f39a8448df078e082ba90b3147e593962bbcc374aa388d69344cfc125ca1",
+    "evidence": "outputs/p1_pointwise_build/binary-distribution.json",
+    "standalone_accuracy": "63 checks running under environment agent",
+    "full_layer_accuracy": "UNVALIDATED; separate authorization after standalone pass required"
+  },
+  "remote_root": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise"
+}

@@ -1,0 +1,337 @@
+{
+  "manifest": {
+    "scope": "Independent additional P4V2 component validation preparation. OriginalV1manifest/sixsources remain frozen; V2sixsourcecompatfix separate.",
+    "entry_files": {
+      "validate_component.py": {
+        "sha256": "8960f58e8a37dda26c775fb06af9eafbde6d7bc96cf4b5516b8ea265537592ce",
+        "bytes": 12534
+      },
+      "component_identity.py": {
+        "sha256": "6b3c43b6543c2e906603b112bd31f409d9d628d2d10def7dcdd7fcf94293cbd6",
+        "bytes": 4679
+      },
+      "mapped_identity.py": {
+        "sha256": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+        "bytes": 5068
+      },
+      "tests/test_component_validator_cpu.py": {
+        "sha256": "618c11475672057315b5ba64d4466679eea6a2cedcca3570a1e5b2470ec06a86",
+        "bytes": 7058
+      }
+    },
+    "assembled_V2_package_source_inventory": {
+      "__init__.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute_v2\\__init__.py",
+        "sha256": "c14946881b02b3e7a7d35c25e2c8fc00237e1f584b118685df4080bb825237bb",
+        "bytes": 144
+      },
+      "contract.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute_v2\\contract.py",
+        "sha256": "51fd3dc1c8d1a6b25cd71baf3b86b1847726fdeaba241941a34a9233ae4148ee",
+        "bytes": 2698
+      },
+      "wave_compute.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute_v2\\wave_compute.py",
+        "sha256": "cdc882b29d04182a81f4304b8b6b85f00ff34db1d67c057095ca3de8b919ab39",
+        "bytes": 3074
+      },
+      "component_identity.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute\\component_identity.py",
+        "sha256": "6b3c43b6543c2e906603b112bd31f409d9d628d2d10def7dcdd7fcf94293cbd6",
+        "bytes": 4679
+      },
+      "mapped_identity.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute\\mapped_identity.py",
+        "sha256": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+        "bytes": 5068
+      },
+      "validate_component.py": {
+        "local_source": "work\\training_candidates\\p4_wave_compute\\validate_component.py",
+        "sha256": "8960f58e8a37dda26c775fb06af9eafbde6d7bc96cf4b5516b8ea265537592ce",
+        "bytes": 12534
+      },
+      "CMakeLists.txt": {
+        "local_source": "work\\training_candidates\\p4_wave_compute_v2\\CMakeLists.txt",
+        "sha256": "b8c094edf054190f4794284f612fa53ec56264136eca5feac98a8eeec24c1a52",
+        "bytes": 2044
+      },
+      "native/wave_compute.cpp": {
+        "local_source": "work\\training_candidates\\p4_wave_compute_v2\\native\\wave_compute.cpp",
+        "sha256": "80a4c88e937b5b580faae3414922f2371846cfc216d04b6704ad37460c913fb4",
+        "bytes": 12233
+      }
+    },
+    "first_device_contract_sha256": "a896cec62f6838e5a24ca1121d4512c48e8daab1a6f1c1599a40e0f8b9f29bf0",
+    "CPU_checks": 24,
+    "CPU_results_sha256": "2248317efe975e1ac0e7f58c7407cc6510f34941d48c2d794a1ea70940548001",
+    "original_manifest_sha256": "deec8aea2e29c9a365fbbc6ddbc51fe3a64328db4173f5b9b72f97ead3e3f9d9",
+    "V2_source_manifest_sha256": "81d9290752168ba3e2bf6b625fec9a0bfa14e2e386166e179ce83f5c6e328949",
+    "actual_compiled_SO_sha256": "eea6c53d1a9ffd7d06aed510b9d2f80e59a9112476008a3796f25ab57fc797ac",
+    "build_audit_sha256": "56877b938a8be8394b2d609520bb0c22f4e7c3fbf52efeae18980cecb219d057",
+    "native_compile_done_by_environment_only": true,
+    "qualification": false,
+    "device_authorized": false,
+    "timing_authorized": false
+  },
+  "first_device_case_table": [
+    {
+      "name": "empty",
+      "counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "H": 128,
+      "I": 128,
+      "index": 0,
+      "seed": 4317,
+      "M": 0,
+      "jobs": 0,
+      "GU_shape": [
+        0,
+        256
+      ],
+      "A_shape": [
+        0,
+        128
+      ],
+      "Z_shape": [
+        0,
+        128
+      ],
+      "native_invocations": 0,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 1179648
+    },
+    {
+      "name": "K128to384_I_and_H_Ntails_AIVrows128plus1",
+      "counts": [
+        129,
+        0,
+        0,
+        0
+      ],
+      "H": 128,
+      "I": 384,
+      "index": 1,
+      "seed": 4418,
+      "M": 129,
+      "jobs": 4,
+      "GU_shape": [
+        129,
+        768
+      ],
+      "A_shape": [
+        129,
+        384
+      ],
+      "Z_shape": [
+        129,
+        128
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 6745344
+    },
+    {
+      "name": "K384to128_H_Ntail_empty_expert",
+      "counts": [
+        0,
+        1,
+        128,
+        17
+      ],
+      "H": 384,
+      "I": 128,
+      "index": 2,
+      "seed": 4519,
+      "M": 146,
+      "jobs": 3,
+      "GU_shape": [
+        146,
+        256
+      ],
+      "A_shape": [
+        146,
+        128
+      ],
+      "Z_shape": [
+        146,
+        384
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 6942464
+    },
+    {
+      "name": "wave511_512_513",
+      "counts": [
+        511,
+        512,
+        513,
+        0
+      ],
+      "H": 384,
+      "I": 384,
+      "index": 3,
+      "seed": 4620,
+      "M": 1536,
+      "jobs": 26,
+      "GU_shape": [
+        1536,
+        768
+      ],
+      "A_shape": [
+        1536,
+        384
+      ],
+      "Z_shape": [
+        1536,
+        384
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 66080256
+    },
+    {
+      "name": "skew1025_threewaves",
+      "counts": [
+        0,
+        0,
+        0,
+        1025
+      ],
+      "H": 256,
+      "I": 128,
+      "index": 4,
+      "seed": 4721,
+      "M": 1025,
+      "jobs": 9,
+      "GU_shape": [
+        1025,
+        256
+      ],
+      "A_shape": [
+        1025,
+        128
+      ],
+      "Z_shape": [
+        1025,
+        256
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 20471808
+    },
+    {
+      "name": "balanced_fullN256",
+      "counts": [
+        128,
+        128,
+        128,
+        128
+      ],
+      "H": 256,
+      "I": 256,
+      "index": 5,
+      "seed": 4822,
+      "M": 512,
+      "jobs": 4,
+      "GU_shape": [
+        512,
+        512
+      ],
+      "A_shape": [
+        512,
+        256
+      ],
+      "Z_shape": [
+        512,
+        256
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 17042432
+    },
+    {
+      "name": "signed_activation_sentinels",
+      "counts": [
+        129,
+        0,
+        17,
+        1
+      ],
+      "H": 128,
+      "I": 384,
+      "pattern": "sentinels",
+      "index": 6,
+      "seed": 4923,
+      "M": 147,
+      "jobs": 8,
+      "GU_shape": [
+        147,
+        768
+      ],
+      "A_shape": [
+        147,
+        384
+      ],
+      "Z_shape": [
+        147,
+        128
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 7195392
+    },
+    {
+      "name": "independent_two_stream_invocations",
+      "counts": [
+        129,
+        0,
+        1,
+        17
+      ],
+      "H": 384,
+      "I": 128,
+      "concurrent": true,
+      "index": 7,
+      "seed": 5024,
+      "M": 147,
+      "jobs": 4,
+      "GU_shape": [
+        147,
+        256
+      ],
+      "A_shape": [
+        147,
+        128
+      ],
+      "Z_shape": [
+        147,
+        384
+      ],
+      "native_invocations": 2,
+      "host_invocations": 2,
+      "expected_metric_summaries": 6,
+      "tensor_reservation_bytes": 6966528
+    }
+  ],
+  "limitations": [
+    "NoTorch/native/NPU math executed by thisCPUpreparation.24newCPUentry/identity/metric/ABI checks only.",
+    "Oldbuildmanifest/sixsourcesandV1SO untouched; V2native80a4 and SOeea6 matcharchivedCPUbuild.",
+    "Currentlocalvalidator lives besideV1 source for isolation; future package assembly MUST use specifiedV2sixsourceoverlay plus newadditionalfiles under actualp4_wave_compute namespace. NoModuleNotFoundfallback or source-versionmix permitted.",
+    "NativeBlock actualshape/L1residentfalse and stage carry are source-supported perparent; unitflag/crossK/GMvisibility/dual-stream progress remain pendingdevice evidence."
+  ],
+  "syntax_pass": true,
+  "max_small_tensor_reservation_MiB": 63.01904296875,
+  "device_authorized": false
+}

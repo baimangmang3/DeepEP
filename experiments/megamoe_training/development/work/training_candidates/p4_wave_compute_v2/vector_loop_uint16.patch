@@ -1,0 +1,17 @@
+--- a/native/wave_compute.cpp
++++ b/native/wave_compute.cpp
+@@ -61,12 +61,13 @@
+ __aicore__ inline void Activate(__ubuf__ bfloat16_t* g, __ubuf__ bfloat16_t* u,
+     __ubuf__ bfloat16_t* out, uint16_t rows, uint16_t cols) {
+     constexpr uint16_t vlen = VECTOR_REG_WIDTH/sizeof(float);
++    const uint16_t vector_chunks = static_cast<uint16_t>(cols/vlen);
+     __VEC_SCOPE__ {
+         Reg::RegTensor<bfloat16_t> gb, ub, result;
+         Reg::RegTensor<float> gf, uf, neg, denominator, tmp, value;
+         Reg::MaskReg mask = Reg::CreateMask<float, Reg::MaskPattern::ALL>();
+         for (uint16_t r=0; r<rows; ++r) {
+-            for (uint16_t v=0; v<cols/vlen; ++v) {
++            for (uint16_t v=0; v<vector_chunks; ++v) {
+                 uint32_t off=r*cols+v*vlen;
+                 Reg::DataCopy<bfloat16_t, Reg::LoadDist::DIST_UNPACK_B16>(gb,g+off);
+                 Reg::DataCopy<bfloat16_t, Reg::LoadDist::DIST_UNPACK_B16>(ub,u+off);

@@ -1,0 +1,114 @@
+{
+  "scope": "Root review of current local Dispatch completion and P4 mixed-role integration; source evidence only, no SHMEM hardware ordering qualification",
+  "anchors": [
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/fm_queue.hpp",
+      "lines": [
+        4,
+        16,
+        38,
+        62,
+        71,
+        94
+      ],
+      "finding": "FM RO payload has no CQE. Descriptor UB copy and doorbell publication are distinct from payload completion. FinishFmRows appends SO with CQE; pressure admission calls quiet before recycling. Source-ready uses a custom unsignaled SO on the same ordered QP, backed by the constant generation value."
+    },
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp",
+      "lines": [
+        76,
+        81,
+        550,
+        557,
+        572,
+        823,
+        851,
+        916
+      ],
+      "finding": "Clos SO observer admits at most two outstanding boundaries, binds actual CQ state and ordinal and checks owner/status. Phase-one snapshot remains helper-owned until ACK; later pressure quiet must wait for that ACK. Pressure sinks are explicitly not data-ready flags. Final quiet occurs only after final CQ plus helper ACK."
+    },
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/completion.hpp",
+      "lines": [
+        5,
+        19,
+        51,
+        86
+      ],
+      "finding": "Sender completion does not prove incoming completion. Separate per-peer generation words are published after outgoing completion. Publication targets are mapped SHMEM control addresses; small fanout drains MTE3, large fanout uses SIMT fence, followed by DDR barrier. Peer descriptor generation gates inbox reuse."
+    },
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/completion_wait.hpp",
+      "lines": [
+        8,
+        13,
+        54
+      ],
+      "finding": "Only physical AIV7 polls incoming peer/lane generations, then DDR barrier. Kernel completion joins other AIV roles; this final poll is not a per-tile data-ready table."
+    },
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp",
+      "lines": [
+        464,
+        488,
+        490,
+        492
+      ],
+      "finding": "Original Dispatch uses physical0..63, hidden0..31 and auxiliary32..63, with shared prelude. Its logical owner mapping cannot be copied unchanged into only the second AIV subblock."
+    },
+    {
+      "path": "work/DeepEP/csrc/kernels/dispatch/peer_address.hpp",
+      "lines": [
+        26,
+        45
+      ],
+      "finding": "Descriptor preparation caches directories and contains SyncAll<true>. A32-role subset of a mixed64-AIV launch cannot assume the same barrier participant semantics."
+    },
+    {
+      "path": "work/training_candidates/p4_wave_compute_v2/native/wave_compute.cpp",
+      "lines": [
+        49,
+        103,
+        125,
+        148,
+        149,
+        185,
+        194
+      ],
+      "finding": "P4 uses32 AIC plus64 AIV. AIV subblock0 activates all rows for its paired compute jobs; subblock1 currently exits. AIC completes its up jobs before activation waits. GU uses FIX_S before its flag; activation uses MTE3_S before its flag. This independent native component still awaits device validation."
+    }
+  ],
+  "mandatory_constraints": [
+    "Do not infer payload completion from SQ head, doorbell publication, UB-to-SQ completion, or an arbitrary CQ entry index. Bind a watermark to the exact ordered queue and retired issue prefix.",
+    "Do not insert additional signaled tile checkpoints without updating and validating the two-outstanding-CQ constraint, ticket accounting, reserved credits and helper-owned snapshot lifetime. Existing pressure/phase/final sinks must retain their original meanings.",
+    "Do not point successive changing frontier sends at one mutable GM source scalar. A delayed DMA read could fetch a later, larger value and falsely authorize earlier data. Use immutable per-checkpoint source records retained until true transport completion, or a separately proven immediate-value mechanism; the current generation source is constant and does not establish safety for mutable seq.",
+    "Seals become immutable only after all expected final occurrences for that tile/domain are issued. Their source memory also remains live through transport completion. Visibility of the seal and frontier must be proved independently from metadata construction.",
+    "New frontier/seal controls need their own SHMEM-addressable storage and epoch lifecycle. Do not reuse existing ready sinks, ordinary received output addresses, or helper mailbox fields with unrelated ownership.",
+    "Keep initialization and publication of the new epoch before any consumer can observe its descriptor. Do not reset incoming flags after peers may have started. Retire all previous readers and outer protocol before reusing control storage."
+  ],
+  "candidate_integration_order": [
+    "First use already-retired queue boundaries, with explicit write-sequence coverage, to validate publication and consumption semantics. Such coarse boundaries may expose little overlap and are a control implementation, not the final optimization.",
+    "Preserve existing credit, CQ ticket, helper ACK, terminal and incoming completion protocols. Fine-grained checkpoints are a later controlled change after the coarse publication path passes complete numerical and lifetime checks.",
+    "Reserve AIV subblock1 for32 explicit logical hidden roles and preserve all helper/producer concurrency. If auxiliary work is reused on these roles after their hidden duties, retain its independent readiness and end-of-epoch obligations.",
+    "Resolve descriptor prelude participant semantics before moving payload into the mixed kernel. An explicitly separate preparation launch is a possible first implementation, with its cost included; an unverified subset SyncAll is not acceptable.",
+    "AIC may wait for Xe tile readiness before its corresponding up GEMM. AIV activation then consumes GU as in P4. Communication producers must not wait for compute or allocation reuse in this first full-Xe design; this avoids introducing a compute-to-communication progress cycle.",
+    "Gate-weight readiness remains separate from Xe readiness: unweighted GU/A/Z can be produced early, but weighted export/combine waits for the appropriate auxiliary data. Preserve unweighted saved Z for zero-gate dp."
+  ],
+  "unresolved": [
+    "Actual pinned SHMEM SDK implementation of SO ordering, CQ success meaning, remote visibility and source-DMA lifetime must be audited. Current local DeepEP wrappers do not alone prove the device/driver memory model.",
+    "The mixed AIC/AIV progress and barrier contract, complete logical-role rebasing, runtime metadata extraction and device seal/frontier acquisition remain unimplemented.",
+    "Compute/communication physical overlap, checkpoint overhead and savings require device timelines and matched controls; no speedup or MFU follows from this review."
+  ],
+  "device_authorized": false,
+  "performance_qualified": false,
+  "source_sha256": {
+    "work/DeepEP/csrc/kernels/dispatch/completion_wait.hpp": "3b98ccfcd42d8cf3cc3374686103ed1407c37101b07098e1045e89ae75a99e51",
+    "work/training_candidates/p4_wave_compute_v2/native/wave_compute.cpp": "80a4c88e937b5b580faae3414922f2371846cfc216d04b6704ad37460c913fb4",
+    "work/DeepEP/csrc/kernels/dispatch/completion.hpp": "d5f5bc59e8fafaa49888a9abefa0f102d13502d9a663e31c58b91bcd12496726",
+    "work/DeepEP/csrc/kernels/dispatch/fm_queue.hpp": "e14fdf2da2ef8181620cabd8f820d31e0ca8788ea9879bb505ecddb50e844905",
+    "work/DeepEP/csrc/kernels/dispatch/dispatch.cpp": "fc03e180401146b9047e512e4b998b7cb9b97b506e3517aeec9a99a0c5d06bb1",
+    "work/DeepEP/csrc/kernels/dispatch/peer_address.hpp": "2f42701540734820038dbcceb53679f3cbbf928b9f83506206eff74ee94dd1d8",
+    "work/DeepEP/csrc/kernels/dispatch/peer_transport.hpp": "be56a13261dcfdc1c0ba618acc7fb519fbb7495c3a52c86e234fd1a0485e1e07"
+  },
+  "reviewed_at_cst": "2026-10-26T06:15:03.6557002+08:00"
+}

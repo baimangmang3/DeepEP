@@ -1,0 +1,135 @@
+{
+  "schema": "P4-single-worker-control-CPU-review-1",
+  "scope": "Offline only; controller not deployed, no SSH/native load/NPU/timing; no device permission.",
+  "passed": true,
+  "cpu_results": {
+    "passed": true,
+    "checks": 26,
+    "items": [
+      "actual child nonzero rc retained",
+      "timeout+cleanup first error, unknown rc never synthesized",
+      "late rc0 cannot erase timeout",
+      "proc_failure uses owned Popen only, bounded reaping and first error",
+      "assert_failure uses owned Popen only, bounded reaping and first error",
+      "marker_failure uses owned Popen only, bounded reaping and first error",
+      "live_worker retains recording parents",
+      "stop_raises retains recording parents",
+      "missing_marker retains recording parents",
+      "contradictory_stale_proof retains recording parents",
+      "proven no Popen child allows child-first recorder retirement",
+      "launch response lost: exact recovery records, no restart or hidden success",
+      "all three real rc required; missing child/recorders reject",
+      "missing proc NPU row is saved stale/unknown, never verified own/foreign/free",
+      "unknown sample resolves only to same saved worker birth plus real waitpid exit",
+      "worker born between state/sample stays unknown until exact later marker, never foreign",
+      "external same-name or same-RUN wrong-argv worker remains rejected",
+      "foreign exact proc birth/argv/PPID retained with npu-smi local time window",
+      "Windows local path serialized as exact POSIX remote worker/report path",
+      "actual imported local SSH backend bytes pinned and mismatch rejected",
+      "cleanup uses independent bounded200s call rather than inherited125s cutoff; no SSH executed",
+      "post busy after exact own release stops polling, without signaling or invalidating component; own unknown rejects",
+      "inflight seven-card incomplete table rejects as resource_sample_error",
+      "actual main loop real-completion before first foreign sample: one state/sample, audit success, no retry/signal/inflight decision",
+      "actual controller default plan no Torch/SSH import or execute",
+      "both recording actors no-execute default plans"
+    ],
+    "scope": "Only new single-worker lifecycle/resource-race fault models and default CPU plans; no subprocess worker/native, signals, SSH, NPU or old comprehensive regression."
+  },
+  "syntax_files": [
+    "work\\training_diagnostics\\p4_component_v2_control\\component_proof.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\controller.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\process_control.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\resource_gate.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\supervisor.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\verify_deployment.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\verify_report.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\worker_recorder.py",
+    "work\\training_diagnostics\\p4_component_v2_control\\tests\\test_control_cpu.py"
+  ],
+  "files": {
+    "work/training_diagnostics/p4_component_v2_control/component_proof.py": {
+      "bytes": 4679,
+      "sha256": "6b3c43b6543c2e906603b112bd31f409d9d628d2d10def7dcdd7fcf94293cbd6"
+    },
+    "work/training_diagnostics/p4_component_v2_control/controller.py": {
+      "bytes": 12753,
+      "sha256": "c9f86760c319a818cc209179fb93a390f0a5f2bed3982106a7192cd2c9247da4"
+    },
+    "work/training_diagnostics/p4_component_v2_control/manifest-2608c523-history.json": {
+      "bytes": 9478,
+      "sha256": "2608c523a481b79257587f099e904ce137b283f79b3a3e9fb3c9b07773399733"
+    },
+    "work/training_diagnostics/p4_component_v2_control/manifest.json": {
+      "bytes": 9707,
+      "sha256": "04d326db4f19b535231ce15e4360658810003b25c06251b8f2d885f2ea7ce363"
+    },
+    "work/training_diagnostics/p4_component_v2_control/process_control.py": {
+      "bytes": 7956,
+      "sha256": "125b539800b585474ebb3d42422a892b2008ad5784741925b3f74aeb44e89360"
+    },
+    "work/training_diagnostics/p4_component_v2_control/resource_gate.py": {
+      "bytes": 4972,
+      "sha256": "feb469f9a30cc593529e1e3bc3aa8b96ce4bf98111126d412264cad7c3fc765e"
+    },
+    "work/training_diagnostics/p4_component_v2_control/start_supervisor.sh": {
+      "bytes": 541,
+      "sha256": "3fa9d9e3005f848a86d0c45f95b3859e8c35b42f98b23559e259ac52ae1c9466"
+    },
+    "work/training_diagnostics/p4_component_v2_control/supervisor.py": {
+      "bytes": 2293,
+      "sha256": "346c51351e12a9f0fc2a289947397b31cffb9893c0731066c00f956861b19908"
+    },
+    "work/training_diagnostics/p4_component_v2_control/verify_deployment.py": {
+      "bytes": 734,
+      "sha256": "d23f0e463499fc004ebb872508523bd4b21c4ae28b408d8c2e0597c655456149"
+    },
+    "work/training_diagnostics/p4_component_v2_control/verify_report.py": {
+      "bytes": 4333,
+      "sha256": "2b565cde5c0e08dd850e9b13fd32fde5cbcd665077c18798eb325668dddb100a"
+    },
+    "work/training_diagnostics/p4_component_v2_control/worker_recorder.py": {
+      "bytes": 1940,
+      "sha256": "33f9cdeedfa98f0b6831fce99f69231a670b0d6b595ba4b1e6d9683e6ca8b735"
+    }
+  },
+  "test_source": {
+    "bytes": 13933,
+    "sha256": "d32c9463dfd8f5ef3fb84c4411cc7f2e45d411d8920ba2e97a7b8db800aaee2f"
+  },
+  "manifest": {
+    "bytes": 9707,
+    "sha256": "04d326db4f19b535231ce15e4360658810003b25c06251b8f2d885f2ea7ce363"
+  },
+  "local_backend": {
+    "path": "work/training_native_round.py",
+    "bytes": 9068,
+    "sha256": "0b094cbc4938ee681bbfd8d63cb5c6007719fbcf6bddd3401c9b6adead20837a"
+  },
+  "frozen": true,
+  "limits": [
+    "Remote process lifecycle/NPU release have not been device-exercised.",
+    "Runtime unknown PID observations cannot prove foreign activity or continuous idle.",
+    "Per-host sample and controller receive clocks are not cross-host calibrated.",
+    "Success remains compute component only:48 metrics=6hostempty+42native; no full training/SHMEM/overlap/performance qualification."
+  ],
+  "changes": [
+    "Explicit POSIX remote argv/result path serialization on Windows.",
+    "Exact own worker birth pending marker is unknown, later PID/start/argv/role aligned; external same-name remains rejected.",
+    "Independent cleanup200s remote/215s channel avoids old backend125s cutoff; old module bytes pinned locally.",
+    "Worker-stop failure/unknown retains recording parents; startup Popen failures reaped through direct owned child.",
+    "Foreign sample retains current_proc/start/argv/PPID and npu-smi/controller receive clock anchors.",
+    "Post-run known foreign entry after own confirmed release records post_busy and stops; unresolved own release still refuses.",
+    "Actual main monitoring loop handles observed real completion before its first resource sample decision; post-busy sample reused for release, no extra polling.",
+    "Running sample requires all_cards_accounted is True; seven-card or missing-accounting samples cannot be clear."
+  ],
+  "revision_history": {
+    "previous_review": {
+      "bytes": 6340,
+      "sha256": "183a2fec9a7685efcd269db689c55a83e2e57296f22a3db87b0d9822d5451457"
+    },
+    "previous_manifest": {
+      "bytes": 9478,
+      "sha256": "2608c523a481b79257587f099e904ce137b283f79b3a3e9fb3c9b07773399733"
+    }
+  }
+}

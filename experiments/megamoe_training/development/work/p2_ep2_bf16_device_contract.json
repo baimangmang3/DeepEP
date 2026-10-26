@@ -1,0 +1,410 @@
+{
+  "status": "OFFLINE DRAFT ONLY; no deployment/NPU launch or automatic queue authorized",
+  "schema": "p2-ep2-bf16-device-contract-draft-1",
+  "scope": "Precision only, separate serial then separately reviewed overlap; no timing/profiler/throughput/performance claim",
+  "pending_bindings": {
+    "P2_ROOT": "/home/zzy/deploy/megamoe-20261024/training/candidate-p2-qualification-schema2-20261026/p2_backward_overlap",
+    "ORIGINAL_P1_ROOT": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1-host-v2/p1_pointwise",
+    "VENV_PYTHON": "/home/zzy/deploy/megamoe-20261024/training/venv/bin/python",
+    "revised_schema2_CPU_preflight_artifacts": "outputs/p2_qualification_schema2_deployment/cpu-preflight-audit.json",
+    "actual_runtime_FD_manifest": "outputs/p2_qualification_schema2_deployment/{rack05os7,rack05os8}/cpu-probe.json: identities.serial.actual_maps (34 each); new on-device FD capture still required",
+    "parent_serial_authorization": null,
+    "parent_overlap_authorization": null
+  },
+  "readiness": "Any null binding, placeholder, failed CPU preflight or source mismatch => NOT executable. Old failed basename-schema deployment is not an approved root.",
+  "source_lock": {
+    "schema": "p2-training-2",
+    "manifest_sha256": "04f47711bf5ac2e3328cd08f5626f0d8e0c4fa1dca0e93b52dadd1c643f70e03",
+    "files": {
+      "__init__.py": "67cc087f7091e31315742ed34d021599bbcaff7af20b190ef45273289183af02",
+      "training_adapter.py": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce",
+      "candidate_provenance.py": "3a0acc9132cc20381db1e64e94d9df6178e160eb4bf9eeb9ce79e7daf5a12759",
+      "validate_training_p2.py": "20c617cbde08183654e827885d88e46512cbec5e075bb42bdedf286ed2229b5d",
+      "host_store.py": "f7c995d83cf5dd364ef4191c5774a65d5f52c800c74f16b960723d0ab6d8f3ff",
+      "mapped_identity.py": "299b1eef509484b4932e53f1a2d8d44301067de32c6cba7f1b045e4c7811a09b",
+      "tests/test_qualification_cpu.py": "2914f1b2b3f8582518f35e431ba8c49b03d805ef61639e69fb1bc63316709fee",
+      "tests/test_mapping_roles_cpu.py": "c6e3bcf59a693d9fb9515e5551d0f6479ab86915570db8949dd76614044cb844"
+    },
+    "adapter_unchanged": "10b3c34d27dd97273c4c19c64c2416dfe76ccb953243c45e806cd8c3f750abce",
+    "original_P1_adapter": "9cf3968261cd1c5823e573f12510bbc902937981352e84ad00b7a8e8f7294d44",
+    "original_DeepEP_elastic": "117b01651bc503839ff2aa681fca55308867b09c8bda399b5a0e47ca8b9b8c1c"
+  },
+  "execution_assignment": {
+    "host": "177.22.27.1 / rack05os7 (proposed single launch host; parent/environment must confirm)",
+    "other_host": "177.22.28.1 / rack05os8: no workers or device operations for this EP2 run",
+    "ASCEND_RT_VISIBLE_DEVICES": "0,1",
+    "world_rank0": {
+      "LOCAL_RANK": 0,
+      "logical_npu": 0,
+      "required_physical_card": 0
+    },
+    "world_rank1": {
+      "LOCAL_RANK": 1,
+      "logical_npu": 1,
+      "required_physical_card": 1
+    },
+    "no_substitution": "Record actual visible mapping and own worker PID on physical card0/1; any remap/missing/duplicate mapping => STOP, not silently choose another pair"
+  },
+  "fresh_gate": {
+    "coverage": "Both hosts all16 physical cards, despite only two used",
+    "must_be": "all16 free of foreign NPU processes AND own stale processes; no other owned NPU job; current exact-PID ownership/resource ledger",
+    "when": "fresh coordinated both-host read-only snapshot immediately before serial and independently before overlap, with collection start/end time and all card IDs",
+    "fail": "Any busy/unknown/unreadable/stale result cancels that launch. No intervention on foreign jobs. If gap/intervening occupancy occurs, need a new fresh gate and parent decision, not reuse old free snapshot.",
+    "record": "Preserve before/during/after controller samples and exact process PID/starttick/UID/cwd/argv; observed overlap does not alone prove fault causality; absence in periodic samples does not exclude transient contention"
+  },
+  "launcher_argv_template_NOT_a_script": [
+    "{VENV_PYTHON}",
+    "-m",
+    "torch.distributed.run",
+    "--nnodes=1",
+    "--nproc-per-node=2",
+    "--node-rank=0",
+    "--rdzv-backend=static",
+    "--master-addr=127.0.0.1",
+    "--master-port={MASTER_PORT}",
+    "--max-restarts=0",
+    "{P2_ROOT}/validate_training_p2.py",
+    "--run-npu",
+    "--training-source-root",
+    "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training",
+    "--candidate-source-root",
+    "{P2_ROOT}",
+    "--p1-source-root",
+    "{ORIGINAL_P1_ROOT}",
+    "--pointwise-library",
+    "/home/zzy/deploy/megamoe-20261024/training/candidate-p1/build/libmegamoe_pointwise.so",
+    "--backward-schedule",
+    "{SCHEDULE}",
+    "--world-size",
+    "2",
+    "--B",
+    "32",
+    "--H",
+    "128",
+    "--I",
+    "128",
+    "--E",
+    "8",
+    "--K",
+    "4",
+    "--cases",
+    "balanced,zero_gate,empty,skew",
+    "--weight-dtype",
+    "bf16",
+    "--seed",
+    "4317",
+    "--oracle-chunk",
+    "1024",
+    "--max-reference-gib",
+    "12",
+    "--output",
+    "{NEW_RUN_OUTPUT}"
+  ],
+  "environment": {
+    "RUN_TAG": "per-stage exact proposed/approved unique tag",
+    "TRAINING_SOURCE_ROOT": "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training",
+    "CANDIDATE_SOURCE_ROOT": "{P2_ROOT}",
+    "PYTHONPATH_order": [
+      "{parent(P2_ROOT)}",
+      "{parent(ORIGINAL_P1_ROOT)}",
+      "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training",
+      "{approved official CANN Python paths from revised CPU preflight}"
+    ],
+    "MEGAMOE_TRAINING_LIBRARY": "/home/zzy/deploy/megamoe-20261024/training/qualified-p0-20261025/experiments/megamoe_training/build/libmegamoe_training.so",
+    "POINTWISE_SO": "/home/zzy/deploy/megamoe-20261024/training/candidate-p1/build/libmegamoe_pointwise.so",
+    "ASCEND_RT_VISIBLE_DEVICES": "0,1",
+    "HCCL_SOCKET_IFNAME": "enp35s0f2",
+    "ASCEND_HOME_PATH": "Same resolved official CANN9.2.0 as revised CPU preflight",
+    "LD_LIBRARY_PATH": "Exact approved SHMEM/CANN/PTA path ordering from revised CPU preflight; save resolved value, no ad-hoc fallback",
+    "ASCEND_PROCESS_LOG_PATH": "{NEW_RUN_OUTPUT}/ascend-log",
+    "SHMEM_LOG_PATH": "{NEW_RUN_OUTPUT}/shmem-debug",
+    "SHMEM_LOG_LEVEL": "DEBUG",
+    "ASCEND_GLOBAL_LOG_LEVEL": "0",
+    "MASTER_ADDR_PORT": "torchrun supplied from stage argv; all workers verify same127.0.0.1/stage port",
+    "TORCHELASTIC_RESTART_COUNT": "must be0; --max-restarts=0",
+    "forbidden": "No diagnostic-dispatch-host PYTHONPATH/hooks, no _dispatch_diagnostics/kernel_timing/profile enabling, no HCCL expansion/backend override or math/timeout changes"
+  },
+  "identity_checks": {
+    "CPU_before_device": "New namespace-schema2 CPU preflight must return success with NPU=false/PG=false/no ElasticBuffer owner and exact source hashes. Resolve actual P2_ROOT only from this reviewed result, package leaf p2_backward_overlap.",
+    "runtime": "Each rank collects actual source/import paths and FD-map dev/inode/size/SHA for selected CATLASS/pointwise/DeepEP _C/SHMEM/CANN/PTA; retain both package/deep_ep/_C and package/torch_npu/_C. Actual selected loader path binding, no basename selection or disk-only hash.",
+    "expected_existing_native_hashes_for_review_only": {
+      "CATLASS": "f26ddcb4ea287d10f9b45bdc7bc29b44d03c79304c530960abad46d750fecf32",
+      "pointwise": "e189f39a8448df078e082ba90b3147e593962bbcc374aa388d69344cfc125ca1",
+      "deep_ep_C": "7f0bdbfbdc9e8d3127df8bac991cbc5d2878a0cb70f591136d85b466665dcaab",
+      "torch_npu_C": "f2a7235ff91482e1092b17853de1a8a57323f29a8394b4868f746eb559479aec",
+      "SHMEM": "9105bcc0a5022d70123291a55ac23cdf6b94e0a594ec296b709b43bb6cdbd8b3"
+    },
+    "precision": "allow_hf32=False, raw ALLOW_INTERNAL_FORMAT=disable; retain actual torch/torch_npu versions/commit and readback. Any difference => STOP/review, not silently accept old IDs.",
+    "binding": "All ranks agree source/execution digest including actual backward_schedule. Serial identity/report cannot qualify overlap. Final identity required; old content/source/native role replacement/removal rejects, only lazy additions allowed; final complete identity must match current.",
+    "not_evidence": "CPU import preflight is not training qualification; original P0/P1/P3 reports never authorize P2"
+  },
+  "stages": [
+    {
+      "stage": "serial",
+      "proposed_RUN_TAG": "20261026_p2_ep2_bf16_serial_schema2_once",
+      "run_tag_must_be_unique": true,
+      "approval": "pending parent concrete single-run authorization",
+      "prerequisite": "Successful schema2 revised CPU import review + fresh16-card gate + parent serial approval",
+      "proposed_ports_NOT_reserved": {
+        "MASTER_ADDR": "127.0.0.1",
+        "MASTER_PORT": 29946,
+        "DEEPEP_SHMEM_ENDPOINT": "tcp://177.22.27.1:27794"
+      },
+      "ports_gate": "Environment owner checks both ports unused/no old listener on selected host immediately before launch; conflict => STOP and revise contract, never pick replacement or reuse old store silently",
+      "NEW_RUN_OUTPUT_template": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_p2_ep2_bf16_serial_schema2_once/p2-ep2-bf16-serial",
+      "identity_execution": {
+        "candidate": "P2_backward_return_overlap_v1_UNQUALIFIED",
+        "backward_schedule": "serial",
+        "world": 2,
+        "shape": {
+          "B": 32,
+          "H": 128,
+          "I": 128,
+          "E": 8,
+          "K": 4
+        },
+        "seed": 4317,
+        "weight_dtype": "torch.bfloat16",
+        "shared": false,
+        "cases": [
+          "balanced",
+          "zero_gate",
+          "empty",
+          "skew"
+        ],
+        "oracle_chunk": 1024,
+        "max_reference_gib": 12.0,
+        "limits": {
+          "Y": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dx": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dp": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dW1": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dW2": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          }
+        },
+        "backend": "shmem_catlass_backward_overlap_p2",
+        "vector_cores": 64,
+        "gemm_cores": 32,
+        "recompute": false
+      },
+      "reports": {
+        "ranks": [
+          0,
+          1
+        ],
+        "cases_per_rank": 4,
+        "metrics_per_case": [
+          "Y",
+          "dx",
+          "dp",
+          "dW1",
+          "dW2",
+          "leaf_dW1",
+          "leaf_dW2"
+        ],
+        "required_metric_results": 56
+      },
+      "repeat_rejection": "Before launch atomically claim a new stage/run marker with run-tag+contract/source SHA+controller PID/starttime; refuse any prior marker/output directory/result even if previous attempt failed. Keep marker/evidence; no restart/auto suffix/requeue.",
+      "identity_schema": "p2-training-2"
+    },
+    {
+      "stage": "overlap",
+      "proposed_RUN_TAG": "20261026_p2_ep2_bf16_overlap_schema2_once",
+      "run_tag_must_be_unique": true,
+      "approval": "pending parent concrete single-run authorization",
+      "prerequisite": "Serial complete56metrics/actualidentity/true_rc0/owned_release + parent re-review + NEW fresh16-card gate; no automatic continuation",
+      "proposed_ports_NOT_reserved": {
+        "MASTER_ADDR": "127.0.0.1",
+        "MASTER_PORT": 29947,
+        "DEEPEP_SHMEM_ENDPOINT": "tcp://177.22.27.1:27795"
+      },
+      "ports_gate": "Environment owner checks both ports unused/no old listener on selected host immediately before launch; conflict => STOP and revise contract, never pick replacement or reuse old store silently",
+      "NEW_RUN_OUTPUT_template": "/home/zzy/deploy/megamoe-20261024/training/runs/20261026_p2_ep2_bf16_overlap_schema2_once/p2-ep2-bf16-overlap",
+      "identity_execution": {
+        "candidate": "P2_backward_return_overlap_v1_UNQUALIFIED",
+        "backward_schedule": "overlap",
+        "world": 2,
+        "shape": {
+          "B": 32,
+          "H": 128,
+          "I": 128,
+          "E": 8,
+          "K": 4
+        },
+        "seed": 4317,
+        "weight_dtype": "torch.bfloat16",
+        "shared": false,
+        "cases": [
+          "balanced",
+          "zero_gate",
+          "empty",
+          "skew"
+        ],
+        "oracle_chunk": 1024,
+        "max_reference_gib": 12.0,
+        "limits": {
+          "Y": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dx": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dp": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dW1": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          },
+          "dW2": {
+            "atol": 0.003,
+            "rtol": 0.03,
+            "rms_relative": 0.02
+          }
+        },
+        "backend": "shmem_catlass_backward_overlap_p2",
+        "vector_cores": 64,
+        "gemm_cores": 32,
+        "recompute": false
+      },
+      "reports": {
+        "ranks": [
+          0,
+          1
+        ],
+        "cases_per_rank": 4,
+        "metrics_per_case": [
+          "Y",
+          "dx",
+          "dp",
+          "dW1",
+          "dW2",
+          "leaf_dW1",
+          "leaf_dW2"
+        ],
+        "required_metric_results": 56
+      },
+      "repeat_rejection": "Before launch atomically claim a new stage/run marker with run-tag+contract/source SHA+controller PID/starttime; refuse any prior marker/output directory/result even if previous attempt failed. Keep marker/evidence; no restart/auto suffix/requeue.",
+      "identity_schema": "p2-training-2"
+    }
+  ],
+  "expected_counts_by_case": {
+    "balanced": {
+      "rank0": [
+        32,
+        32,
+        32,
+        32
+      ],
+      "rank1": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    "zero_gate": {
+      "rank0": [
+        32,
+        32,
+        32,
+        32
+      ],
+      "rank1": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    "empty": {
+      "rank0": [
+        37,
+        37,
+        37,
+        37
+      ],
+      "rank1": [
+        36,
+        36,
+        36,
+        0
+      ]
+    },
+    "skew": {
+      "rank0": [
+        64,
+        64,
+        64,
+        64
+      ],
+      "rank1": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "correctness_gate": {
+    "thresholds": {
+      "atol": 0.003,
+      "rtol": 0.03,
+      "rms_relative": 0.02
+    },
+    "all_elements": "56 metric summaries per stage, finite=true, zero out-of-tolerance elements, original absolute/relative and RMS rules; zero reference uses absolute RMS tolerance. BF16 Y/dX/leaf dW; FP32 dp and master dW retained.",
+    "semantics_preserved": [
+      "Unweighted rounded Z retained for dp, including p0; no division by p",
+      "Original BF16 G/U/A/Z and dZ/dA/dGU/dXe cast positions unchanged; FP32 wgrad from BF16 operands and BF16 leaf cast",
+      "Serial and overlap same dA/dGU/dXe->combine->dW1/dW2 order; serial adds early wait, both final wait/release in finally. Keep recorded tensor lifetimes and host/PG close convergence. No whole-shared path in this stage."
+    ],
+    "report_consumer": "Run schema2 require_reports on rank0/rank1 reports, checking deterministic counts/full shapes/dtypes/schedule, all7metrics/case, case-close peer agreement, final identity peer agreement and PG/host exits. Report all_passed must be true, diagnostic_only false.",
+    "strict_stop": "First config/identity/loader/collective/metric/nonfinite/missing-event/close/store/PG/error aborts later cases. Do not launch overlap or another run. Preserve first exception/failed status and collect existing artifacts."
+  },
+  "external_completion_audit": {
+    "timeout_seconds": 600,
+    "controller": "Existing exact-owner supervisor only; no watchdog/launcher created by this draft",
+    "PID_identity": "Record controller/agent/all worker and descendants PID plus /proc startticks/PPID/UID/cwd/argv. Timeout cleanup only same owned PID+starttick records; never broad pkill or foreign/reused PID.",
+    "success": "True child torchrun/node rc0 AND supervisor rc0 AND timeout=false AND all own descendants reaped/gone AND two used cards have no own process AND per-rank Store/PG cleanup passed; audit source/identity and full reports independently.",
+    "overlap_release": "Serial run release/ports-unused/source-identity/56metric audit must be complete and reviewed before overlap gets a separate exact run contract approval; a serial rc0 alone is insufficient.",
+    "failure": "Fail closed on missing report, process/readback/log gap or cleanup timeout; no automatic retry/restart/unchanged-loop launch; no debug result presented as performance"
+  },
+  "limits": "This EP2 precision stage does not prove EP16/1431 root cause, target65536 capacity, physical stream overlap or speedup. No dependent NPU stage is automatically approved.",
+  "parent_prepare_review": {
+    "date_beijing": "2026-10-26 02:29",
+    "decision": "Design/CLI/scope accepted for concrete controller/launcher preparation only; no P2 device permission. Bind actual verified schema2 deployment, preserve original P1/shared priority.",
+    "CPU_audit_sha256": "e9e8fae9e4e2ca86728e6fb7383ea58306ff6b55c014ff8d5c834015665d81a8",
+    "notes": [
+      "EP2 single host27 physical0/1, but both-host free16 gate remains. Fixed counts verified for all four routes: balanced32x4 per rank, empty[37x4]/[36,36,36,0], skew[64x4]/[0x4].",
+      "Require max-restarts0, RUN claim, exact PID/start supervision,600+30s bound, fresh ownership/port checks, complete FD/rank reports and real node/supervisor rc. Do not invoke the P1-hardcoded collector for P2 unchanged.",
+      "Preserve frozen activation environment including SHMEM_UID_SOCK_IFNAME/GLOO_SOCKET_IFNAME and host TCPStore prefix/port invariants; validate no-Torch CLI plan and shell syntax once after actual launcher exists.",
+      "Overlap is independent approval after serial result; no timing or shared/P3 automatic successor."
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "checks": 26,
+  "items": [
+    "actual child nonzero rc retained",
+    "timeout+cleanup first error, unknown rc never synthesized",
+    "late rc0 cannot erase timeout",
+    "proc_failure uses owned Popen only, bounded reaping and first error",
+    "assert_failure uses owned Popen only, bounded reaping and first error",
+    "marker_failure uses owned Popen only, bounded reaping and first error",
+    "live_worker retains recording parents",
+    "stop_raises retains recording parents",
+    "missing_marker retains recording parents",
+    "contradictory_stale_proof retains recording parents",
+    "proven no Popen child allows child-first recorder retirement",
+    "launch response lost: exact recovery records, no restart or hidden success",
+    "all three real rc required; missing child/recorders reject",
+    "missing proc NPU row is saved stale/unknown, never verified own/foreign/free",
+    "unknown sample resolves only to same saved worker birth plus real waitpid exit",
+    "worker born between state/sample stays unknown until exact later marker, never foreign",
+    "external same-name or same-RUN wrong-argv worker remains rejected",
+    "foreign exact proc birth/argv/PPID retained with npu-smi local time window",
+    "Windows local path serialized as exact POSIX remote worker/report path",
+    "actual imported local SSH backend bytes pinned and mismatch rejected",
+    "cleanup uses independent bounded200s call rather than inherited125s cutoff; no SSH executed",
+    "post busy after exact own release stops polling, without signaling or invalidating component; own unknown rejects",
+    "inflight seven-card incomplete table rejects as resource_sample_error",
+    "actual main loop real-completion before first foreign sample: one state/sample, audit success, no retry/signal/inflight decision",
+    "actual controller default plan no Torch/SSH import or execute",
+    "both recording actors no-execute default plans"
+  ],
+  "scope": "Only new single-worker lifecycle/resource-race fault models and default CPU plans; no subprocess worker/native, signals, SSH, NPU or old comprehensive regression."
+}

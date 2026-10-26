@@ -1,0 +1,68 @@
+{
+  "schema": "P4-final-write-frontier-model-2",
+  "status": "CPU protocol arithmetic only; no hardware/source integration qualification",
+  "source_inventory": {
+    "model.py": {
+      "bytes": 5247,
+      "sha256": "373a6df407d80cc8203afac8d19753effff19ca49498efdd6f21f3c2f662b48d"
+    },
+    "test_model.py": {
+      "bytes": 5771,
+      "sha256": "166138596bcc7e22c0012cdeeb61f0b96d002da0803b92df47e5ea99485558dc"
+    }
+  },
+  "cpu": {
+    "passed": true,
+    "checks": 18,
+    "items": [
+      "cross-source tile and non-row-sorted sequence max dependencies",
+      "actual one-row tail ready independently, not final-row ordering",
+      "out-of-order notices close gaps only after all earlier submissions retire",
+      "old future and wrong-type epoch reject",
+      "explicit out-of-order gap blocks frontier, partial row never closes gap",
+      "empty expert and padded tail have no wait target",
+      "3to1 QP frontier cannot merge even after QP0 and tail local completion",
+      "all independent QP contributions required",
+      "interleaved local owners and actual tail extent",
+      "primary arrival does not retire downstream final expansion",
+      "full rowbytes required and duplicate full notification idempotent",
+      "compute ready cannot release training saved Xe",
+      "backward finish still retains outstanding DMA/local primary readers",
+      "all writes readers backward done still cannot reuse without complete exact-epoch outer termination",
+      "all reader retirement permits next epoch; ABA stale completion cannot authorize reuse",
+      "duplicate writer missing occurrence sequence gap wrong-record epoch reject",
+      "producer domain kind and QP identity explicit",
+      "all-empty still requires outer retirement; valid caller evidence permits next epoch and resets proof"
+    ],
+    "scope": "stdlib normalized final-write protocol model only; not Notify extraction/native memory ordering or hardware validation"
+  },
+  "protocol": [
+    "Each final occurrence is unique(expert,expert_local_row), with explicit originalsource. Complete coverage is checked.",
+    "PerexactDomain(kind,owner,QP) within epoch, records are supplied in strict gapless submission sequence1..N. No finalrow sorting and no QP frontier merge.",
+    "Fullrowbyte retirement notifications may arrive out of order; completed set advances frontier only across contiguous prefix. Duplicate sameepoch notifications are idempotent; wrong/old/future/reclaimed epoch rejected.",
+    "Tile dependency stores maxseq per actual writerdomain, for actualexpert-local rows only. Empty expert/tailpadding has no waittarget.",
+    "Persistent Xe: all writes complete, training backward done, all primary read leases retired AND explicit outer epoch evidence before next_epoch. Caller must assert hidden_terminal,aux_complete,descriptor_epoch_retired all True; exact epoch enforced, duplicate assertions idempotent. Empty ranks require same outer evidence. New epoch resets evidence."
+  ],
+  "source_alignment": "No contradiction found with reviewed finalwrite paths. Domains/retirement points must correspond to true ordered completion, not SIMT WQE build/doorbell/Native return. Primary arrival only retires its own occurrence; secondary finalrows have independent writers.",
+  "integration_gaps": [
+    "Input is hand-normalized records; no realNotify/parser/expert-source count extraction implemented.",
+    "Need exact finalwriter classification and record->physicalQP/localwriter mapping from resolvedroutes/pairtable/forwardrecords; source counts alone are insufficient.",
+    "A physical orderedQP shared by multiple producers must have a unified actual submissionseq; cannot invent independent perthread frontiers or merge distinctQPs.",
+    "Each fullrowbyte notification is assumed authoritative. SDK/device visibility, remote ordering, release/acquire, CQE coverage and sourceDMA-reader lifetime must be proved by a separate nativeprotocol.",
+    "Primary leases are predeclared reader-lifetime obligations; model does not simulate device read operations, barriers, cancellation or hidden additional readers.",
+    "PersistentXe retains actual memory until backward and readers retire; no ringbuffer or overwrite optimization modeled.",
+    "outer_epoch_retired is only a caller-supplied aggregate assertion of all external termination obligations; this model does not observe hardware hidden/aux completion or descriptor consumption."
+  ],
+  "device_authorized": false,
+  "source_changes": "Only new independent model directory; frozenP0-P4/native/controllers unchanged",
+  "history": {
+    "cpu_results_17": {
+      "bytes": 1354,
+      "sha256": "a59ae72ed07a9b04c6ca756f55aab49b8ed4755791df4c3a6088dbf8670b1ff5"
+    },
+    "manifest_17": {
+      "bytes": 4086,
+      "sha256": "e1e4ffa66f379e847e7b15ffb9309a6e1e62e8a62e99fc22f0786592bf1bb9c7"
+    }
+  }
+}

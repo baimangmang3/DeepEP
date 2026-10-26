@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "source_count": 8,
+  "plan_cases": 8,
+  "process_rc": 0,
+  "before": {
+    "Torch_imported": false,
+    "PTA_imported": false,
+    "P4_SO_mapped": false
+  },
+  "after": {
+    "Torch_imported": false,
+    "PTA_imported": false,
+    "P4_SO_mapped": false
+  },
+  "source_verification_sha256": "a67f7b681174ab0ccb224008e2b1a523d141a8e74ea10018320d8f6f771c8ca8",
+  "stdout_sha256": "87ef9211bce31900556ccc0b8931fd56e100581b796b06d564e782192285e644",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "default_plan_command_sha256": "c91a0dd21f3e81a9fc5d77fc57ab1b500fef3f38c95143334b86b33365c6d201",
+  "device_authorized": false,
+  "component_accuracy_qualified": false
+}
