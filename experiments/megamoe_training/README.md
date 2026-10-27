@@ -9,8 +9,11 @@ communication. PyTorch executes the pointwise SwiGLU/gating operations.
 The current implementation launches communication and compute separately. It
 is **not yet a fused training MegaMoE kernel**. Qualification belongs to the
 exact source/library/configuration identities in each report, not to a source
-checkout or a successful build. See [the development snapshot](development/README.md)
-for measured results, separate candidates and remaining validation gaps.
+checkout or a successful build. See [the separate P1/P2 candidates](../megamoe_training_candidates/README.md)
+for their scope and validation requirements. Historical development evidence,
+P3-P5 experiments and repeated source snapshots are preserved on the
+[`archive/megamoe-training-20261026`](https://github.com/baimangmang3/DeepEP/tree/archive/megamoe-training-20261026/experiments/megamoe_training/development)
+branch. They are not part of the training runtime checkout.
 
 ## Build and use
 

@@ -1,2 +1,0 @@
-import pathlib,json
-p=pathlib.Path('outputs/training_device_progress.json');d=json.loads(p.read_text());d['latest_foreign_occupancy_evidence']='outputs/training_occupancy_20261025_0924_readonly';d['latest_occupancy']={'free_cards':16,'foreign_cards':0,'own_device_processes':0,'observed_times_utc':['20261025T012507Z','20261025T012511Z']};d['wait_reason']='NPU STOP after HCCL failure; latest16free is not authorization/reservation';p.write_text(json.dumps(d,indent=2))

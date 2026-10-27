@@ -1,3 +1,0 @@
-# Historical source/report hashes cover exact bytes, including original line endings.
-# Preserve archived patches and sources without whitespace cleanup.
-development/** -text -whitespace

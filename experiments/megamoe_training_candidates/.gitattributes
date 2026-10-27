@@ -1,0 +1,3 @@
+# Candidate qualification identities cover exact source bytes.
+# Keep original line endings when these packages are checked out.
+* -text
